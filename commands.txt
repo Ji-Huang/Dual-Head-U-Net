@@ -1,0 +1,3 @@
+python3 inference.py --checkpoint checkpoints/unet_16/best.pth --input data/test --postprocess --save-vis
+
+-i http://jfrogreader:AP7SoAxHBehQfx7oGp1VSeCqzm6@jfrog.catlbattery.com/artifactory/api/pypi/pypi-group/simple --trusted-host jfrog.catlbattery.com

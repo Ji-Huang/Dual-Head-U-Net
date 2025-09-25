@@ -1,0 +1,15 @@
+unet_15  
+    lr: 1e-5 -> 2e-5        
+    seg_loss (all) * 2
+    scheduler_factor: 0.5 -> 0.7    # 学习率衰减因子
+    scheduler_patience: 8 -> 4   # 多少轮无改善则衰减
+    grad_clip = 1.0
+    fp_loss * 25 -> * 5
+    def false_positive_penalty_loss(sem_pred, depth_grad, sem_gt, pos_grad_threshold= 700 -> 500)
+    del hyper-parameter-search
+    OffsetHead(in_channels=64, hidden_channels=128, dropout=0.3 -> 0.2)
+
+unet_16  
+    batch_size: 4 -> 8
+    lr: 2e-5 -> 4e-5    
+    grad_clip: 1.0 -> 2.0    

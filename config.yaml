@@ -1,0 +1,48 @@
+# 数据配置
+data_root: "./data"  # 数据集根目录
+resize: [480, 640]   # 图像 resize 尺寸 (H, W)，此数据集已resize到[480, 640]
+num_workers: 0       # DataLoader 工作进程数（根据共享内存调整）
+
+# 数据统计量（若为None则使用Dataset默认值）
+rgb_mean: [0.180, 0.246, 0.285]
+rgb_std: [0.207, 0.202, 0.230]
+depth_mean: 2997.516
+depth_std: 1324.941
+offset_mean: [-0.068, -0.075]
+offset_std: [17.084, 10.471]
+
+# 模型配置
+n_classes: 1         # 语义分割类别数（1表示二分类）
+bilinear: True       # 是否使用双线性插值上采样
+dropout: 0.1         # Dropout概率
+
+# 训练超参数
+epochs: 120          # 训练总轮数
+batch_size: 8        # 批次大小
+lr: 4e-5             # 初始学习率
+weight_decay: 1e-5   # 权重衰减（L2正则化）
+grad_clip: 2.0       # 梯度裁剪
+
+# 学习率调度器
+scheduler_factor: 0.7    # 学习率衰减因子
+scheduler_patience: 4    # 多少轮无改善则衰减
+
+# 设备配置
+device: "cuda:0"     # 训练设备（"cpu" 或 "cuda:0"）
+
+# 日志和Checkpoint配置
+log_root: "./logs"           # 日志保存根目录
+checkpoint_root: "./checkpoints"  # Checkpoint保存根目录
+
+# 测试配置
+test_result_dir: "./test_results"  # 测试结果保存目录
+
+# 推理配置（可选，在inference.py中也可通过命令行指定）
+inference_result_dir: "./inference_results"
+
+postprocess_min_area: 500        # 最小区域面积阈值
+postprocess_kernel_size: 3       # 形态学操作核大小
+dbscan_eps: 50                   # DBSCAN聚类半径
+dbscan_min_samples: 10           # DBSCAN最小样本数
+inference_batch_size: 4          # 推理批次大小
+inference_split: test            # 推理数据集划分

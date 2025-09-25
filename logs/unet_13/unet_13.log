@@ -1,0 +1,578 @@
+2025-09-24 09:57:45,485 - INFO - Experiment name: unet_13
+2025-09-24 09:57:45,485 - INFO - Using config: {'data_root': './data', 'resize': [480, 640], 'num_workers': 0, 'rgb_mean': [0.18, 0.246, 0.285], 'rgb_std': [0.207, 0.202, 0.23], 'depth_mean': 2997.516, 'depth_std': 1324.941, 'offset_mean': [-0.068, -0.075], 'offset_std': [17.084, 10.471], 'n_classes': 1, 'bilinear': True, 'dropout': 0.1, 'epochs': 120, 'batch_size': 4, 'lr': '1e-5', 'weight_decay': '1e-5', 'scheduler_factor': 0.5, 'scheduler_patience': 8, 'device': 'cuda:0', 'log_root': './logs', 'checkpoint_root': './checkpoints', 'test_result_dir': './test_results', 'inference': {'input_dir': './inference_input', 'output_dir': './inference_output'}, 'hyperparam_search_space': {'lr': ['1e-4', '5e-4', '1e-3'], 'batch_size': [2, 4], 'dropout': [0.1, 0.2, 0.3], 'weight_decay': ['1e-5', '1e-4']}, 'postprocess_min_area': 500, 'postprocess_kernel_size': 3, 'dbscan_eps': 50, 'dbscan_min_samples': 10, 'inference_batch_size': 4, 'inference_split': 'test'}
+2025-09-24 09:57:46,429 - INFO - Using device: cuda:0
+2025-09-24 09:57:47,312 - WARNING - Checkpoint ./checkpoints/unet_13/latest.pth not found, starting from scratch
+2025-09-24 09:57:47,312 - INFO - Starting training from epoch 0, total epochs: 120
+2025-09-24 09:59:11,357 - INFO - Train Epoch 0 - Loss: 14.3557, Seg Loss: 1.6708, Offset Loss: 12.6849, IoU: 0.1333, MSE: 8622.6436, bg_MSE: 7493.9756, fg_MSE: 1350.6831, BCE Loss: 0.3224, Dice Loss: 1.1333, FP Penalty Loss: 0.2151, MSE Loss: 12.0046, BG Zero Loss: 0.6803
+2025-09-24 09:59:22,116 - INFO - Val Epoch 0 - Loss: 3.2759, Seg Loss: 1.0065, Offset Loss: 2.2694, IoU: 0.3375, MSE: 1539.8143, bg_MSE: 1323.0325, fg_MSE: 430.7382, fp_penalty_loss: 0.1009
+2025-09-24 09:59:22,321 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 09:59:22,321 - INFO - Score: 0.0025, IoU: 0.2025, MSE: -0.2000, BGP: -0.2000
+2025-09-24 09:59:22,521 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 09:59:22,521 - INFO - New best model! Score: 0.0025, IoU: 0.3375, MSE: 1539.8143
+2025-09-24 10:00:45,779 - INFO - Train Epoch 1 - Loss: 9.2693, Seg Loss: 1.1407, Offset Loss: 8.1286, IoU: 0.3304, MSE: 5255.6006, bg_MSE: 4830.8096, fg_MSE: 646.8054, BCE Loss: 0.1889, Dice Loss: 0.7774, FP Penalty Loss: 0.1743, MSE Loss: 7.6558, BG Zero Loss: 0.4728
+2025-09-24 10:00:56,462 - INFO - Val Epoch 1 - Loss: 1.8711, Seg Loss: 0.7680, Offset Loss: 1.1031, IoU: 0.5235, MSE: 651.7451, bg_MSE: 584.5084, fg_MSE: 281.1931, fp_penalty_loss: 0.1553
+2025-09-24 10:00:56,728 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:00:56,729 - INFO - Score: 0.1141, IoU: 0.3141, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:00:56,984 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:00:56,984 - INFO - New best model! Score: 0.1141, IoU: 0.5235, MSE: 651.7451
+2025-09-24 10:02:19,620 - INFO - Train Epoch 2 - Loss: 6.7783, Seg Loss: 0.8839, Offset Loss: 5.8944, IoU: 0.4494, MSE: 3706.8875, bg_MSE: 3520.4136, fg_MSE: 408.4884, BCE Loss: 0.1507, Dice Loss: 0.5843, FP Penalty Loss: 0.1488, MSE Loss: 5.5542, BG Zero Loss: 0.3402
+2025-09-24 10:02:30,268 - INFO - Val Epoch 2 - Loss: 1.4353, Seg Loss: 0.7208, Offset Loss: 0.7145, IoU: 0.5568, MSE: 416.8243, bg_MSE: 383.5860, fg_MSE: 247.1946, fp_penalty_loss: 0.1616
+2025-09-24 10:02:30,543 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:02:30,543 - INFO - Score: 0.1341, IoU: 0.3341, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:02:30,807 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:02:30,807 - INFO - New best model! Score: 0.1341, IoU: 0.5568, MSE: 416.8243
+2025-09-24 10:03:53,323 - INFO - Train Epoch 3 - Loss: 5.2270, Seg Loss: 0.7851, Offset Loss: 4.4419, IoU: 0.4998, MSE: 2693.6433, bg_MSE: 2586.5701, fg_MSE: 329.0879, BCE Loss: 0.1315, Dice Loss: 0.5151, FP Penalty Loss: 0.1385, MSE Loss: 4.1756, BG Zero Loss: 0.2663
+2025-09-24 10:04:03,810 - INFO - Val Epoch 3 - Loss: 1.3184, Seg Loss: 0.7091, Offset Loss: 0.6093, IoU: 0.5772, MSE: 348.2901, bg_MSE: 329.0546, fg_MSE: 233.1918, fp_penalty_loss: 0.1833
+2025-09-24 10:04:04,086 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:04:04,086 - INFO - Score: 0.1463, IoU: 0.3463, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:04:04,353 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:04:04,354 - INFO - New best model! Score: 0.1463, IoU: 0.5772, MSE: 348.2901
+2025-09-24 10:05:26,722 - INFO - Train Epoch 4 - Loss: 4.7036, Seg Loss: 0.7333, Offset Loss: 3.9703, IoU: 0.5215, MSE: 2405.4497, bg_MSE: 2327.3293, fg_MSE: 300.1349, BCE Loss: 0.1211, Dice Loss: 0.4814, FP Penalty Loss: 0.1308, MSE Loss: 3.7459, BG Zero Loss: 0.2244
+2025-09-24 10:05:37,229 - INFO - Val Epoch 4 - Loss: 1.2024, Seg Loss: 0.6373, Offset Loss: 0.5651, IoU: 0.5830, MSE: 320.4392, bg_MSE: 309.8825, fg_MSE: 224.5130, fp_penalty_loss: 0.1415
+2025-09-24 10:05:37,503 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:05:37,504 - INFO - Score: 0.1498, IoU: 0.3498, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:05:37,767 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:05:37,767 - INFO - New best model! Score: 0.1498, IoU: 0.5830, MSE: 320.4392
+2025-09-24 10:07:00,010 - INFO - Train Epoch 5 - Loss: 4.2062, Seg Loss: 0.7052, Offset Loss: 3.5010, IoU: 0.5371, MSE: 2124.7200, bg_MSE: 2067.4431, fg_MSE: 279.2916, BCE Loss: 0.1121, Dice Loss: 0.4653, FP Penalty Loss: 0.1278, MSE Loss: 3.3070, BG Zero Loss: 0.1940
+2025-09-24 10:07:10,656 - INFO - Val Epoch 5 - Loss: 1.1991, Seg Loss: 0.6266, Offset Loss: 0.5726, IoU: 0.5979, MSE: 324.3231, bg_MSE: 314.6761, fg_MSE: 223.6034, fp_penalty_loss: 0.1480
+2025-09-24 10:07:10,918 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:07:10,918 - INFO - Score: 0.1588, IoU: 0.3588, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:07:11,182 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:07:11,183 - INFO - New best model! Score: 0.1588, IoU: 0.5979, MSE: 324.3231
+2025-09-24 10:08:33,823 - INFO - Train Epoch 6 - Loss: 3.9743, Seg Loss: 0.6651, Offset Loss: 3.3092, IoU: 0.5563, MSE: 2006.9669, bg_MSE: 1959.0178, fg_MSE: 269.9640, BCE Loss: 0.1033, Dice Loss: 0.4444, FP Penalty Loss: 0.1175, MSE Loss: 3.1366, BG Zero Loss: 0.1726
+2025-09-24 10:08:44,437 - INFO - Val Epoch 6 - Loss: 1.1010, Seg Loss: 0.5968, Offset Loss: 0.5042, IoU: 0.6123, MSE: 286.3581, bg_MSE: 280.8503, fg_MSE: 219.4642, fp_penalty_loss: 0.1392
+2025-09-24 10:08:44,721 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:08:44,722 - INFO - Score: 0.1674, IoU: 0.3674, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:08:44,992 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:08:44,992 - INFO - New best model! Score: 0.1674, IoU: 0.6123, MSE: 286.3581
+2025-09-24 10:10:07,514 - INFO - Train Epoch 7 - Loss: 3.8046, Seg Loss: 0.6473, Offset Loss: 3.1573, IoU: 0.5636, MSE: 1966.8762, bg_MSE: 1930.7542, fg_MSE: 258.1365, BCE Loss: 0.0997, Dice Loss: 0.4337, FP Penalty Loss: 0.1139, MSE Loss: 3.0013, BG Zero Loss: 0.1560
+2025-09-24 10:10:18,336 - INFO - Val Epoch 7 - Loss: 1.0941, Seg Loss: 0.5648, Offset Loss: 0.5293, IoU: 0.6226, MSE: 306.9461, bg_MSE: 301.3890, fg_MSE: 219.5135, fp_penalty_loss: 0.1239
+2025-09-24 10:10:18,621 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:10:18,621 - INFO - Score: 0.1735, IoU: 0.3735, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:10:18,892 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:10:18,892 - INFO - New best model! Score: 0.1735, IoU: 0.6226, MSE: 306.9461
+2025-09-24 10:11:41,647 - INFO - Train Epoch 8 - Loss: 3.3036, Seg Loss: 0.6210, Offset Loss: 2.6826, IoU: 0.5716, MSE: 1633.4623, bg_MSE: 1598.3959, fg_MSE: 257.0813, BCE Loss: 0.0958, Dice Loss: 0.4180, FP Penalty Loss: 0.1071, MSE Loss: 2.5404, BG Zero Loss: 0.1422
+2025-09-24 10:11:52,345 - INFO - Val Epoch 8 - Loss: 1.1645, Seg Loss: 0.5569, Offset Loss: 0.6076, IoU: 0.6416, MSE: 357.5074, bg_MSE: 354.2815, fg_MSE: 217.1822, fp_penalty_loss: 0.1346
+2025-09-24 10:11:52,629 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:11:52,630 - INFO - Score: 0.1850, IoU: 0.3850, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:11:52,900 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:11:52,900 - INFO - New best model! Score: 0.1850, IoU: 0.6416, MSE: 357.5074
+2025-09-24 10:13:15,961 - INFO - Train Epoch 9 - Loss: 3.1590, Seg Loss: 0.5860, Offset Loss: 2.5731, IoU: 0.5946, MSE: 1544.1917, bg_MSE: 1511.3309, fg_MSE: 254.8755, BCE Loss: 0.0902, Dice Loss: 0.3979, FP Penalty Loss: 0.0979, MSE Loss: 2.4452, BG Zero Loss: 0.1278
+2025-09-24 10:13:26,631 - INFO - Val Epoch 9 - Loss: 1.3406, Seg Loss: 0.4835, Offset Loss: 0.8572, IoU: 0.6814, MSE: 507.4410, bg_MSE: 504.4091, fg_MSE: 216.9882, fp_penalty_loss: 0.1077
+2025-09-24 10:13:26,909 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:13:26,910 - INFO - Score: 0.2089, IoU: 0.4089, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:13:27,174 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:13:27,174 - INFO - New best model! Score: 0.2089, IoU: 0.6814, MSE: 507.4410
+2025-09-24 10:14:50,091 - INFO - Train Epoch 10 - Loss: 3.0355, Seg Loss: 0.5151, Offset Loss: 2.5204, IoU: 0.6331, MSE: 1539.3840, bg_MSE: 1507.8848, fg_MSE: 253.5138, BCE Loss: 0.0823, Dice Loss: 0.3532, FP Penalty Loss: 0.0796, MSE Loss: 2.4023, BG Zero Loss: 0.1181
+2025-09-24 10:15:00,774 - INFO - Val Epoch 10 - Loss: 0.9146, Seg Loss: 0.4335, Offset Loss: 0.4812, IoU: 0.7081, MSE: 294.8973, bg_MSE: 293.7754, fg_MSE: 215.0783, fp_penalty_loss: 0.0879
+2025-09-24 10:15:01,064 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:15:01,065 - INFO - Score: 0.2249, IoU: 0.4249, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:15:01,340 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:15:01,341 - INFO - New best model! Score: 0.2249, IoU: 0.7081, MSE: 294.8973
+2025-09-24 10:16:24,309 - INFO - Train Epoch 11 - Loss: 2.5991, Seg Loss: 0.4859, Offset Loss: 2.1132, IoU: 0.6527, MSE: 1291.5518, bg_MSE: 1264.3838, fg_MSE: 249.1827, BCE Loss: 0.0801, Dice Loss: 0.3306, FP Penalty Loss: 0.0752, MSE Loss: 2.0021, BG Zero Loss: 0.1111
+2025-09-24 10:16:35,080 - INFO - Val Epoch 11 - Loss: 0.9787, Seg Loss: 0.4073, Offset Loss: 0.5714, IoU: 0.7295, MSE: 339.7704, bg_MSE: 339.1470, fg_MSE: 214.5797, fp_penalty_loss: 0.0868
+2025-09-24 10:16:35,384 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:16:35,384 - INFO - Score: 0.2377, IoU: 0.4377, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:16:35,649 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:16:35,650 - INFO - New best model! Score: 0.2377, IoU: 0.7295, MSE: 339.7704
+2025-09-24 10:17:58,192 - INFO - Train Epoch 12 - Loss: 2.5123, Seg Loss: 0.4670, Offset Loss: 2.0453, IoU: 0.6708, MSE: 1258.9905, bg_MSE: 1239.7704, fg_MSE: 241.2350, BCE Loss: 0.0775, Dice Loss: 0.3181, FP Penalty Loss: 0.0714, MSE Loss: 1.9392, BG Zero Loss: 0.1061
+2025-09-24 10:18:08,720 - INFO - Val Epoch 12 - Loss: 0.8203, Seg Loss: 0.3846, Offset Loss: 0.4357, IoU: 0.7316, MSE: 274.5938, bg_MSE: 274.1237, fg_MSE: 214.4266, fp_penalty_loss: 0.0692
+2025-09-24 10:18:09,003 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:18:09,003 - INFO - Score: 0.2389, IoU: 0.4389, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:18:09,262 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:18:09,262 - INFO - New best model! Score: 0.2389, IoU: 0.7316, MSE: 274.5938
+2025-09-24 10:19:32,194 - INFO - Train Epoch 13 - Loss: 2.3447, Seg Loss: 0.4398, Offset Loss: 1.9049, IoU: 0.6815, MSE: 1173.7643, bg_MSE: 1155.3767, fg_MSE: 240.4023, BCE Loss: 0.0733, Dice Loss: 0.2998, FP Penalty Loss: 0.0667, MSE Loss: 1.8064, BG Zero Loss: 0.0986
+2025-09-24 10:19:42,905 - INFO - Val Epoch 13 - Loss: 0.8762, Seg Loss: 0.3831, Offset Loss: 0.4931, IoU: 0.7469, MSE: 293.2633, bg_MSE: 293.4797, fg_MSE: 213.7399, fp_penalty_loss: 0.0838
+2025-09-24 10:19:43,195 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:19:43,195 - INFO - Score: 0.2482, IoU: 0.4482, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:19:43,465 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:19:43,466 - INFO - New best model! Score: 0.2482, IoU: 0.7469, MSE: 293.2633
+2025-09-24 10:21:06,516 - INFO - Train Epoch 14 - Loss: 2.2158, Seg Loss: 0.4227, Offset Loss: 1.7930, IoU: 0.6952, MSE: 1081.4725, bg_MSE: 1061.0244, fg_MSE: 242.4629, BCE Loss: 0.0705, Dice Loss: 0.2876, FP Penalty Loss: 0.0646, MSE Loss: 1.7042, BG Zero Loss: 0.0888
+2025-09-24 10:21:17,111 - INFO - Val Epoch 14 - Loss: 0.9138, Seg Loss: 0.3733, Offset Loss: 0.5405, IoU: 0.7496, MSE: 308.9513, bg_MSE: 308.8878, fg_MSE: 214.0199, fp_penalty_loss: 0.0801
+2025-09-24 10:21:17,403 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:21:17,403 - INFO - Score: 0.2497, IoU: 0.4497, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:21:17,674 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:21:17,675 - INFO - New best model! Score: 0.2497, IoU: 0.7496, MSE: 308.9513
+2025-09-24 10:22:40,376 - INFO - Train Epoch 15 - Loss: 2.2848, Seg Loss: 0.3950, Offset Loss: 1.8898, IoU: 0.7082, MSE: 1159.9491, bg_MSE: 1141.1805, fg_MSE: 240.7832, BCE Loss: 0.0683, Dice Loss: 0.2683, FP Penalty Loss: 0.0585, MSE Loss: 1.8029, BG Zero Loss: 0.0869
+2025-09-24 10:22:50,961 - INFO - Val Epoch 15 - Loss: 0.8048, Seg Loss: 0.3378, Offset Loss: 0.4670, IoU: 0.7635, MSE: 274.9591, bg_MSE: 274.9766, fg_MSE: 213.9388, fp_penalty_loss: 0.0646
+2025-09-24 10:22:51,253 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:22:51,254 - INFO - Score: 0.2581, IoU: 0.4581, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:22:51,526 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:22:51,526 - INFO - New best model! Score: 0.2581, IoU: 0.7635, MSE: 274.9591
+2025-09-24 10:24:14,368 - INFO - Train Epoch 16 - Loss: 2.1565, Seg Loss: 0.3986, Offset Loss: 1.7579, IoU: 0.7123, MSE: 1063.6816, bg_MSE: 1050.8986, fg_MSE: 234.7978, BCE Loss: 0.0683, Dice Loss: 0.2719, FP Penalty Loss: 0.0585, MSE Loss: 1.6759, BG Zero Loss: 0.0820
+2025-09-24 10:24:25,046 - INFO - Val Epoch 16 - Loss: 0.9354, Seg Loss: 0.3340, Offset Loss: 0.6013, IoU: 0.7633, MSE: 335.9957, bg_MSE: 335.9770, fg_MSE: 213.9749, fp_penalty_loss: 0.0623
+2025-09-24 10:24:25,343 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:24:25,343 - INFO - Score: 0.2580, IoU: 0.4580, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:25:48,166 - INFO - Train Epoch 17 - Loss: 2.1408, Seg Loss: 0.3787, Offset Loss: 1.7621, IoU: 0.7211, MSE: 1078.3909, bg_MSE: 1065.4614, fg_MSE: 234.9441, BCE Loss: 0.0646, Dice Loss: 0.2584, FP Penalty Loss: 0.0557, MSE Loss: 1.6789, BG Zero Loss: 0.0832
+2025-09-24 10:25:58,708 - INFO - Val Epoch 17 - Loss: 0.8928, Seg Loss: 0.3344, Offset Loss: 0.5584, IoU: 0.7708, MSE: 346.7874, bg_MSE: 346.8286, fg_MSE: 213.9150, fp_penalty_loss: 0.0692
+2025-09-24 10:25:58,992 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:25:58,993 - INFO - Score: 0.2625, IoU: 0.4625, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:25:59,250 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:25:59,250 - INFO - New best model! Score: 0.2625, IoU: 0.7708, MSE: 346.7874
+2025-09-24 10:27:21,683 - INFO - Train Epoch 18 - Loss: 2.0377, Seg Loss: 0.3686, Offset Loss: 1.6691, IoU: 0.7294, MSE: 1016.1942, bg_MSE: 999.3557, fg_MSE: 238.8532, BCE Loss: 0.0615, Dice Loss: 0.2521, FP Penalty Loss: 0.0550, MSE Loss: 1.5888, BG Zero Loss: 0.0803
+2025-09-24 10:27:32,399 - INFO - Val Epoch 18 - Loss: 0.9908, Seg Loss: 0.3119, Offset Loss: 0.6789, IoU: 0.7818, MSE: 388.8323, bg_MSE: 388.5089, fg_MSE: 214.2798, fp_penalty_loss: 0.0617
+2025-09-24 10:27:32,687 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:27:32,687 - INFO - Score: 0.2691, IoU: 0.4691, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:27:32,962 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:27:32,963 - INFO - New best model! Score: 0.2691, IoU: 0.7818, MSE: 388.8323
+2025-09-24 10:28:55,791 - INFO - Train Epoch 19 - Loss: 1.9948, Seg Loss: 0.3544, Offset Loss: 1.6404, IoU: 0.7342, MSE: 970.9897, bg_MSE: 954.7529, fg_MSE: 238.2515, BCE Loss: 0.0617, Dice Loss: 0.2409, FP Penalty Loss: 0.0517, MSE Loss: 1.5541, BG Zero Loss: 0.0863
+2025-09-24 10:29:06,529 - INFO - Val Epoch 19 - Loss: 0.8604, Seg Loss: 0.2805, Offset Loss: 0.5799, IoU: 0.7907, MSE: 336.8306, bg_MSE: 336.7177, fg_MSE: 214.0693, fp_penalty_loss: 0.0455
+2025-09-24 10:29:06,825 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:29:06,826 - INFO - Score: 0.2744, IoU: 0.4744, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:29:07,100 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:29:07,100 - INFO - New best model! Score: 0.2744, IoU: 0.7907, MSE: 336.8306
+2025-09-24 10:30:29,786 - INFO - Train Epoch 20 - Loss: 1.8933, Seg Loss: 0.3480, Offset Loss: 1.5454, IoU: 0.7352, MSE: 938.4422, bg_MSE: 928.9189, fg_MSE: 231.5379, BCE Loss: 0.0610, Dice Loss: 0.2372, FP Penalty Loss: 0.0497, MSE Loss: 1.4689, BG Zero Loss: 0.0765
+2025-09-24 10:30:40,534 - INFO - Val Epoch 20 - Loss: 1.0378, Seg Loss: 0.2984, Offset Loss: 0.7394, IoU: 0.7875, MSE: 423.1719, bg_MSE: 423.3557, fg_MSE: 213.7726, fp_penalty_loss: 0.0573
+2025-09-24 10:30:40,834 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:30:40,835 - INFO - Score: 0.2725, IoU: 0.4725, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:32:03,647 - INFO - Train Epoch 21 - Loss: 1.9822, Seg Loss: 0.3312, Offset Loss: 1.6510, IoU: 0.7496, MSE: 980.9922, bg_MSE: 969.8770, fg_MSE: 233.1298, BCE Loss: 0.0592, Dice Loss: 0.2273, FP Penalty Loss: 0.0447, MSE Loss: 1.5819, BG Zero Loss: 0.0692
+2025-09-24 10:32:14,338 - INFO - Val Epoch 21 - Loss: 0.8628, Seg Loss: 0.2610, Offset Loss: 0.6018, IoU: 0.8069, MSE: 339.2551, bg_MSE: 339.6060, fg_MSE: 213.6055, fp_penalty_loss: 0.0455
+2025-09-24 10:32:14,637 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:32:14,637 - INFO - Score: 0.2841, IoU: 0.4841, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:32:14,916 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:32:14,916 - INFO - New best model! Score: 0.2841, IoU: 0.8069, MSE: 339.2551
+2025-09-24 10:33:37,911 - INFO - Train Epoch 22 - Loss: 1.9010, Seg Loss: 0.3197, Offset Loss: 1.5813, IoU: 0.7525, MSE: 959.8061, bg_MSE: 946.7494, fg_MSE: 235.0713, BCE Loss: 0.0547, Dice Loss: 0.2206, FP Penalty Loss: 0.0444, MSE Loss: 1.5146, BG Zero Loss: 0.0667
+2025-09-24 10:33:48,583 - INFO - Val Epoch 22 - Loss: 0.8275, Seg Loss: 0.2668, Offset Loss: 0.5607, IoU: 0.8005, MSE: 326.8424, bg_MSE: 327.1681, fg_MSE: 213.6307, fp_penalty_loss: 0.0432
+2025-09-24 10:33:48,874 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:33:48,874 - INFO - Score: 0.2803, IoU: 0.4803, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:35:11,664 - INFO - Train Epoch 23 - Loss: 1.8604, Seg Loss: 0.3132, Offset Loss: 1.5472, IoU: 0.7638, MSE: 934.5836, bg_MSE: 928.3502, fg_MSE: 228.2480, BCE Loss: 0.0546, Dice Loss: 0.2150, FP Penalty Loss: 0.0435, MSE Loss: 1.4832, BG Zero Loss: 0.0641
+2025-09-24 10:35:22,325 - INFO - Val Epoch 23 - Loss: 0.9663, Seg Loss: 0.2755, Offset Loss: 0.6908, IoU: 0.8079, MSE: 441.4233, bg_MSE: 441.9794, fg_MSE: 213.4002, fp_penalty_loss: 0.0576
+2025-09-24 10:35:22,617 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:35:22,618 - INFO - Score: 0.2847, IoU: 0.4847, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:35:22,884 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:35:22,885 - INFO - New best model! Score: 0.2847, IoU: 0.8079, MSE: 441.4233
+2025-09-24 10:36:45,857 - INFO - Train Epoch 24 - Loss: 1.8259, Seg Loss: 0.2988, Offset Loss: 1.5271, IoU: 0.7726, MSE: 934.9205, bg_MSE: 923.9306, fg_MSE: 233.0044, BCE Loss: 0.0519, Dice Loss: 0.2053, FP Penalty Loss: 0.0416, MSE Loss: 1.4650, BG Zero Loss: 0.0621
+2025-09-24 10:36:56,420 - INFO - Val Epoch 24 - Loss: 0.8453, Seg Loss: 0.2516, Offset Loss: 0.5937, IoU: 0.8043, MSE: 351.6837, bg_MSE: 352.1967, fg_MSE: 213.4434, fp_penalty_loss: 0.0348
+2025-09-24 10:36:56,712 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:36:56,713 - INFO - Score: 0.2826, IoU: 0.4826, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:38:19,316 - INFO - Train Epoch 25 - Loss: 1.7948, Seg Loss: 0.2856, Offset Loss: 1.5092, IoU: 0.7797, MSE: 904.3405, bg_MSE: 895.4582, fg_MSE: 230.8971, BCE Loss: 0.0492, Dice Loss: 0.1971, FP Penalty Loss: 0.0394, MSE Loss: 1.4476, BG Zero Loss: 0.0616
+2025-09-24 10:38:30,076 - INFO - Val Epoch 25 - Loss: 0.7250, Seg Loss: 0.2296, Offset Loss: 0.4954, IoU: 0.8263, MSE: 309.7229, bg_MSE: 310.4759, fg_MSE: 213.2034, fp_penalty_loss: 0.0379
+2025-09-24 10:38:30,379 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:38:30,379 - INFO - Score: 0.2958, IoU: 0.4958, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:38:30,661 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:38:30,661 - INFO - New best model! Score: 0.2958, IoU: 0.8263, MSE: 309.7229
+2025-09-24 10:39:53,540 - INFO - Train Epoch 26 - Loss: 1.8154, Seg Loss: 0.2891, Offset Loss: 1.5262, IoU: 0.7793, MSE: 932.0605, bg_MSE: 923.1984, fg_MSE: 230.8769, BCE Loss: 0.0504, Dice Loss: 0.1976, FP Penalty Loss: 0.0411, MSE Loss: 1.4668, BG Zero Loss: 0.0594
+2025-09-24 10:40:04,225 - INFO - Val Epoch 26 - Loss: 0.8239, Seg Loss: 0.2425, Offset Loss: 0.5814, IoU: 0.8244, MSE: 357.8912, bg_MSE: 358.6422, fg_MSE: 213.2054, fp_penalty_loss: 0.0469
+2025-09-24 10:40:04,517 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:40:04,518 - INFO - Score: 0.2946, IoU: 0.4946, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:41:27,249 - INFO - Train Epoch 27 - Loss: 1.6382, Seg Loss: 0.2785, Offset Loss: 1.3598, IoU: 0.7830, MSE: 832.4280, bg_MSE: 824.4716, fg_MSE: 229.9711, BCE Loss: 0.0493, Dice Loss: 0.1918, FP Penalty Loss: 0.0374, MSE Loss: 1.3055, BG Zero Loss: 0.0542
+2025-09-24 10:41:37,892 - INFO - Val Epoch 27 - Loss: 0.8260, Seg Loss: 0.2356, Offset Loss: 0.5904, IoU: 0.8245, MSE: 354.1480, bg_MSE: 355.0073, fg_MSE: 213.0971, fp_penalty_loss: 0.0418
+2025-09-24 10:41:38,210 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:41:38,211 - INFO - Score: 0.2947, IoU: 0.4947, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:43:01,067 - INFO - Train Epoch 28 - Loss: 1.7430, Seg Loss: 0.2823, Offset Loss: 1.4606, IoU: 0.7828, MSE: 890.7296, bg_MSE: 878.5129, fg_MSE: 234.2314, BCE Loss: 0.0494, Dice Loss: 0.1944, FP Penalty Loss: 0.0386, MSE Loss: 1.4076, BG Zero Loss: 0.0530
+2025-09-24 10:43:11,855 - INFO - Val Epoch 28 - Loss: 1.1312, Seg Loss: 0.2276, Offset Loss: 0.9037, IoU: 0.8293, MSE: 505.8461, bg_MSE: 506.8990, fg_MSE: 212.9036, fp_penalty_loss: 0.0399
+2025-09-24 10:43:12,145 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:43:12,145 - INFO - Score: 0.2976, IoU: 0.4976, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:43:12,423 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:43:12,424 - INFO - New best model! Score: 0.2976, IoU: 0.8293, MSE: 505.8461
+2025-09-24 10:44:35,062 - INFO - Train Epoch 29 - Loss: 1.7716, Seg Loss: 0.2740, Offset Loss: 1.4976, IoU: 0.7901, MSE: 916.6926, bg_MSE: 909.6196, fg_MSE: 229.0875, BCE Loss: 0.0480, Dice Loss: 0.1878, FP Penalty Loss: 0.0382, MSE Loss: 1.4417, BG Zero Loss: 0.0558
+2025-09-24 10:44:45,663 - INFO - Val Epoch 29 - Loss: 0.7982, Seg Loss: 0.2194, Offset Loss: 0.5788, IoU: 0.8330, MSE: 348.0596, bg_MSE: 349.2932, fg_MSE: 212.7226, fp_penalty_loss: 0.0361
+2025-09-24 10:44:45,959 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:44:45,960 - INFO - Score: 0.2998, IoU: 0.4998, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:44:46,244 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:44:46,244 - INFO - New best model! Score: 0.2998, IoU: 0.8330, MSE: 348.0596
+2025-09-24 10:46:08,816 - INFO - Train Epoch 30 - Loss: 1.8095, Seg Loss: 0.2762, Offset Loss: 1.5333, IoU: 0.7856, MSE: 925.1418, bg_MSE: 918.8704, fg_MSE: 228.2861, BCE Loss: 0.0488, Dice Loss: 0.1907, FP Penalty Loss: 0.0368, MSE Loss: 1.4795, BG Zero Loss: 0.0538
+2025-09-24 10:46:19,544 - INFO - Val Epoch 30 - Loss: 1.0248, Seg Loss: 0.2347, Offset Loss: 0.7902, IoU: 0.8266, MSE: 516.5749, bg_MSE: 517.7244, fg_MSE: 212.8069, fp_penalty_loss: 0.0420
+2025-09-24 10:46:19,844 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:46:19,844 - INFO - Score: 0.2960, IoU: 0.4960, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:47:42,681 - INFO - Train Epoch 31 - Loss: 1.7205, Seg Loss: 0.2697, Offset Loss: 1.4508, IoU: 0.7923, MSE: 897.0397, bg_MSE: 889.6752, fg_MSE: 229.3791, BCE Loss: 0.0473, Dice Loss: 0.1862, FP Penalty Loss: 0.0362, MSE Loss: 1.3992, BG Zero Loss: 0.0515
+2025-09-24 10:47:53,315 - INFO - Val Epoch 31 - Loss: 1.2867, Seg Loss: 0.2161, Offset Loss: 1.0706, IoU: 0.8357, MSE: 723.1068, bg_MSE: 724.0091, fg_MSE: 213.0540, fp_penalty_loss: 0.0343
+2025-09-24 10:47:53,606 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:47:53,607 - INFO - Score: 0.3014, IoU: 0.5014, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:47:53,897 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:47:53,898 - INFO - New best model! Score: 0.3014, IoU: 0.8357, MSE: 723.1068
+2025-09-24 10:49:16,786 - INFO - Train Epoch 32 - Loss: 1.7384, Seg Loss: 0.2612, Offset Loss: 1.4772, IoU: 0.7968, MSE: 912.0017, bg_MSE: 905.6821, fg_MSE: 228.3343, BCE Loss: 0.0457, Dice Loss: 0.1791, FP Penalty Loss: 0.0365, MSE Loss: 1.4243, BG Zero Loss: 0.0528
+2025-09-24 10:49:27,504 - INFO - Val Epoch 32 - Loss: 0.6498, Seg Loss: 0.2086, Offset Loss: 0.4412, IoU: 0.8395, MSE: 284.1247, bg_MSE: 285.5253, fg_MSE: 212.5558, fp_penalty_loss: 0.0342
+2025-09-24 10:49:27,809 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:49:27,810 - INFO - Score: 0.3037, IoU: 0.5037, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:49:28,090 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:49:28,091 - INFO - New best model! Score: 0.3037, IoU: 0.8395, MSE: 284.1247
+2025-09-24 10:50:51,114 - INFO - Train Epoch 33 - Loss: 1.7298, Seg Loss: 0.2630, Offset Loss: 1.4669, IoU: 0.7935, MSE: 894.3928, bg_MSE: 887.3240, fg_MSE: 229.0835, BCE Loss: 0.0465, Dice Loss: 0.1809, FP Penalty Loss: 0.0357, MSE Loss: 1.4141, BG Zero Loss: 0.0527
+2025-09-24 10:51:01,783 - INFO - Val Epoch 33 - Loss: 0.6630, Seg Loss: 0.2209, Offset Loss: 0.4421, IoU: 0.8374, MSE: 283.3722, bg_MSE: 284.9473, fg_MSE: 212.3813, fp_penalty_loss: 0.0417
+2025-09-24 10:51:02,074 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:51:02,074 - INFO - Score: 0.3025, IoU: 0.5025, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:52:24,461 - INFO - Train Epoch 34 - Loss: 1.5846, Seg Loss: 0.2512, Offset Loss: 1.3334, IoU: 0.8030, MSE: 819.4604, bg_MSE: 811.2086, fg_MSE: 230.2665, BCE Loss: 0.0446, Dice Loss: 0.1724, FP Penalty Loss: 0.0342, MSE Loss: 1.2859, BG Zero Loss: 0.0474
+2025-09-24 10:52:35,118 - INFO - Val Epoch 34 - Loss: 0.5705, Seg Loss: 0.2007, Offset Loss: 0.3698, IoU: 0.8504, MSE: 238.5351, bg_MSE: 240.6536, fg_MSE: 211.8379, fp_penalty_loss: 0.0374
+2025-09-24 10:52:35,409 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:52:35,410 - INFO - Score: 0.3103, IoU: 0.5103, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:52:35,690 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:52:35,691 - INFO - New best model! Score: 0.3103, IoU: 0.8504, MSE: 238.5351
+2025-09-24 10:53:58,092 - INFO - Train Epoch 35 - Loss: 1.6512, Seg Loss: 0.2592, Offset Loss: 1.3920, IoU: 0.7963, MSE: 833.4225, bg_MSE: 826.1914, fg_MSE: 229.2458, BCE Loss: 0.0463, Dice Loss: 0.1778, FP Penalty Loss: 0.0350, MSE Loss: 1.3452, BG Zero Loss: 0.0468
+2025-09-24 10:54:08,859 - INFO - Val Epoch 35 - Loss: 0.6365, Seg Loss: 0.2059, Offset Loss: 0.4306, IoU: 0.8494, MSE: 292.3194, bg_MSE: 294.6981, fg_MSE: 211.5776, fp_penalty_loss: 0.0415
+2025-09-24 10:54:09,161 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:54:09,161 - INFO - Score: 0.3096, IoU: 0.5096, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:55:32,157 - INFO - Train Epoch 36 - Loss: 1.6873, Seg Loss: 0.2425, Offset Loss: 1.4448, IoU: 0.8113, MSE: 876.5090, bg_MSE: 864.4317, fg_MSE: 234.0919, BCE Loss: 0.0439, Dice Loss: 0.1653, FP Penalty Loss: 0.0333, MSE Loss: 1.3970, BG Zero Loss: 0.0479
+2025-09-24 10:55:42,786 - INFO - Val Epoch 36 - Loss: 0.6435, Seg Loss: 0.1900, Offset Loss: 0.4536, IoU: 0.8522, MSE: 309.1241, bg_MSE: 311.2046, fg_MSE: 211.8759, fp_penalty_loss: 0.0289
+2025-09-24 10:55:43,082 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:55:43,082 - INFO - Score: 0.3113, IoU: 0.5113, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:55:43,363 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 10:55:43,363 - INFO - New best model! Score: 0.3113, IoU: 0.8522, MSE: 309.1241
+2025-09-24 10:57:06,002 - INFO - Train Epoch 37 - Loss: 1.6252, Seg Loss: 0.2452, Offset Loss: 1.3800, IoU: 0.8072, MSE: 842.3293, bg_MSE: 833.2116, fg_MSE: 231.1324, BCE Loss: 0.0435, Dice Loss: 0.1679, FP Penalty Loss: 0.0338, MSE Loss: 1.3335, BG Zero Loss: 0.0465
+2025-09-24 10:57:16,636 - INFO - Val Epoch 37 - Loss: 0.6916, Seg Loss: 0.2011, Offset Loss: 0.4905, IoU: 0.8491, MSE: 336.7249, bg_MSE: 339.4569, fg_MSE: 211.2243, fp_penalty_loss: 0.0349
+2025-09-24 10:57:16,931 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:57:16,932 - INFO - Score: 0.3095, IoU: 0.5095, MSE: -0.2000, BGP: -0.2000
+2025-09-24 10:58:39,513 - INFO - Train Epoch 38 - Loss: 1.6151, Seg Loss: 0.2463, Offset Loss: 1.3688, IoU: 0.8076, MSE: 833.7636, bg_MSE: 826.5867, fg_MSE: 229.1917, BCE Loss: 0.0433, Dice Loss: 0.1686, FP Penalty Loss: 0.0344, MSE Loss: 1.3242, BG Zero Loss: 0.0446
+2025-09-24 10:58:50,093 - INFO - Val Epoch 38 - Loss: 0.7545, Seg Loss: 0.2118, Offset Loss: 0.5428, IoU: 0.8455, MSE: 360.4848, bg_MSE: 363.3180, fg_MSE: 211.1232, fp_penalty_loss: 0.0405
+2025-09-24 10:58:50,389 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 10:58:50,390 - INFO - Score: 0.3073, IoU: 0.5073, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:00:13,177 - INFO - Train Epoch 39 - Loss: 1.6957, Seg Loss: 0.2377, Offset Loss: 1.4579, IoU: 0.8138, MSE: 873.1886, bg_MSE: 865.8855, fg_MSE: 229.3177, BCE Loss: 0.0431, Dice Loss: 0.1622, FP Penalty Loss: 0.0325, MSE Loss: 1.4126, BG Zero Loss: 0.0453
+2025-09-24 11:00:23,888 - INFO - Val Epoch 39 - Loss: 0.5881, Seg Loss: 0.2218, Offset Loss: 0.3663, IoU: 0.8452, MSE: 241.8043, bg_MSE: 246.0372, fg_MSE: 209.7234, fp_penalty_loss: 0.0482
+2025-09-24 11:00:24,181 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:00:24,182 - INFO - Score: 0.3071, IoU: 0.5071, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:01:46,957 - INFO - Train Epoch 40 - Loss: 1.6186, Seg Loss: 0.2288, Offset Loss: 1.3899, IoU: 0.8169, MSE: 831.8218, bg_MSE: 830.1036, fg_MSE: 223.7330, BCE Loss: 0.0415, Dice Loss: 0.1556, FP Penalty Loss: 0.0316, MSE Loss: 1.3440, BG Zero Loss: 0.0458
+2025-09-24 11:01:57,733 - INFO - Val Epoch 40 - Loss: 0.6822, Seg Loss: 0.1909, Offset Loss: 0.4913, IoU: 0.8522, MSE: 323.0399, bg_MSE: 326.5403, fg_MSE: 210.4559, fp_penalty_loss: 0.0301
+2025-09-24 11:01:58,034 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:01:58,034 - INFO - Score: 0.3113, IoU: 0.5113, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:03:21,032 - INFO - Train Epoch 41 - Loss: 1.5575, Seg Loss: 0.2288, Offset Loss: 1.3287, IoU: 0.8181, MSE: 799.9634, bg_MSE: 795.0276, fg_MSE: 226.9506, BCE Loss: 0.0406, Dice Loss: 0.1568, FP Penalty Loss: 0.0314, MSE Loss: 1.2862, BG Zero Loss: 0.0425
+2025-09-24 11:03:31,722 - INFO - Val Epoch 41 - Loss: 0.7020, Seg Loss: 0.1775, Offset Loss: 0.5245, IoU: 0.8622, MSE: 351.8485, bg_MSE: 356.9880, fg_MSE: 208.8168, fp_penalty_loss: 0.0277
+2025-09-24 11:03:32,017 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:03:32,017 - INFO - Score: 0.3173, IoU: 0.5173, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:03:32,304 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 11:03:32,305 - INFO - New best model! Score: 0.3173, IoU: 0.8622, MSE: 351.8485
+2025-09-24 11:04:55,207 - INFO - Train Epoch 42 - Loss: 1.6241, Seg Loss: 0.2272, Offset Loss: 1.3969, IoU: 0.8193, MSE: 847.8901, bg_MSE: 833.7414, fg_MSE: 236.1635, BCE Loss: 0.0406, Dice Loss: 0.1557, FP Penalty Loss: 0.0308, MSE Loss: 1.3554, BG Zero Loss: 0.0414
+2025-09-24 11:05:05,904 - INFO - Val Epoch 42 - Loss: 0.6383, Seg Loss: 0.2055, Offset Loss: 0.4328, IoU: 0.8540, MSE: 299.8458, bg_MSE: 305.8106, fg_MSE: 207.9916, fp_penalty_loss: 0.0451
+2025-09-24 11:05:06,202 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:05:06,203 - INFO - Score: 0.3124, IoU: 0.5124, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:06:28,705 - INFO - Train Epoch 43 - Loss: 1.6150, Seg Loss: 0.2228, Offset Loss: 1.3922, IoU: 0.8235, MSE: 830.2405, bg_MSE: 830.1118, fg_MSE: 222.1435, BCE Loss: 0.0395, Dice Loss: 0.1529, FP Penalty Loss: 0.0304, MSE Loss: 1.3500, BG Zero Loss: 0.0421
+2025-09-24 11:06:39,399 - INFO - Val Epoch 43 - Loss: 0.5984, Seg Loss: 0.1817, Offset Loss: 0.4167, IoU: 0.8653, MSE: 280.3175, bg_MSE: 286.5294, fg_MSE: 207.7446, fp_penalty_loss: 0.0352
+2025-09-24 11:06:39,707 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:06:39,707 - INFO - Score: 0.3192, IoU: 0.5192, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:06:39,990 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 11:06:39,991 - INFO - New best model! Score: 0.3192, IoU: 0.8653, MSE: 280.3175
+2025-09-24 11:08:03,028 - INFO - Train Epoch 44 - Loss: 1.4771, Seg Loss: 0.2199, Offset Loss: 1.2572, IoU: 0.8265, MSE: 785.2471, bg_MSE: 786.5609, fg_MSE: 220.7010, BCE Loss: 0.0396, Dice Loss: 0.1499, FP Penalty Loss: 0.0305, MSE Loss: 1.2180, BG Zero Loss: 0.0392
+2025-09-24 11:08:13,711 - INFO - Val Epoch 44 - Loss: 0.6547, Seg Loss: 0.1815, Offset Loss: 0.4732, IoU: 0.8626, MSE: 331.0422, bg_MSE: 337.2116, fg_MSE: 207.7869, fp_penalty_loss: 0.0319
+2025-09-24 11:08:14,004 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:08:14,005 - INFO - Score: 0.3175, IoU: 0.5175, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:09:36,540 - INFO - Train Epoch 45 - Loss: 1.5064, Seg Loss: 0.2181, Offset Loss: 1.2883, IoU: 0.8272, MSE: 802.8536, bg_MSE: 799.6828, fg_MSE: 225.1854, BCE Loss: 0.0392, Dice Loss: 0.1486, FP Penalty Loss: 0.0303, MSE Loss: 1.2466, BG Zero Loss: 0.0417
+2025-09-24 11:09:47,143 - INFO - Val Epoch 45 - Loss: 0.5856, Seg Loss: 0.1833, Offset Loss: 0.4023, IoU: 0.8621, MSE: 267.4834, bg_MSE: 274.2353, fg_MSE: 207.2045, fp_penalty_loss: 0.0345
+2025-09-24 11:09:47,435 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:09:47,435 - INFO - Score: 0.3173, IoU: 0.5173, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:11:10,064 - INFO - Train Epoch 46 - Loss: 1.5049, Seg Loss: 0.2125, Offset Loss: 1.2924, IoU: 0.8303, MSE: 793.5792, bg_MSE: 793.3467, fg_MSE: 222.2472, BCE Loss: 0.0384, Dice Loss: 0.1449, FP Penalty Loss: 0.0292, MSE Loss: 1.2537, BG Zero Loss: 0.0387
+2025-09-24 11:11:20,617 - INFO - Val Epoch 46 - Loss: 0.5227, Seg Loss: 0.1692, Offset Loss: 0.3535, IoU: 0.8657, MSE: 238.6787, bg_MSE: 245.7099, fg_MSE: 206.9251, fp_penalty_loss: 0.0252
+2025-09-24 11:11:20,909 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:11:20,910 - INFO - Score: 0.3194, IoU: 0.5194, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:11:21,192 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 11:11:21,193 - INFO - New best model! Score: 0.3194, IoU: 0.8657, MSE: 238.6787
+2025-09-24 11:12:44,202 - INFO - Train Epoch 47 - Loss: 1.5257, Seg Loss: 0.2167, Offset Loss: 1.3090, IoU: 0.8291, MSE: 795.7723, bg_MSE: 795.8936, fg_MSE: 221.8934, BCE Loss: 0.0385, Dice Loss: 0.1483, FP Penalty Loss: 0.0298, MSE Loss: 1.2689, BG Zero Loss: 0.0401
+2025-09-24 11:12:54,894 - INFO - Val Epoch 47 - Loss: 0.5530, Seg Loss: 0.1820, Offset Loss: 0.3710, IoU: 0.8650, MSE: 248.1369, bg_MSE: 256.1618, fg_MSE: 205.9314, fp_penalty_loss: 0.0356
+2025-09-24 11:12:55,193 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:12:55,194 - INFO - Score: 0.3190, IoU: 0.5190, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:14:17,997 - INFO - Train Epoch 48 - Loss: 1.4662, Seg Loss: 0.2094, Offset Loss: 1.2568, IoU: 0.8312, MSE: 773.6302, bg_MSE: 775.3214, fg_MSE: 220.3235, BCE Loss: 0.0378, Dice Loss: 0.1426, FP Penalty Loss: 0.0290, MSE Loss: 1.2164, BG Zero Loss: 0.0404
+2025-09-24 11:14:28,783 - INFO - Val Epoch 48 - Loss: 0.5867, Seg Loss: 0.1786, Offset Loss: 0.4082, IoU: 0.8628, MSE: 274.4236, bg_MSE: 282.5179, fg_MSE: 205.8621, fp_penalty_loss: 0.0304
+2025-09-24 11:14:29,081 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:14:29,081 - INFO - Score: 0.3177, IoU: 0.5177, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:15:51,836 - INFO - Train Epoch 49 - Loss: 1.5593, Seg Loss: 0.2112, Offset Loss: 1.3481, IoU: 0.8301, MSE: 828.1532, bg_MSE: 822.6829, fg_MSE: 227.4850, BCE Loss: 0.0377, Dice Loss: 0.1438, FP Penalty Loss: 0.0297, MSE Loss: 1.3098, BG Zero Loss: 0.0383
+2025-09-24 11:16:02,562 - INFO - Val Epoch 49 - Loss: 0.5311, Seg Loss: 0.1772, Offset Loss: 0.3539, IoU: 0.8649, MSE: 232.3134, bg_MSE: 241.0678, fg_MSE: 205.2019, fp_penalty_loss: 0.0313
+2025-09-24 11:16:02,846 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:16:02,847 - INFO - Score: 0.3189, IoU: 0.5189, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:17:25,621 - INFO - Train Epoch 50 - Loss: 1.5976, Seg Loss: 0.2115, Offset Loss: 1.3860, IoU: 0.8308, MSE: 833.3198, bg_MSE: 824.5045, fg_MSE: 230.8300, BCE Loss: 0.0381, Dice Loss: 0.1447, FP Penalty Loss: 0.0287, MSE Loss: 1.3475, BG Zero Loss: 0.0385
+2025-09-24 11:17:36,267 - INFO - Val Epoch 50 - Loss: 0.5516, Seg Loss: 0.1828, Offset Loss: 0.3688, IoU: 0.8673, MSE: 248.1502, bg_MSE: 258.1664, fg_MSE: 203.9402, fp_penalty_loss: 0.0382
+2025-09-24 11:17:36,557 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:17:36,558 - INFO - Score: 0.3204, IoU: 0.5204, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:17:36,838 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 11:17:36,839 - INFO - New best model! Score: 0.3204, IoU: 0.8673, MSE: 248.1502
+2025-09-24 11:18:59,710 - INFO - Train Epoch 51 - Loss: 1.4236, Seg Loss: 0.2087, Offset Loss: 1.2149, IoU: 0.8324, MSE: 749.1505, bg_MSE: 750.8452, fg_MSE: 220.3200, BCE Loss: 0.0378, Dice Loss: 0.1422, FP Penalty Loss: 0.0286, MSE Loss: 1.1764, BG Zero Loss: 0.0385
+2025-09-24 11:19:10,318 - INFO - Val Epoch 51 - Loss: 0.5643, Seg Loss: 0.1808, Offset Loss: 0.3835, IoU: 0.8649, MSE: 260.9917, bg_MSE: 270.6319, fg_MSE: 204.3162, fp_penalty_loss: 0.0348
+2025-09-24 11:19:10,609 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:19:10,610 - INFO - Score: 0.3189, IoU: 0.5189, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:20:32,964 - INFO - Train Epoch 52 - Loss: 1.5124, Seg Loss: 0.2075, Offset Loss: 1.3049, IoU: 0.8361, MSE: 808.2391, bg_MSE: 807.6288, fg_MSE: 222.6250, BCE Loss: 0.0373, Dice Loss: 0.1411, FP Penalty Loss: 0.0291, MSE Loss: 1.2674, BG Zero Loss: 0.0374
+2025-09-24 11:20:43,555 - INFO - Val Epoch 52 - Loss: 0.5187, Seg Loss: 0.1722, Offset Loss: 0.3465, IoU: 0.8703, MSE: 243.2142, bg_MSE: 254.3457, fg_MSE: 202.8248, fp_penalty_loss: 0.0320
+2025-09-24 11:20:43,826 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:20:43,827 - INFO - Score: 0.3222, IoU: 0.5222, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:20:44,114 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 11:20:44,114 - INFO - New best model! Score: 0.3222, IoU: 0.8703, MSE: 243.2142
+2025-09-24 11:22:06,976 - INFO - Train Epoch 53 - Loss: 1.5753, Seg Loss: 0.2051, Offset Loss: 1.3702, IoU: 0.8369, MSE: 844.9269, bg_MSE: 846.9973, fg_MSE: 219.9443, BCE Loss: 0.0359, Dice Loss: 0.1403, FP Penalty Loss: 0.0290, MSE Loss: 1.3321, BG Zero Loss: 0.0381
+2025-09-24 11:22:17,617 - INFO - Val Epoch 53 - Loss: 0.5236, Seg Loss: 0.1732, Offset Loss: 0.3504, IoU: 0.8686, MSE: 244.3317, bg_MSE: 255.7863, fg_MSE: 202.5017, fp_penalty_loss: 0.0315
+2025-09-24 11:22:17,921 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:22:17,921 - INFO - Score: 0.3211, IoU: 0.5211, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:23:40,646 - INFO - Train Epoch 54 - Loss: 1.5209, Seg Loss: 0.2116, Offset Loss: 1.3094, IoU: 0.8309, MSE: 788.1406, bg_MSE: 786.0469, fg_MSE: 224.1083, BCE Loss: 0.0381, Dice Loss: 0.1442, FP Penalty Loss: 0.0293, MSE Loss: 1.2723, BG Zero Loss: 0.0371
+2025-09-24 11:23:51,264 - INFO - Val Epoch 54 - Loss: 0.5319, Seg Loss: 0.1700, Offset Loss: 0.3619, IoU: 0.8728, MSE: 253.1909, bg_MSE: 265.8183, fg_MSE: 201.3289, fp_penalty_loss: 0.0328
+2025-09-24 11:23:51,557 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:23:51,557 - INFO - Score: 0.3237, IoU: 0.5237, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:23:51,847 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 11:23:51,848 - INFO - New best model! Score: 0.3237, IoU: 0.8728, MSE: 253.1909
+2025-09-24 11:25:14,730 - INFO - Train Epoch 55 - Loss: 1.6038, Seg Loss: 0.2011, Offset Loss: 1.4027, IoU: 0.8379, MSE: 825.3270, bg_MSE: 830.5572, fg_MSE: 216.7846, BCE Loss: 0.0360, Dice Loss: 0.1373, FP Penalty Loss: 0.0278, MSE Loss: 1.3650, BG Zero Loss: 0.0377
+2025-09-24 11:25:25,472 - INFO - Val Epoch 55 - Loss: 0.5126, Seg Loss: 0.1673, Offset Loss: 0.3452, IoU: 0.8714, MSE: 236.0991, bg_MSE: 249.6232, fg_MSE: 200.4323, fp_penalty_loss: 0.0291
+2025-09-24 11:25:25,770 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:25:25,770 - INFO - Score: 0.3229, IoU: 0.5229, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:26:48,583 - INFO - Train Epoch 56 - Loss: 1.4819, Seg Loss: 0.2019, Offset Loss: 1.2799, IoU: 0.8398, MSE: 803.7235, bg_MSE: 808.4482, fg_MSE: 217.2901, BCE Loss: 0.0359, Dice Loss: 0.1377, FP Penalty Loss: 0.0283, MSE Loss: 1.2425, BG Zero Loss: 0.0374
+2025-09-24 11:26:59,116 - INFO - Val Epoch 56 - Loss: 0.5420, Seg Loss: 0.1735, Offset Loss: 0.3686, IoU: 0.8717, MSE: 249.4166, bg_MSE: 265.1840, fg_MSE: 198.1890, fp_penalty_loss: 0.0353
+2025-09-24 11:26:59,409 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:26:59,409 - INFO - Score: 0.3230, IoU: 0.5230, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:28:21,530 - INFO - Train Epoch 57 - Loss: 1.4633, Seg Loss: 0.2006, Offset Loss: 1.2627, IoU: 0.8401, MSE: 794.4252, bg_MSE: 798.2456, fg_MSE: 218.1943, BCE Loss: 0.0359, Dice Loss: 0.1367, FP Penalty Loss: 0.0280, MSE Loss: 1.2236, BG Zero Loss: 0.0391
+2025-09-24 11:28:31,966 - INFO - Val Epoch 57 - Loss: 0.5657, Seg Loss: 0.1709, Offset Loss: 0.3948, IoU: 0.8717, MSE: 274.9685, bg_MSE: 290.9497, fg_MSE: 197.9753, fp_penalty_loss: 0.0329
+2025-09-24 11:28:32,255 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:28:32,256 - INFO - Score: 0.3230, IoU: 0.5230, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:29:54,834 - INFO - Train Epoch 58 - Loss: 1.5283, Seg Loss: 0.2028, Offset Loss: 1.3255, IoU: 0.8382, MSE: 818.7822, bg_MSE: 825.2870, fg_MSE: 215.5099, BCE Loss: 0.0364, Dice Loss: 0.1389, FP Penalty Loss: 0.0275, MSE Loss: 1.2866, BG Zero Loss: 0.0389
+2025-09-24 11:30:05,448 - INFO - Val Epoch 58 - Loss: 0.5245, Seg Loss: 0.1709, Offset Loss: 0.3537, IoU: 0.8721, MSE: 247.9715, bg_MSE: 265.5268, fg_MSE: 196.4011, fp_penalty_loss: 0.0332
+2025-09-24 11:30:05,740 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:30:05,741 - INFO - Score: 0.3233, IoU: 0.5233, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:31:28,205 - INFO - Train Epoch 59 - Loss: 1.5608, Seg Loss: 0.1930, Offset Loss: 1.3678, IoU: 0.8424, MSE: 841.4927, bg_MSE: 849.1268, fg_MSE: 214.3805, BCE Loss: 0.0345, Dice Loss: 0.1317, FP Penalty Loss: 0.0268, MSE Loss: 1.3279, BG Zero Loss: 0.0399
+2025-09-24 11:31:38,725 - INFO - Val Epoch 59 - Loss: 0.4995, Seg Loss: 0.1764, Offset Loss: 0.3231, IoU: 0.8691, MSE: 228.3170, bg_MSE: 247.4152, fg_MSE: 194.8582, fp_penalty_loss: 0.0365
+2025-09-24 11:31:39,015 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:31:39,016 - INFO - Score: 0.3215, IoU: 0.5215, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:33:01,944 - INFO - Train Epoch 60 - Loss: 1.4944, Seg Loss: 0.1965, Offset Loss: 1.2979, IoU: 0.8404, MSE: 803.3020, bg_MSE: 812.2483, fg_MSE: 213.0684, BCE Loss: 0.0342, Dice Loss: 0.1348, FP Penalty Loss: 0.0275, MSE Loss: 1.2605, BG Zero Loss: 0.0374
+2025-09-24 11:33:12,744 - INFO - Val Epoch 60 - Loss: 0.5097, Seg Loss: 0.1751, Offset Loss: 0.3347, IoU: 0.8679, MSE: 240.1219, bg_MSE: 259.7490, fg_MSE: 194.3292, fp_penalty_loss: 0.0321
+2025-09-24 11:33:13,063 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:33:13,063 - INFO - Score: 0.3207, IoU: 0.5207, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:34:35,816 - INFO - Train Epoch 61 - Loss: 1.4363, Seg Loss: 0.1963, Offset Loss: 1.2400, IoU: 0.8429, MSE: 759.9360, bg_MSE: 766.3599, fg_MSE: 215.5908, BCE Loss: 0.0351, Dice Loss: 0.1332, FP Penalty Loss: 0.0280, MSE Loss: 1.2035, BG Zero Loss: 0.0365
+2025-09-24 11:34:46,347 - INFO - Val Epoch 61 - Loss: 0.5331, Seg Loss: 0.1699, Offset Loss: 0.3632, IoU: 0.8718, MSE: 257.1409, bg_MSE: 278.1630, fg_MSE: 192.9342, fp_penalty_loss: 0.0329
+2025-09-24 11:34:46,638 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:34:46,639 - INFO - Score: 0.3231, IoU: 0.5231, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:36:09,154 - INFO - Train Epoch 62 - Loss: 1.5488, Seg Loss: 0.1972, Offset Loss: 1.3516, IoU: 0.8415, MSE: 833.9341, bg_MSE: 839.2678, fg_MSE: 216.6811, BCE Loss: 0.0350, Dice Loss: 0.1342, FP Penalty Loss: 0.0280, MSE Loss: 1.3126, BG Zero Loss: 0.0389
+2025-09-24 11:36:19,765 - INFO - Val Epoch 62 - Loss: 0.4528, Seg Loss: 0.1556, Offset Loss: 0.2973, IoU: 0.8760, MSE: 206.1091, bg_MSE: 226.8803, fg_MSE: 193.1852, fp_penalty_loss: 0.0236
+2025-09-24 11:36:20,059 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:36:20,060 - INFO - Score: 0.3256, IoU: 0.5256, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:36:20,349 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 11:36:20,350 - INFO - New best model! Score: 0.3256, IoU: 0.8760, MSE: 206.1091
+2025-09-24 11:37:42,999 - INFO - Train Epoch 63 - Loss: 1.5005, Seg Loss: 0.1986, Offset Loss: 1.3020, IoU: 0.8417, MSE: 788.5280, bg_MSE: 795.2136, fg_MSE: 215.3291, BCE Loss: 0.0356, Dice Loss: 0.1356, FP Penalty Loss: 0.0274, MSE Loss: 1.2637, BG Zero Loss: 0.0383
+2025-09-24 11:37:53,576 - INFO - Val Epoch 63 - Loss: 0.5206, Seg Loss: 0.1680, Offset Loss: 0.3526, IoU: 0.8743, MSE: 241.2604, bg_MSE: 264.1492, fg_MSE: 191.0676, fp_penalty_loss: 0.0333
+2025-09-24 11:37:53,865 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:37:53,866 - INFO - Score: 0.3246, IoU: 0.5246, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:39:16,052 - INFO - Train Epoch 64 - Loss: 1.5428, Seg Loss: 0.1927, Offset Loss: 1.3501, IoU: 0.8429, MSE: 838.0267, bg_MSE: 847.7725, fg_MSE: 212.2688, BCE Loss: 0.0352, Dice Loss: 0.1313, FP Penalty Loss: 0.0262, MSE Loss: 1.3097, BG Zero Loss: 0.0403
+2025-09-24 11:39:26,585 - INFO - Val Epoch 64 - Loss: 0.6417, Seg Loss: 0.1846, Offset Loss: 0.4571, IoU: 0.8669, MSE: 294.4434, bg_MSE: 319.9259, fg_MSE: 188.4738, fp_penalty_loss: 0.0412
+2025-09-24 11:39:26,877 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:39:26,878 - INFO - Score: 0.3201, IoU: 0.5201, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:40:49,070 - INFO - Train Epoch 65 - Loss: 1.5046, Seg Loss: 0.1907, Offset Loss: 1.3139, IoU: 0.8469, MSE: 834.6956, bg_MSE: 844.9306, fg_MSE: 211.7796, BCE Loss: 0.0336, Dice Loss: 0.1300, FP Penalty Loss: 0.0270, MSE Loss: 1.2746, BG Zero Loss: 0.0393
+2025-09-24 11:40:59,681 - INFO - Val Epoch 65 - Loss: 0.5071, Seg Loss: 0.1641, Offset Loss: 0.3430, IoU: 0.8737, MSE: 234.5516, bg_MSE: 259.4721, fg_MSE: 189.0358, fp_penalty_loss: 0.0287
+2025-09-24 11:40:59,974 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:40:59,974 - INFO - Score: 0.3242, IoU: 0.5242, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:42:22,688 - INFO - Train Epoch 66 - Loss: 1.4364, Seg Loss: 0.1905, Offset Loss: 1.2459, IoU: 0.8458, MSE: 763.5421, bg_MSE: 777.3168, fg_MSE: 208.2400, BCE Loss: 0.0337, Dice Loss: 0.1306, FP Penalty Loss: 0.0262, MSE Loss: 1.2078, BG Zero Loss: 0.0381
+2025-09-24 11:42:33,411 - INFO - Val Epoch 66 - Loss: 0.4789, Seg Loss: 0.1657, Offset Loss: 0.3131, IoU: 0.8756, MSE: 211.4493, bg_MSE: 236.9579, fg_MSE: 188.4477, fp_penalty_loss: 0.0308
+2025-09-24 11:42:33,708 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:42:33,709 - INFO - Score: 0.3254, IoU: 0.5254, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:43:56,447 - INFO - Train Epoch 67 - Loss: 1.5343, Seg Loss: 0.1927, Offset Loss: 1.3416, IoU: 0.8459, MSE: 818.9744, bg_MSE: 832.5930, fg_MSE: 208.3962, BCE Loss: 0.0347, Dice Loss: 0.1318, FP Penalty Loss: 0.0263, MSE Loss: 1.3051, BG Zero Loss: 0.0365
+2025-09-24 11:44:07,063 - INFO - Val Epoch 67 - Loss: 0.4812, Seg Loss: 0.1714, Offset Loss: 0.3097, IoU: 0.8738, MSE: 228.0584, bg_MSE: 254.8872, fg_MSE: 187.1275, fp_penalty_loss: 0.0346
+2025-09-24 11:44:07,360 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:44:07,360 - INFO - Score: 0.3243, IoU: 0.5243, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:45:30,015 - INFO - Train Epoch 68 - Loss: 1.6555, Seg Loss: 0.1856, Offset Loss: 1.4699, IoU: 0.8486, MSE: 878.1293, bg_MSE: 891.1111, fg_MSE: 209.0329, BCE Loss: 0.0332, Dice Loss: 0.1265, FP Penalty Loss: 0.0260, MSE Loss: 1.4324, BG Zero Loss: 0.0375
+2025-09-24 11:45:40,596 - INFO - Val Epoch 68 - Loss: 0.4894, Seg Loss: 0.1616, Offset Loss: 0.3279, IoU: 0.8775, MSE: 226.8375, bg_MSE: 253.6684, fg_MSE: 187.1255, fp_penalty_loss: 0.0308
+2025-09-24 11:45:40,891 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:45:40,891 - INFO - Score: 0.3265, IoU: 0.5265, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:45:41,180 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 11:45:41,180 - INFO - New best model! Score: 0.3265, IoU: 0.8775, MSE: 226.8375
+2025-09-24 11:47:03,852 - INFO - Train Epoch 69 - Loss: 1.4205, Seg Loss: 0.1909, Offset Loss: 1.2297, IoU: 0.8469, MSE: 770.5108, bg_MSE: 783.3961, fg_MSE: 209.1293, BCE Loss: 0.0336, Dice Loss: 0.1304, FP Penalty Loss: 0.0268, MSE Loss: 1.1959, BG Zero Loss: 0.0337
+2025-09-24 11:47:14,608 - INFO - Val Epoch 69 - Loss: 0.5765, Seg Loss: 0.1659, Offset Loss: 0.4106, IoU: 0.8784, MSE: 278.5988, bg_MSE: 305.6609, fg_MSE: 186.8943, fp_penalty_loss: 0.0354
+2025-09-24 11:47:14,912 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:47:14,912 - INFO - Score: 0.3271, IoU: 0.5271, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:47:15,206 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 11:47:15,206 - INFO - New best model! Score: 0.3271, IoU: 0.8784, MSE: 278.5988
+2025-09-24 11:48:37,897 - INFO - Train Epoch 70 - Loss: 1.4692, Seg Loss: 0.1909, Offset Loss: 1.2782, IoU: 0.8474, MSE: 785.8273, bg_MSE: 796.0827, fg_MSE: 211.7593, BCE Loss: 0.0346, Dice Loss: 0.1302, FP Penalty Loss: 0.0261, MSE Loss: 1.2432, BG Zero Loss: 0.0350
+2025-09-24 11:48:48,445 - INFO - Val Epoch 70 - Loss: 0.5460, Seg Loss: 0.1577, Offset Loss: 0.3883, IoU: 0.8780, MSE: 270.4838, bg_MSE: 298.2791, fg_MSE: 186.1611, fp_penalty_loss: 0.0278
+2025-09-24 11:48:48,736 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:48:48,737 - INFO - Score: 0.3268, IoU: 0.5268, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:50:11,297 - INFO - Train Epoch 71 - Loss: 1.5411, Seg Loss: 0.1803, Offset Loss: 1.3608, IoU: 0.8526, MSE: 830.5686, bg_MSE: 846.2707, fg_MSE: 206.3126, BCE Loss: 0.0314, Dice Loss: 0.1228, FP Penalty Loss: 0.0261, MSE Loss: 1.3241, BG Zero Loss: 0.0367
+2025-09-24 11:50:21,859 - INFO - Val Epoch 71 - Loss: 0.4579, Seg Loss: 0.1573, Offset Loss: 0.3006, IoU: 0.8793, MSE: 217.4878, bg_MSE: 245.4530, fg_MSE: 185.9911, fp_penalty_loss: 0.0285
+2025-09-24 11:50:22,152 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:50:22,152 - INFO - Score: 0.3276, IoU: 0.5276, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:50:22,440 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 11:50:22,441 - INFO - New best model! Score: 0.3276, IoU: 0.8793, MSE: 217.4878
+2025-09-24 11:51:44,665 - INFO - Train Epoch 72 - Loss: 1.4684, Seg Loss: 0.1840, Offset Loss: 1.2844, IoU: 0.8514, MSE: 787.8213, bg_MSE: 798.9191, fg_MSE: 210.9169, BCE Loss: 0.0328, Dice Loss: 0.1257, FP Penalty Loss: 0.0255, MSE Loss: 1.2491, BG Zero Loss: 0.0353
+2025-09-24 11:51:55,287 - INFO - Val Epoch 72 - Loss: 0.5449, Seg Loss: 0.1541, Offset Loss: 0.3908, IoU: 0.8799, MSE: 270.4286, bg_MSE: 298.2463, fg_MSE: 186.1386, fp_penalty_loss: 0.0268
+2025-09-24 11:51:55,577 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:51:55,578 - INFO - Score: 0.3279, IoU: 0.5279, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:51:55,863 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 11:51:55,863 - INFO - New best model! Score: 0.3279, IoU: 0.8799, MSE: 270.4286
+2025-09-24 11:53:18,284 - INFO - Train Epoch 73 - Loss: 1.4221, Seg Loss: 0.1821, Offset Loss: 1.2400, IoU: 0.8545, MSE: 770.1464, bg_MSE: 779.8847, fg_MSE: 212.2765, BCE Loss: 0.0325, Dice Loss: 0.1242, FP Penalty Loss: 0.0254, MSE Loss: 1.2066, BG Zero Loss: 0.0335
+2025-09-24 11:53:28,838 - INFO - Val Epoch 73 - Loss: 0.5715, Seg Loss: 0.1570, Offset Loss: 0.4146, IoU: 0.8803, MSE: 268.7384, bg_MSE: 297.9361, fg_MSE: 184.7586, fp_penalty_loss: 0.0294
+2025-09-24 11:53:29,128 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:53:29,129 - INFO - Score: 0.3282, IoU: 0.5282, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:53:29,416 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 11:53:29,417 - INFO - New best model! Score: 0.3282, IoU: 0.8803, MSE: 268.7384
+2025-09-24 11:54:52,504 - INFO - Train Epoch 74 - Loss: 1.4328, Seg Loss: 0.1811, Offset Loss: 1.2517, IoU: 0.8533, MSE: 769.8765, bg_MSE: 784.1464, fg_MSE: 207.7448, BCE Loss: 0.0327, Dice Loss: 0.1234, FP Penalty Loss: 0.0250, MSE Loss: 1.2189, BG Zero Loss: 0.0328
+2025-09-24 11:55:03,195 - INFO - Val Epoch 74 - Loss: 0.5235, Seg Loss: 0.1555, Offset Loss: 0.3680, IoU: 0.8807, MSE: 270.3377, bg_MSE: 299.3106, fg_MSE: 184.9835, fp_penalty_loss: 0.0275
+2025-09-24 11:55:03,495 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:55:03,495 - INFO - Score: 0.3284, IoU: 0.5284, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:55:03,793 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 11:55:03,793 - INFO - New best model! Score: 0.3284, IoU: 0.8807, MSE: 270.3377
+2025-09-24 11:56:26,843 - INFO - Train Epoch 75 - Loss: 1.4960, Seg Loss: 0.1833, Offset Loss: 1.3127, IoU: 0.8519, MSE: 808.4717, bg_MSE: 823.3444, fg_MSE: 207.1419, BCE Loss: 0.0327, Dice Loss: 0.1254, FP Penalty Loss: 0.0252, MSE Loss: 1.2792, BG Zero Loss: 0.0335
+2025-09-24 11:56:37,611 - INFO - Val Epoch 75 - Loss: 0.4651, Seg Loss: 0.1616, Offset Loss: 0.3035, IoU: 0.8777, MSE: 214.5739, bg_MSE: 242.0851, fg_MSE: 186.4452, fp_penalty_loss: 0.0302
+2025-09-24 11:56:37,913 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:56:37,913 - INFO - Score: 0.3266, IoU: 0.5266, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:58:01,027 - INFO - Train Epoch 76 - Loss: 1.4697, Seg Loss: 0.1844, Offset Loss: 1.2853, IoU: 0.8510, MSE: 797.5295, bg_MSE: 812.9114, fg_MSE: 206.6326, BCE Loss: 0.0339, Dice Loss: 0.1246, FP Penalty Loss: 0.0259, MSE Loss: 1.2514, BG Zero Loss: 0.0339
+2025-09-24 11:58:11,829 - INFO - Val Epoch 76 - Loss: 0.5862, Seg Loss: 0.1483, Offset Loss: 0.4380, IoU: 0.8853, MSE: 307.6371, bg_MSE: 336.4512, fg_MSE: 185.1422, fp_penalty_loss: 0.0253
+2025-09-24 11:58:12,139 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:58:12,140 - INFO - Score: 0.3312, IoU: 0.5312, MSE: -0.2000, BGP: -0.2000
+2025-09-24 11:58:12,428 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 11:58:12,428 - INFO - New best model! Score: 0.3312, IoU: 0.8853, MSE: 307.6371
+2025-09-24 11:59:35,041 - INFO - Train Epoch 77 - Loss: 1.4539, Seg Loss: 0.1828, Offset Loss: 1.2712, IoU: 0.8526, MSE: 788.5989, bg_MSE: 798.5845, fg_MSE: 212.0292, BCE Loss: 0.0326, Dice Loss: 0.1245, FP Penalty Loss: 0.0257, MSE Loss: 1.2364, BG Zero Loss: 0.0348
+2025-09-24 11:59:45,588 - INFO - Val Epoch 77 - Loss: 0.5681, Seg Loss: 0.1538, Offset Loss: 0.4143, IoU: 0.8843, MSE: 295.7294, bg_MSE: 325.5423, fg_MSE: 184.1434, fp_penalty_loss: 0.0302
+2025-09-24 11:59:45,881 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 11:59:45,882 - INFO - Score: 0.3306, IoU: 0.5306, MSE: -0.2000, BGP: -0.2000
+2025-09-24 12:01:08,451 - INFO - Train Epoch 78 - Loss: 1.3837, Seg Loss: 0.1808, Offset Loss: 1.2028, IoU: 0.8549, MSE: 767.3921, bg_MSE: 782.1192, fg_MSE: 207.2875, BCE Loss: 0.0318, Dice Loss: 0.1236, FP Penalty Loss: 0.0254, MSE Loss: 1.1695, BG Zero Loss: 0.0334
+2025-09-24 12:01:19,137 - INFO - Val Epoch 78 - Loss: 0.4594, Seg Loss: 0.1584, Offset Loss: 0.3010, IoU: 0.8803, MSE: 205.3171, bg_MSE: 235.3982, fg_MSE: 183.8752, fp_penalty_loss: 0.0310
+2025-09-24 12:01:19,435 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 12:01:19,435 - INFO - Score: 0.3282, IoU: 0.5282, MSE: -0.2000, BGP: -0.2000
+2025-09-24 12:02:42,367 - INFO - Train Epoch 79 - Loss: 1.5043, Seg Loss: 0.1827, Offset Loss: 1.3216, IoU: 0.8501, MSE: 801.2537, bg_MSE: 817.7305, fg_MSE: 205.5380, BCE Loss: 0.0328, Dice Loss: 0.1242, FP Penalty Loss: 0.0257, MSE Loss: 1.2886, BG Zero Loss: 0.0330
+2025-09-24 12:02:53,049 - INFO - Val Epoch 79 - Loss: 0.6663, Seg Loss: 0.1592, Offset Loss: 0.5071, IoU: 0.8811, MSE: 341.1613, bg_MSE: 370.5561, fg_MSE: 184.5616, fp_penalty_loss: 0.0320
+2025-09-24 12:02:53,341 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 12:02:53,341 - INFO - Score: 0.3286, IoU: 0.5286, MSE: -0.2000, BGP: -0.2000
+2025-09-24 12:04:15,835 - INFO - Train Epoch 80 - Loss: 1.4084, Seg Loss: 0.1816, Offset Loss: 1.2268, IoU: 0.8529, MSE: 766.0348, bg_MSE: 778.6954, fg_MSE: 209.3540, BCE Loss: 0.0326, Dice Loss: 0.1235, FP Penalty Loss: 0.0254, MSE Loss: 1.1936, BG Zero Loss: 0.0332
+2025-09-24 12:04:26,525 - INFO - Val Epoch 80 - Loss: 0.4282, Seg Loss: 0.1474, Offset Loss: 0.2809, IoU: 0.8868, MSE: 205.7334, bg_MSE: 235.2383, fg_MSE: 184.4515, fp_penalty_loss: 0.0270
+2025-09-24 12:04:26,827 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 12:04:26,827 - INFO - Score: 0.3321, IoU: 0.5321, MSE: -0.2000, BGP: -0.2000
+2025-09-24 12:04:27,121 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 12:04:27,121 - INFO - New best model! Score: 0.3321, IoU: 0.8868, MSE: 205.7334
+2025-09-24 12:05:50,047 - INFO - Train Epoch 81 - Loss: 1.5290, Seg Loss: 0.1855, Offset Loss: 1.3435, IoU: 0.8495, MSE: 825.9487, bg_MSE: 838.9420, fg_MSE: 209.0214, BCE Loss: 0.0340, Dice Loss: 0.1263, FP Penalty Loss: 0.0251, MSE Loss: 1.3079, BG Zero Loss: 0.0356
+2025-09-24 12:06:00,822 - INFO - Val Epoch 81 - Loss: 0.4845, Seg Loss: 0.1545, Offset Loss: 0.3300, IoU: 0.8831, MSE: 229.0191, bg_MSE: 259.1090, fg_MSE: 183.8665, fp_penalty_loss: 0.0302
+2025-09-24 12:06:01,130 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 12:06:01,131 - INFO - Score: 0.3299, IoU: 0.5299, MSE: -0.2000, BGP: -0.2000
+2025-09-24 12:07:23,834 - INFO - Train Epoch 82 - Loss: 1.3948, Seg Loss: 0.1788, Offset Loss: 1.2160, IoU: 0.8537, MSE: 756.2209, bg_MSE: 769.2221, fg_MSE: 209.0135, BCE Loss: 0.0320, Dice Loss: 0.1224, FP Penalty Loss: 0.0244, MSE Loss: 1.1817, BG Zero Loss: 0.0343
+2025-09-24 12:07:34,284 - INFO - Val Epoch 82 - Loss: 0.4786, Seg Loss: 0.1449, Offset Loss: 0.3337, IoU: 0.8888, MSE: 228.0383, bg_MSE: 257.7105, fg_MSE: 184.2840, fp_penalty_loss: 0.0267
+2025-09-24 12:07:34,577 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 12:07:34,577 - INFO - Score: 0.3333, IoU: 0.5333, MSE: -0.2000, BGP: -0.2000
+2025-09-24 12:07:34,867 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 12:07:34,867 - INFO - New best model! Score: 0.3333, IoU: 0.8888, MSE: 228.0383
+2025-09-24 12:08:57,838 - INFO - Train Epoch 83 - Loss: 1.4235, Seg Loss: 0.1776, Offset Loss: 1.2459, IoU: 0.8573, MSE: 765.6927, bg_MSE: 782.3306, fg_MSE: 205.3768, BCE Loss: 0.0310, Dice Loss: 0.1211, FP Penalty Loss: 0.0256, MSE Loss: 1.2120, BG Zero Loss: 0.0339
+2025-09-24 12:09:08,633 - INFO - Val Epoch 83 - Loss: 0.5098, Seg Loss: 0.1578, Offset Loss: 0.3520, IoU: 0.8814, MSE: 250.8377, bg_MSE: 280.3269, fg_MSE: 184.4672, fp_penalty_loss: 0.0306
+2025-09-24 12:09:08,925 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 12:09:08,926 - INFO - Score: 0.3288, IoU: 0.5288, MSE: -0.2000, BGP: -0.2000
+2025-09-24 12:10:31,448 - INFO - Train Epoch 84 - Loss: 1.4576, Seg Loss: 0.1776, Offset Loss: 1.2800, IoU: 0.8547, MSE: 791.3580, bg_MSE: 808.5181, fg_MSE: 204.8545, BCE Loss: 0.0315, Dice Loss: 0.1208, FP Penalty Loss: 0.0252, MSE Loss: 1.2455, BG Zero Loss: 0.0345
+2025-09-24 12:10:42,064 - INFO - Val Epoch 84 - Loss: 0.6056, Seg Loss: 0.1544, Offset Loss: 0.4512, IoU: 0.8815, MSE: 283.3922, bg_MSE: 313.5760, fg_MSE: 183.7726, fp_penalty_loss: 0.0272
+2025-09-24 12:10:42,357 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 12:10:42,357 - INFO - Score: 0.3289, IoU: 0.5289, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:10:47,697 - INFO - Train Epoch 85 - Loss: 1.4599, Seg Loss: 0.1794, Offset Loss: 1.2806, IoU: 0.8568, MSE: 808.9608, bg_MSE: 825.0279, fg_MSE: 205.9475, BCE Loss: 0.0325, Dice Loss: 0.1221, FP Penalty Loss: 0.0247, MSE Loss: 1.2480, BG Zero Loss: 0.0326
+2025-09-24 13:10:58,307 - INFO - Val Epoch 85 - Loss: 0.7230, Seg Loss: 0.1557, Offset Loss: 0.5673, IoU: 0.8838, MSE: 383.9169, bg_MSE: 414.2571, fg_MSE: 183.6162, fp_penalty_loss: 0.0317
+2025-09-24 13:10:58,601 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:10:58,602 - INFO - Score: 0.3303, IoU: 0.5303, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:12:21,299 - INFO - Train Epoch 86 - Loss: 1.3598, Seg Loss: 0.1806, Offset Loss: 1.1792, IoU: 0.8531, MSE: 748.1501, bg_MSE: 765.5289, fg_MSE: 204.6359, BCE Loss: 0.0316, Dice Loss: 0.1243, FP Penalty Loss: 0.0248, MSE Loss: 1.1482, BG Zero Loss: 0.0310
+2025-09-24 13:12:32,153 - INFO - Val Epoch 86 - Loss: 0.5224, Seg Loss: 0.1530, Offset Loss: 0.3695, IoU: 0.8845, MSE: 255.6509, bg_MSE: 286.6336, fg_MSE: 182.9737, fp_penalty_loss: 0.0292
+2025-09-24 13:12:32,456 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:12:32,456 - INFO - Score: 0.3307, IoU: 0.5307, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:13:55,370 - INFO - Train Epoch 87 - Loss: 1.3460, Seg Loss: 0.1792, Offset Loss: 1.1668, IoU: 0.8541, MSE: 734.4460, bg_MSE: 749.9431, fg_MSE: 206.5177, BCE Loss: 0.0318, Dice Loss: 0.1218, FP Penalty Loss: 0.0256, MSE Loss: 1.1364, BG Zero Loss: 0.0304
+2025-09-24 13:14:06,073 - INFO - Val Epoch 87 - Loss: 0.5187, Seg Loss: 0.1601, Offset Loss: 0.3587, IoU: 0.8800, MSE: 258.3233, bg_MSE: 288.2396, fg_MSE: 184.0401, fp_penalty_loss: 0.0316
+2025-09-24 13:14:06,370 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:14:06,370 - INFO - Score: 0.3280, IoU: 0.5280, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:15:29,187 - INFO - Train Epoch 88 - Loss: 1.4033, Seg Loss: 0.1762, Offset Loss: 1.2271, IoU: 0.8577, MSE: 755.4622, bg_MSE: 765.4603, fg_MSE: 212.0166, BCE Loss: 0.0316, Dice Loss: 0.1191, FP Penalty Loss: 0.0255, MSE Loss: 1.1964, BG Zero Loss: 0.0306
+2025-09-24 13:15:39,880 - INFO - Val Epoch 88 - Loss: 0.4986, Seg Loss: 0.1479, Offset Loss: 0.3507, IoU: 0.8875, MSE: 247.2553, bg_MSE: 277.3801, fg_MSE: 183.8316, fp_penalty_loss: 0.0278
+2025-09-24 13:15:40,189 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:15:40,189 - INFO - Score: 0.3325, IoU: 0.5325, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:17:02,470 - INFO - Train Epoch 89 - Loss: 1.3159, Seg Loss: 0.1784, Offset Loss: 1.1375, IoU: 0.8556, MSE: 723.7965, bg_MSE: 736.3732, fg_MSE: 209.4379, BCE Loss: 0.0326, Dice Loss: 0.1212, FP Penalty Loss: 0.0247, MSE Loss: 1.1079, BG Zero Loss: 0.0297
+2025-09-24 13:17:13,187 - INFO - Val Epoch 89 - Loss: 0.4966, Seg Loss: 0.1601, Offset Loss: 0.3365, IoU: 0.8811, MSE: 228.5713, bg_MSE: 259.2600, fg_MSE: 183.2676, fp_penalty_loss: 0.0322
+2025-09-24 13:17:13,490 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:17:13,491 - INFO - Score: 0.3287, IoU: 0.5287, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:18:36,424 - INFO - Train Epoch 90 - Loss: 1.3294, Seg Loss: 0.1747, Offset Loss: 1.1547, IoU: 0.8601, MSE: 721.0065, bg_MSE: 736.2894, fg_MSE: 206.7318, BCE Loss: 0.0302, Dice Loss: 0.1191, FP Penalty Loss: 0.0254, MSE Loss: 1.1239, BG Zero Loss: 0.0307
+2025-09-24 13:18:47,105 - INFO - Val Epoch 90 - Loss: 0.4668, Seg Loss: 0.1561, Offset Loss: 0.3106, IoU: 0.8853, MSE: 221.0350, bg_MSE: 251.8575, fg_MSE: 183.1339, fp_penalty_loss: 0.0331
+2025-09-24 13:18:47,409 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:18:47,410 - INFO - Score: 0.3312, IoU: 0.5312, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:20:10,064 - INFO - Train Epoch 91 - Loss: 1.5437, Seg Loss: 0.1794, Offset Loss: 1.3643, IoU: 0.8551, MSE: 835.3365, bg_MSE: 843.9261, fg_MSE: 213.4251, BCE Loss: 0.0332, Dice Loss: 0.1215, FP Penalty Loss: 0.0247, MSE Loss: 1.3328, BG Zero Loss: 0.0315
+2025-09-24 13:20:20,871 - INFO - Val Epoch 91 - Loss: 0.6558, Seg Loss: 0.1472, Offset Loss: 0.5086, IoU: 0.8869, MSE: 370.9983, bg_MSE: 402.5065, fg_MSE: 182.4481, fp_penalty_loss: 0.0264
+2025-09-24 13:20:21,171 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:20:21,171 - INFO - Score: 0.3321, IoU: 0.5321, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:21:44,071 - INFO - Train Epoch 92 - Loss: 1.4575, Seg Loss: 0.1723, Offset Loss: 1.2852, IoU: 0.8578, MSE: 794.5950, bg_MSE: 807.7448, fg_MSE: 208.8649, BCE Loss: 0.0314, Dice Loss: 0.1171, FP Penalty Loss: 0.0238, MSE Loss: 1.2538, BG Zero Loss: 0.0314
+2025-09-24 13:21:54,711 - INFO - Val Epoch 92 - Loss: 0.4334, Seg Loss: 0.1452, Offset Loss: 0.2882, IoU: 0.8896, MSE: 202.8630, bg_MSE: 234.0977, fg_MSE: 182.7217, fp_penalty_loss: 0.0277
+2025-09-24 13:21:55,028 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:21:55,028 - INFO - Score: 0.3338, IoU: 0.5338, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:21:55,321 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 13:21:55,321 - INFO - New best model! Score: 0.3338, IoU: 0.8896, MSE: 202.8630
+2025-09-24 13:23:17,846 - INFO - Train Epoch 93 - Loss: 1.3881, Seg Loss: 0.1725, Offset Loss: 1.2156, IoU: 0.8599, MSE: 760.2933, bg_MSE: 775.4568, fg_MSE: 206.8512, BCE Loss: 0.0307, Dice Loss: 0.1169, FP Penalty Loss: 0.0249, MSE Loss: 1.1857, BG Zero Loss: 0.0299
+2025-09-24 13:23:28,591 - INFO - Val Epoch 93 - Loss: 0.4506, Seg Loss: 0.1423, Offset Loss: 0.3083, IoU: 0.8863, MSE: 211.4439, bg_MSE: 241.1074, fg_MSE: 184.2928, fp_penalty_loss: 0.0212
+2025-09-24 13:23:28,884 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:23:28,884 - INFO - Score: 0.3318, IoU: 0.5318, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:24:51,711 - INFO - Train Epoch 94 - Loss: 1.4517, Seg Loss: 0.1734, Offset Loss: 1.2783, IoU: 0.8577, MSE: 825.5968, bg_MSE: 842.1716, fg_MSE: 205.4399, BCE Loss: 0.0311, Dice Loss: 0.1179, FP Penalty Loss: 0.0244, MSE Loss: 1.2482, BG Zero Loss: 0.0301
+2025-09-24 13:25:02,426 - INFO - Val Epoch 94 - Loss: 0.5728, Seg Loss: 0.1542, Offset Loss: 0.4186, IoU: 0.8846, MSE: 313.2128, bg_MSE: 344.3246, fg_MSE: 182.8445, fp_penalty_loss: 0.0310
+2025-09-24 13:25:02,729 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:25:02,729 - INFO - Score: 0.3307, IoU: 0.5307, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:26:25,342 - INFO - Train Epoch 95 - Loss: 1.4237, Seg Loss: 0.1733, Offset Loss: 1.2504, IoU: 0.8571, MSE: 772.9481, bg_MSE: 788.7563, fg_MSE: 206.2065, BCE Loss: 0.0306, Dice Loss: 0.1183, FP Penalty Loss: 0.0244, MSE Loss: 1.2206, BG Zero Loss: 0.0298
+2025-09-24 13:26:36,058 - INFO - Val Epoch 95 - Loss: 0.4661, Seg Loss: 0.1438, Offset Loss: 0.3223, IoU: 0.8911, MSE: 236.1127, bg_MSE: 267.7709, fg_MSE: 182.2980, fp_penalty_loss: 0.0280
+2025-09-24 13:26:36,356 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:26:36,356 - INFO - Score: 0.3347, IoU: 0.5347, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:26:36,651 - INFO - Checkpoint saved to ./checkpoints/unet_13/best.pth
+2025-09-24 13:26:36,652 - INFO - New best model! Score: 0.3347, IoU: 0.8911, MSE: 236.1127
+2025-09-24 13:27:59,303 - INFO - Train Epoch 96 - Loss: 1.3697, Seg Loss: 0.1731, Offset Loss: 1.1967, IoU: 0.8605, MSE: 748.7602, bg_MSE: 760.4620, fg_MSE: 210.3130, BCE Loss: 0.0309, Dice Loss: 0.1174, FP Penalty Loss: 0.0247, MSE Loss: 1.1671, BG Zero Loss: 0.0296
+2025-09-24 13:28:09,996 - INFO - Val Epoch 96 - Loss: 0.7012, Seg Loss: 0.1517, Offset Loss: 0.5495, IoU: 0.8855, MSE: 396.6574, bg_MSE: 427.7794, fg_MSE: 182.8343, fp_penalty_loss: 0.0295
+2025-09-24 13:28:10,289 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:28:10,289 - INFO - Score: 0.3313, IoU: 0.5313, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:29:33,000 - INFO - Train Epoch 97 - Loss: 1.3728, Seg Loss: 0.1742, Offset Loss: 1.1985, IoU: 0.8597, MSE: 748.6872, bg_MSE: 764.4654, fg_MSE: 206.2365, BCE Loss: 0.0308, Dice Loss: 0.1188, FP Penalty Loss: 0.0247, MSE Loss: 1.1690, BG Zero Loss: 0.0296
+2025-09-24 13:29:43,641 - INFO - Val Epoch 97 - Loss: 0.6275, Seg Loss: 0.1484, Offset Loss: 0.4791, IoU: 0.8876, MSE: 346.1219, bg_MSE: 378.2462, fg_MSE: 181.8320, fp_penalty_loss: 0.0288
+2025-09-24 13:29:43,934 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:29:43,935 - INFO - Score: 0.3326, IoU: 0.5326, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:31:06,176 - INFO - Train Epoch 98 - Loss: 1.4618, Seg Loss: 0.1734, Offset Loss: 1.2884, IoU: 0.8579, MSE: 787.6920, bg_MSE: 795.5804, fg_MSE: 214.1263, BCE Loss: 0.0308, Dice Loss: 0.1182, FP Penalty Loss: 0.0244, MSE Loss: 1.2572, BG Zero Loss: 0.0312
+2025-09-24 13:31:17,110 - INFO - Val Epoch 98 - Loss: 0.5809, Seg Loss: 0.1551, Offset Loss: 0.4259, IoU: 0.8846, MSE: 291.6700, bg_MSE: 322.6005, fg_MSE: 183.0259, fp_penalty_loss: 0.0320
+2025-09-24 13:31:17,412 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:31:17,413 - INFO - Score: 0.3308, IoU: 0.5308, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:32:40,661 - INFO - Train Epoch 99 - Loss: 1.4965, Seg Loss: 0.1728, Offset Loss: 1.3237, IoU: 0.8573, MSE: 847.0787, bg_MSE: 864.8107, fg_MSE: 204.2827, BCE Loss: 0.0315, Dice Loss: 0.1174, FP Penalty Loss: 0.0239, MSE Loss: 1.2932, BG Zero Loss: 0.0305
+2025-09-24 13:32:51,487 - INFO - Val Epoch 99 - Loss: 0.7533, Seg Loss: 0.1511, Offset Loss: 0.6023, IoU: 0.8841, MSE: 417.2149, bg_MSE: 448.4457, fg_MSE: 182.7256, fp_penalty_loss: 0.0278
+2025-09-24 13:32:51,785 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:32:51,785 - INFO - Score: 0.3305, IoU: 0.5305, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:34:14,625 - INFO - Train Epoch 100 - Loss: 1.3502, Seg Loss: 0.1689, Offset Loss: 1.1813, IoU: 0.8625, MSE: 738.2217, bg_MSE: 755.2964, fg_MSE: 204.9400, BCE Loss: 0.0302, Dice Loss: 0.1145, FP Penalty Loss: 0.0242, MSE Loss: 1.1514, BG Zero Loss: 0.0300
+2025-09-24 13:34:25,306 - INFO - Val Epoch 100 - Loss: 0.7568, Seg Loss: 0.1504, Offset Loss: 0.6065, IoU: 0.8865, MSE: 422.8719, bg_MSE: 455.0952, fg_MSE: 181.7331, fp_penalty_loss: 0.0294
+2025-09-24 13:34:25,604 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:34:25,605 - INFO - Score: 0.3319, IoU: 0.5319, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:35:48,620 - INFO - Train Epoch 101 - Loss: 1.4243, Seg Loss: 0.1677, Offset Loss: 1.2566, IoU: 0.8643, MSE: 768.2768, bg_MSE: 779.1544, fg_MSE: 211.1371, BCE Loss: 0.0300, Dice Loss: 0.1142, FP Penalty Loss: 0.0235, MSE Loss: 1.2260, BG Zero Loss: 0.0306
+2025-09-24 13:35:59,265 - INFO - Val Epoch 101 - Loss: 0.4923, Seg Loss: 0.1546, Offset Loss: 0.3377, IoU: 0.8829, MSE: 250.7404, bg_MSE: 282.5504, fg_MSE: 182.1465, fp_penalty_loss: 0.0300
+2025-09-24 13:35:59,568 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:35:59,568 - INFO - Score: 0.3297, IoU: 0.5297, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:37:22,280 - INFO - Train Epoch 102 - Loss: 1.4828, Seg Loss: 0.1765, Offset Loss: 1.3064, IoU: 0.8573, MSE: 810.5856, bg_MSE: 825.3617, fg_MSE: 207.2387, BCE Loss: 0.0318, Dice Loss: 0.1199, FP Penalty Loss: 0.0247, MSE Loss: 1.2767, BG Zero Loss: 0.0297
+2025-09-24 13:37:33,187 - INFO - Val Epoch 102 - Loss: 0.4424, Seg Loss: 0.1476, Offset Loss: 0.2948, IoU: 0.8869, MSE: 207.4558, bg_MSE: 238.6500, fg_MSE: 182.7621, fp_penalty_loss: 0.0274
+2025-09-24 13:37:33,490 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:37:33,490 - INFO - Score: 0.3321, IoU: 0.5321, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:38:56,651 - INFO - Train Epoch 103 - Loss: 1.3302, Seg Loss: 0.1759, Offset Loss: 1.1543, IoU: 0.8583, MSE: 714.9955, bg_MSE: 731.1432, fg_MSE: 205.8669, BCE Loss: 0.0314, Dice Loss: 0.1199, FP Penalty Loss: 0.0246, MSE Loss: 1.1245, BG Zero Loss: 0.0298
+2025-09-24 13:39:07,474 - INFO - Val Epoch 103 - Loss: 0.4324, Seg Loss: 0.1602, Offset Loss: 0.2723, IoU: 0.8772, MSE: 197.8878, bg_MSE: 228.7774, fg_MSE: 183.0668, fp_penalty_loss: 0.0284
+2025-09-24 13:39:07,776 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:39:07,776 - INFO - Score: 0.3263, IoU: 0.5263, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:40:30,699 - INFO - Train Epoch 104 - Loss: 1.3251, Seg Loss: 0.1745, Offset Loss: 1.1506, IoU: 0.8582, MSE: 718.3080, bg_MSE: 732.1406, fg_MSE: 208.1821, BCE Loss: 0.0317, Dice Loss: 0.1187, FP Penalty Loss: 0.0240, MSE Loss: 1.1206, BG Zero Loss: 0.0300
+2025-09-24 13:40:41,604 - INFO - Val Epoch 104 - Loss: 0.6387, Seg Loss: 0.1517, Offset Loss: 0.4870, IoU: 0.8865, MSE: 333.1334, bg_MSE: 365.0438, fg_MSE: 182.0458, fp_penalty_loss: 0.0307
+2025-09-24 13:40:41,905 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:40:41,905 - INFO - Score: 0.3319, IoU: 0.5319, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:42:04,569 - INFO - Train Epoch 105 - Loss: 1.3290, Seg Loss: 0.1711, Offset Loss: 1.1579, IoU: 0.8607, MSE: 738.2433, bg_MSE: 753.9377, fg_MSE: 206.3202, BCE Loss: 0.0302, Dice Loss: 0.1163, FP Penalty Loss: 0.0245, MSE Loss: 1.1290, BG Zero Loss: 0.0289
+2025-09-24 13:42:15,269 - INFO - Val Epoch 105 - Loss: 0.5769, Seg Loss: 0.1448, Offset Loss: 0.4322, IoU: 0.8885, MSE: 334.8852, bg_MSE: 366.4284, fg_MSE: 182.4131, fp_penalty_loss: 0.0264
+2025-09-24 13:42:15,570 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:42:15,570 - INFO - Score: 0.3331, IoU: 0.5331, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:43:38,204 - INFO - Train Epoch 106 - Loss: 1.4340, Seg Loss: 0.1738, Offset Loss: 1.2602, IoU: 0.8565, MSE: 779.0669, bg_MSE: 794.8972, fg_MSE: 206.1844, BCE Loss: 0.0313, Dice Loss: 0.1178, FP Penalty Loss: 0.0247, MSE Loss: 1.2303, BG Zero Loss: 0.0299
+2025-09-24 13:43:48,739 - INFO - Val Epoch 106 - Loss: 0.4238, Seg Loss: 0.1455, Offset Loss: 0.2783, IoU: 0.8874, MSE: 203.8438, bg_MSE: 234.5744, fg_MSE: 183.2257, fp_penalty_loss: 0.0260
+2025-09-24 13:43:49,029 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:43:49,030 - INFO - Score: 0.3324, IoU: 0.5324, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:45:11,711 - INFO - Train Epoch 107 - Loss: 1.4199, Seg Loss: 0.1761, Offset Loss: 1.2438, IoU: 0.8570, MSE: 788.2476, bg_MSE: 806.9044, fg_MSE: 203.3580, BCE Loss: 0.0316, Dice Loss: 0.1204, FP Penalty Loss: 0.0240, MSE Loss: 1.2137, BG Zero Loss: 0.0301
+2025-09-24 13:45:22,427 - INFO - Val Epoch 107 - Loss: 0.6184, Seg Loss: 0.1592, Offset Loss: 0.4592, IoU: 0.8821, MSE: 338.0941, bg_MSE: 369.2511, fg_MSE: 182.7993, fp_penalty_loss: 0.0331
+2025-09-24 13:45:22,730 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:45:22,730 - INFO - Score: 0.3292, IoU: 0.5292, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:46:45,742 - INFO - Train Epoch 108 - Loss: 1.4113, Seg Loss: 0.1683, Offset Loss: 1.2430, IoU: 0.8639, MSE: 781.2930, bg_MSE: 797.7913, fg_MSE: 205.5166, BCE Loss: 0.0297, Dice Loss: 0.1149, FP Penalty Loss: 0.0237, MSE Loss: 1.2132, BG Zero Loss: 0.0298
+2025-09-24 13:46:56,416 - INFO - Val Epoch 108 - Loss: 0.7387, Seg Loss: 0.1501, Offset Loss: 0.5885, IoU: 0.8862, MSE: 357.6534, bg_MSE: 388.7329, fg_MSE: 182.8768, fp_penalty_loss: 0.0286
+2025-09-24 13:46:56,736 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:46:56,737 - INFO - Score: 0.3317, IoU: 0.5317, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:48:19,455 - INFO - Train Epoch 109 - Loss: 1.4379, Seg Loss: 0.1734, Offset Loss: 1.2645, IoU: 0.8612, MSE: 790.5024, bg_MSE: 809.7229, fg_MSE: 202.7941, BCE Loss: 0.0309, Dice Loss: 0.1183, FP Penalty Loss: 0.0243, MSE Loss: 1.2346, BG Zero Loss: 0.0299
+2025-09-24 13:48:30,165 - INFO - Val Epoch 109 - Loss: 0.4474, Seg Loss: 0.1512, Offset Loss: 0.2962, IoU: 0.8829, MSE: 215.6440, bg_MSE: 246.6349, fg_MSE: 182.9654, fp_penalty_loss: 0.0270
+2025-09-24 13:48:30,463 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:48:30,463 - INFO - Score: 0.3297, IoU: 0.5297, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:49:53,299 - INFO - Train Epoch 110 - Loss: 1.4106, Seg Loss: 0.1701, Offset Loss: 1.2405, IoU: 0.8601, MSE: 767.2149, bg_MSE: 784.8304, fg_MSE: 204.3993, BCE Loss: 0.0304, Dice Loss: 0.1149, FP Penalty Loss: 0.0248, MSE Loss: 1.2103, BG Zero Loss: 0.0302
+2025-09-24 13:50:03,900 - INFO - Val Epoch 110 - Loss: 0.5396, Seg Loss: 0.1545, Offset Loss: 0.3851, IoU: 0.8846, MSE: 291.4721, bg_MSE: 323.3210, fg_MSE: 182.1075, fp_penalty_loss: 0.0313
+2025-09-24 13:50:04,195 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:50:04,196 - INFO - Score: 0.3308, IoU: 0.5308, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:51:27,061 - INFO - Train Epoch 111 - Loss: 1.3612, Seg Loss: 0.1761, Offset Loss: 1.1851, IoU: 0.8583, MSE: 745.1082, bg_MSE: 764.4601, fg_MSE: 202.6627, BCE Loss: 0.0314, Dice Loss: 0.1198, FP Penalty Loss: 0.0249, MSE Loss: 1.1555, BG Zero Loss: 0.0297
+2025-09-24 13:51:37,626 - INFO - Val Epoch 111 - Loss: 0.5415, Seg Loss: 0.1577, Offset Loss: 0.3838, IoU: 0.8839, MSE: 246.0560, bg_MSE: 278.6969, fg_MSE: 181.3154, fp_penalty_loss: 0.0333
+2025-09-24 13:51:37,923 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:51:37,924 - INFO - Score: 0.3303, IoU: 0.5303, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:53:00,428 - INFO - Train Epoch 112 - Loss: 1.4277, Seg Loss: 0.1744, Offset Loss: 1.2533, IoU: 0.8578, MSE: 784.2992, bg_MSE: 794.1495, fg_MSE: 212.1644, BCE Loss: 0.0311, Dice Loss: 0.1184, FP Penalty Loss: 0.0249, MSE Loss: 1.2247, BG Zero Loss: 0.0286
+2025-09-24 13:53:11,095 - INFO - Val Epoch 112 - Loss: 0.5852, Seg Loss: 0.1447, Offset Loss: 0.4405, IoU: 0.8897, MSE: 340.2918, bg_MSE: 372.6266, fg_MSE: 181.6216, fp_penalty_loss: 0.0280
+2025-09-24 13:53:11,393 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:53:11,394 - INFO - Score: 0.3338, IoU: 0.5338, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:54:34,291 - INFO - Train Epoch 113 - Loss: 1.4185, Seg Loss: 0.1717, Offset Loss: 1.2468, IoU: 0.8601, MSE: 788.6814, bg_MSE: 803.4893, fg_MSE: 207.2067, BCE Loss: 0.0303, Dice Loss: 0.1167, FP Penalty Loss: 0.0247, MSE Loss: 1.2184, BG Zero Loss: 0.0284
+2025-09-24 13:54:44,854 - INFO - Val Epoch 113 - Loss: 0.5088, Seg Loss: 0.1472, Offset Loss: 0.3616, IoU: 0.8870, MSE: 264.7741, bg_MSE: 295.7361, fg_MSE: 182.9943, fp_penalty_loss: 0.0272
+2025-09-24 13:54:45,151 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:54:45,152 - INFO - Score: 0.3322, IoU: 0.5322, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:56:07,834 - INFO - Train Epoch 114 - Loss: 1.4080, Seg Loss: 0.1702, Offset Loss: 1.2378, IoU: 0.8584, MSE: 765.3633, bg_MSE: 779.1703, fg_MSE: 208.2076, BCE Loss: 0.0308, Dice Loss: 0.1157, FP Penalty Loss: 0.0237, MSE Loss: 1.2079, BG Zero Loss: 0.0299
+2025-09-24 13:56:18,594 - INFO - Val Epoch 114 - Loss: 0.5894, Seg Loss: 0.1443, Offset Loss: 0.4451, IoU: 0.8897, MSE: 330.5233, bg_MSE: 362.1516, fg_MSE: 182.3280, fp_penalty_loss: 0.0271
+2025-09-24 13:56:18,901 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:56:18,902 - INFO - Score: 0.3338, IoU: 0.5338, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:57:41,848 - INFO - Train Epoch 115 - Loss: 1.3191, Seg Loss: 0.1739, Offset Loss: 1.1452, IoU: 0.8592, MSE: 716.4227, bg_MSE: 729.3603, fg_MSE: 209.0770, BCE Loss: 0.0310, Dice Loss: 0.1179, FP Penalty Loss: 0.0250, MSE Loss: 1.1175, BG Zero Loss: 0.0277
+2025-09-24 13:57:52,509 - INFO - Val Epoch 115 - Loss: 0.6708, Seg Loss: 0.1468, Offset Loss: 0.5240, IoU: 0.8874, MSE: 321.4554, bg_MSE: 353.4757, fg_MSE: 181.9360, fp_penalty_loss: 0.0269
+2025-09-24 13:57:52,811 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:57:52,812 - INFO - Score: 0.3325, IoU: 0.5325, MSE: -0.2000, BGP: -0.2000
+2025-09-24 13:59:15,644 - INFO - Train Epoch 116 - Loss: 1.5143, Seg Loss: 0.1803, Offset Loss: 1.3340, IoU: 0.8573, MSE: 819.7170, bg_MSE: 838.1117, fg_MSE: 203.6201, BCE Loss: 0.0327, Dice Loss: 0.1222, FP Penalty Loss: 0.0254, MSE Loss: 1.3032, BG Zero Loss: 0.0308
+2025-09-24 13:59:26,277 - INFO - Val Epoch 116 - Loss: 0.7012, Seg Loss: 0.1413, Offset Loss: 0.5600, IoU: 0.8899, MSE: 378.6812, bg_MSE: 410.8044, fg_MSE: 181.8332, fp_penalty_loss: 0.0240
+2025-09-24 13:59:26,586 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 13:59:26,587 - INFO - Score: 0.3339, IoU: 0.5339, MSE: -0.2000, BGP: -0.2000
+2025-09-24 14:00:49,400 - INFO - Train Epoch 117 - Loss: 1.4821, Seg Loss: 0.1715, Offset Loss: 1.3106, IoU: 0.8572, MSE: 805.8174, bg_MSE: 825.2173, fg_MSE: 202.6147, BCE Loss: 0.0309, Dice Loss: 0.1168, FP Penalty Loss: 0.0238, MSE Loss: 1.2808, BG Zero Loss: 0.0299
+2025-09-24 14:01:00,011 - INFO - Val Epoch 117 - Loss: 0.5690, Seg Loss: 0.1514, Offset Loss: 0.4176, IoU: 0.8869, MSE: 291.4050, bg_MSE: 323.6677, fg_MSE: 181.6936, fp_penalty_loss: 0.0311
+2025-09-24 14:01:00,297 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 14:01:00,298 - INFO - Score: 0.3321, IoU: 0.5321, MSE: -0.2000, BGP: -0.2000
+2025-09-24 14:02:22,993 - INFO - Train Epoch 118 - Loss: 1.4340, Seg Loss: 0.1656, Offset Loss: 1.2684, IoU: 0.8634, MSE: 805.8569, bg_MSE: 824.0477, fg_MSE: 203.8239, BCE Loss: 0.0297, Dice Loss: 0.1126, FP Penalty Loss: 0.0233, MSE Loss: 1.2387, BG Zero Loss: 0.0296
+2025-09-24 14:02:33,706 - INFO - Val Epoch 118 - Loss: 0.4789, Seg Loss: 0.1434, Offset Loss: 0.3354, IoU: 0.8893, MSE: 248.6502, bg_MSE: 280.1491, fg_MSE: 182.4574, fp_penalty_loss: 0.0258
+2025-09-24 14:02:34,003 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 14:02:34,004 - INFO - Score: 0.3336, IoU: 0.5336, MSE: -0.2000, BGP: -0.2000
+2025-09-24 14:03:56,895 - INFO - Train Epoch 119 - Loss: 1.5104, Seg Loss: 0.1706, Offset Loss: 1.3398, IoU: 0.8606, MSE: 839.4034, bg_MSE: 852.9529, fg_MSE: 208.4651, BCE Loss: 0.0308, Dice Loss: 0.1161, FP Penalty Loss: 0.0237, MSE Loss: 1.3103, BG Zero Loss: 0.0295
+2025-09-24 14:04:07,576 - INFO - Val Epoch 119 - Loss: 0.5176, Seg Loss: 0.1485, Offset Loss: 0.3691, IoU: 0.8878, MSE: 257.8273, bg_MSE: 289.7749, fg_MSE: 182.0087, fp_penalty_loss: 0.0293
+2025-09-24 14:04:07,872 - INFO - Checkpoint saved to ./checkpoints/unet_13/latest.pth
+2025-09-24 14:04:07,872 - INFO - Score: 0.3327, IoU: 0.5327, MSE: -0.2000, BGP: -0.2000
+2025-09-24 14:04:07,872 - INFO - Training completed. Best Score: 0.3347, IoU: 0.8911, MSE: 236.1127

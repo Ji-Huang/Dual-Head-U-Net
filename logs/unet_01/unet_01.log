@@ -1,0 +1,428 @@
+2025-09-17 16:04:26,740 - INFO - Experiment name: unet_01
+2025-09-17 16:04:26,740 - INFO - Using config: {'data_root': './data', 'resize': [480, 640], 'num_workers': 0, 'rgb_mean': [0.18, 0.246, 0.285], 'rgb_std': [0.207, 0.202, 0.23], 'depth_mean': 2997.516, 'depth_std': 1324.941, 'offset_mean': [-0.068, -0.075], 'offset_std': [17.084, 10.471], 'n_classes': 1, 'bilinear': True, 'dropout': 0.1, 'epochs': 100, 'batch_size': 4, 'lr': '1e-5', 'weight_decay': '1e-5', 'scheduler_factor': 0.5, 'scheduler_patience': 10, 'device': 'cuda:0', 'log_root': './logs', 'checkpoint_root': './checkpoints', 'test_result_dir': './test_results', 'inference': {'input_dir': './inference_input', 'output_dir': './inference_output'}, 'hyperparam_search_space': {'lr': ['1e-4', '5e-4', '1e-3'], 'batch_size': [2, 4], 'dropout': [0.1, 0.2, 0.3], 'weight_decay': ['1e-5', '1e-4']}}
+2025-09-17 16:04:27,664 - INFO - Using device: cuda:0
+2025-09-17 16:04:28,521 - WARNING - Checkpoint ./checkpoints/unet_01/latest.pth not found, starting from scratch
+2025-09-17 16:04:28,521 - INFO - Starting training from epoch 0, total epochs: 100
+2025-09-17 16:05:16,795 - INFO - Train Epoch 0 - Loss: 14.0237, Seg Loss: 2.2019, Offset Loss: 25.8454, IoU: 0.1881, MAE: 55.9729
+2025-09-17 16:05:24,180 - INFO - Val Epoch 0 - Loss: 3.7454, Seg Loss: 1.2107, Offset Loss: 9.6599, IoU: 0.2112, MAE: 36.8843
+2025-09-17 16:05:24,373 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:05:24,562 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:05:24,563 - INFO - New best model! Score: 0.2367, IoU: 0.2112, MAE: 36.8843
+2025-09-17 16:06:11,869 - INFO - Train Epoch 1 - Loss: 6.4434, Seg Loss: 1.4235, Offset Loss: 11.4632, IoU: 0.2346, MAE: 33.5802
+2025-09-17 16:06:19,117 - INFO - Val Epoch 1 - Loss: 1.6892, Seg Loss: 0.8624, Offset Loss: 3.6185, IoU: 0.3469, MAE: 18.6194
+2025-09-17 16:06:19,376 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:06:19,634 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:06:19,634 - INFO - New best model! Score: 0.4873, IoU: 0.3469, MAE: 18.6194
+2025-09-17 16:07:06,971 - INFO - Train Epoch 2 - Loss: 3.7954, Seg Loss: 0.9108, Offset Loss: 6.6800, IoU: 0.2895, MAE: 22.7265
+2025-09-17 16:07:14,277 - INFO - Val Epoch 2 - Loss: 1.0083, Seg Loss: 0.5696, Offset Loss: 2.0318, IoU: 0.4227, MAE: 10.5415
+2025-09-17 16:07:14,543 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:07:14,801 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:07:14,802 - INFO - New best model! Score: 0.6059, IoU: 0.4227, MAE: 10.5415
+2025-09-17 16:08:02,033 - INFO - Train Epoch 3 - Loss: 2.9919, Seg Loss: 0.6580, Offset Loss: 5.3257, IoU: 0.3608, MAE: 16.9925
+2025-09-17 16:08:09,387 - INFO - Val Epoch 3 - Loss: 0.8041, Seg Loss: 0.4808, Offset Loss: 1.5582, IoU: 0.4634, MAE: 7.0377
+2025-09-17 16:08:09,647 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:08:09,901 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:08:09,902 - INFO - New best model! Score: 0.6613, IoU: 0.4634, MAE: 7.0377
+2025-09-17 16:08:57,139 - INFO - Train Epoch 4 - Loss: 2.5275, Seg Loss: 0.5329, Offset Loss: 4.5220, IoU: 0.3923, MAE: 14.7282
+2025-09-17 16:09:04,492 - INFO - Val Epoch 4 - Loss: 0.7178, Seg Loss: 0.4100, Offset Loss: 1.4360, IoU: 0.4533, MAE: 6.1956
+2025-09-17 16:09:04,753 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:09:05,007 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:09:05,007 - INFO - New best model! Score: 0.6647, IoU: 0.4533, MAE: 6.1956
+2025-09-17 16:09:52,346 - INFO - Train Epoch 5 - Loss: 2.3221, Seg Loss: 0.4470, Offset Loss: 4.1972, IoU: 0.4110, MAE: 13.5232
+2025-09-17 16:09:59,615 - INFO - Val Epoch 5 - Loss: 0.6110, Seg Loss: 0.3261, Offset Loss: 1.2759, IoU: 0.4710, MAE: 4.8408
+2025-09-17 16:09:59,885 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:10:00,139 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:10:00,139 - INFO - New best model! Score: 0.6871, IoU: 0.4710, MAE: 4.8408
+2025-09-17 16:10:47,490 - INFO - Train Epoch 6 - Loss: 2.1878, Seg Loss: 0.3815, Offset Loss: 3.9941, IoU: 0.4225, MAE: 12.0936
+2025-09-17 16:10:54,722 - INFO - Val Epoch 6 - Loss: 0.5925, Seg Loss: 0.3020, Offset Loss: 1.2703, IoU: 0.4839, MAE: 5.0968
+2025-09-17 16:10:54,996 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:10:55,247 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:10:55,247 - INFO - New best model! Score: 0.6910, IoU: 0.4839, MAE: 5.0968
+2025-09-17 16:11:42,537 - INFO - Train Epoch 7 - Loss: 2.2663, Seg Loss: 0.3471, Offset Loss: 4.1855, IoU: 0.4160, MAE: 11.8568
+2025-09-17 16:11:49,769 - INFO - Val Epoch 7 - Loss: 0.5697, Seg Loss: 0.2776, Offset Loss: 1.2513, IoU: 0.4909, MAE: 4.5852
+2025-09-17 16:11:50,044 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:11:50,298 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:11:50,298 - INFO - New best model! Score: 0.6996, IoU: 0.4909, MAE: 4.5852
+2025-09-17 16:12:37,693 - INFO - Train Epoch 8 - Loss: 2.0413, Seg Loss: 0.3238, Offset Loss: 3.7587, IoU: 0.4617, MAE: 10.9367
+2025-09-17 16:12:45,000 - INFO - Val Epoch 8 - Loss: 0.5537, Seg Loss: 0.2646, Offset Loss: 1.2282, IoU: 0.4801, MAE: 4.1757
+2025-09-17 16:12:45,277 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:13:32,632 - INFO - Train Epoch 9 - Loss: 2.0090, Seg Loss: 0.3087, Offset Loss: 3.7092, IoU: 0.4514, MAE: 9.7950
+2025-09-17 16:13:39,950 - INFO - Val Epoch 9 - Loss: 0.5276, Seg Loss: 0.2534, Offset Loss: 1.1675, IoU: 0.4853, MAE: 3.8043
+2025-09-17 16:13:40,232 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:13:40,490 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:13:40,490 - INFO - New best model! Score: 0.7046, IoU: 0.4853, MAE: 3.8043
+2025-09-17 16:14:27,737 - INFO - Train Epoch 10 - Loss: 1.8260, Seg Loss: 0.2914, Offset Loss: 3.3607, IoU: 0.4526, MAE: 10.2833
+2025-09-17 16:14:35,016 - INFO - Val Epoch 10 - Loss: 0.5160, Seg Loss: 0.2456, Offset Loss: 1.1471, IoU: 0.4922, MAE: 3.4873
+2025-09-17 16:14:35,292 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:14:35,548 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:14:35,549 - INFO - New best model! Score: 0.7112, IoU: 0.4922, MAE: 3.4873
+2025-09-17 16:15:22,838 - INFO - Train Epoch 11 - Loss: 1.8873, Seg Loss: 0.2776, Offset Loss: 3.4970, IoU: 0.4311, MAE: 9.6383
+2025-09-17 16:15:30,100 - INFO - Val Epoch 11 - Loss: 0.5392, Seg Loss: 0.2459, Offset Loss: 1.2237, IoU: 0.4979, MAE: 4.1754
+2025-09-17 16:15:30,379 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:16:17,766 - INFO - Train Epoch 12 - Loss: 1.8237, Seg Loss: 0.2729, Offset Loss: 3.3745, IoU: 0.4280, MAE: 9.3452
+2025-09-17 16:16:25,007 - INFO - Val Epoch 12 - Loss: 0.5266, Seg Loss: 0.2338, Offset Loss: 1.2096, IoU: 0.5058, MAE: 3.5897
+2025-09-17 16:16:25,275 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:16:25,516 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:16:25,516 - INFO - New best model! Score: 0.7170, IoU: 0.5058, MAE: 3.5897
+2025-09-17 16:17:13,014 - INFO - Train Epoch 13 - Loss: 1.6805, Seg Loss: 0.2656, Offset Loss: 3.0954, IoU: 0.4411, MAE: 8.9141
+2025-09-17 16:17:20,340 - INFO - Val Epoch 13 - Loss: 0.5274, Seg Loss: 0.2362, Offset Loss: 1.2068, IoU: 0.5125, MAE: 3.1384
+2025-09-17 16:17:20,622 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:17:20,880 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:17:20,880 - INFO - New best model! Score: 0.7249, IoU: 0.5125, MAE: 3.1384
+2025-09-17 16:18:08,499 - INFO - Train Epoch 14 - Loss: 1.7437, Seg Loss: 0.2572, Offset Loss: 3.2301, IoU: 0.4760, MAE: 8.3745
+2025-09-17 16:18:15,826 - INFO - Val Epoch 14 - Loss: 0.5014, Seg Loss: 0.2274, Offset Loss: 1.1407, IoU: 0.5082, MAE: 2.8727
+2025-09-17 16:18:16,103 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:18:16,361 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:18:16,362 - INFO - New best model! Score: 0.7254, IoU: 0.5082, MAE: 2.8727
+2025-09-17 16:19:03,812 - INFO - Train Epoch 15 - Loss: 1.6913, Seg Loss: 0.2528, Offset Loss: 3.1297, IoU: 0.4747, MAE: 8.4919
+2025-09-17 16:19:11,205 - INFO - Val Epoch 15 - Loss: 0.4742, Seg Loss: 0.2257, Offset Loss: 1.0542, IoU: 0.5253, MAE: 2.8105
+2025-09-17 16:19:11,488 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:19:11,728 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:19:11,729 - INFO - New best model! Score: 0.7345, IoU: 0.5253, MAE: 2.8105
+2025-09-17 16:19:58,943 - INFO - Train Epoch 16 - Loss: 1.6638, Seg Loss: 0.2472, Offset Loss: 3.0804, IoU: 0.4647, MAE: 8.4873
+2025-09-17 16:20:06,167 - INFO - Val Epoch 16 - Loss: 0.4564, Seg Loss: 0.2160, Offset Loss: 1.0173, IoU: 0.5337, MAE: 3.4227
+2025-09-17 16:20:06,440 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:20:53,751 - INFO - Train Epoch 17 - Loss: 1.6471, Seg Loss: 0.2431, Offset Loss: 3.0511, IoU: 0.5019, MAE: 8.1303
+2025-09-17 16:21:01,054 - INFO - Val Epoch 17 - Loss: 0.4451, Seg Loss: 0.2120, Offset Loss: 0.9890, IoU: 0.5339, MAE: 2.8713
+2025-09-17 16:21:01,337 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:21:01,599 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:21:01,599 - INFO - New best model! Score: 0.7383, IoU: 0.5339, MAE: 2.8713
+2025-09-17 16:21:49,030 - INFO - Train Epoch 18 - Loss: 1.5712, Seg Loss: 0.2373, Offset Loss: 2.9052, IoU: 0.4737, MAE: 8.1490
+2025-09-17 16:21:56,249 - INFO - Val Epoch 18 - Loss: 0.4330, Seg Loss: 0.2124, Offset Loss: 0.9479, IoU: 0.5427, MAE: 2.9275
+2025-09-17 16:21:56,538 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:21:56,787 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:21:56,788 - INFO - New best model! Score: 0.7421, IoU: 0.5427, MAE: 2.9275
+2025-09-17 16:22:44,254 - INFO - Train Epoch 19 - Loss: 1.6522, Seg Loss: 0.2326, Offset Loss: 3.0718, IoU: 0.4906, MAE: 8.0073
+2025-09-17 16:22:51,592 - INFO - Val Epoch 19 - Loss: 0.4180, Seg Loss: 0.2029, Offset Loss: 0.9198, IoU: 0.5522, MAE: 3.0096
+2025-09-17 16:22:51,873 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:22:52,135 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:22:52,135 - INFO - New best model! Score: 0.7460, IoU: 0.5522, MAE: 3.0096
+2025-09-17 16:23:39,703 - INFO - Train Epoch 20 - Loss: 1.5961, Seg Loss: 0.2290, Offset Loss: 2.9631, IoU: 0.5016, MAE: 8.0344
+2025-09-17 16:23:47,086 - INFO - Val Epoch 20 - Loss: 0.4211, Seg Loss: 0.2004, Offset Loss: 0.9360, IoU: 0.5650, MAE: 3.5049
+2025-09-17 16:23:47,369 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:23:47,632 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:23:47,632 - INFO - New best model! Score: 0.7475, IoU: 0.5650, MAE: 3.5049
+2025-09-17 16:24:35,161 - INFO - Train Epoch 21 - Loss: 1.5168, Seg Loss: 0.2195, Offset Loss: 2.8140, IoU: 0.4987, MAE: 7.8749
+2025-09-17 16:24:42,539 - INFO - Val Epoch 21 - Loss: 0.4117, Seg Loss: 0.2012, Offset Loss: 0.9029, IoU: 0.5775, MAE: 4.3510
+2025-09-17 16:24:42,822 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:25:30,253 - INFO - Train Epoch 22 - Loss: 1.4616, Seg Loss: 0.2202, Offset Loss: 2.7031, IoU: 0.5255, MAE: 8.0288
+2025-09-17 16:25:37,566 - INFO - Val Epoch 22 - Loss: 0.3786, Seg Loss: 0.1964, Offset Loss: 0.8039, IoU: 0.5837, MAE: 3.7767
+2025-09-17 16:25:37,845 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:25:38,102 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:25:38,103 - INFO - New best model! Score: 0.7541, IoU: 0.5837, MAE: 3.7767
+2025-09-17 16:26:25,255 - INFO - Train Epoch 23 - Loss: 1.4198, Seg Loss: 0.2110, Offset Loss: 2.6286, IoU: 0.5237, MAE: 8.2199
+2025-09-17 16:26:32,548 - INFO - Val Epoch 23 - Loss: 0.3676, Seg Loss: 0.1884, Offset Loss: 0.7858, IoU: 0.5900, MAE: 3.5542
+2025-09-17 16:26:32,826 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:26:33,087 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:26:33,087 - INFO - New best model! Score: 0.7595, IoU: 0.5900, MAE: 3.5542
+2025-09-17 16:27:20,476 - INFO - Train Epoch 24 - Loss: 1.4429, Seg Loss: 0.2060, Offset Loss: 2.6797, IoU: 0.5373, MAE: 8.1841
+2025-09-17 16:27:27,838 - INFO - Val Epoch 24 - Loss: 0.3535, Seg Loss: 0.1844, Offset Loss: 0.7481, IoU: 0.6066, MAE: 3.7149
+2025-09-17 16:27:28,115 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:27:28,377 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:27:28,378 - INFO - New best model! Score: 0.7662, IoU: 0.6066, MAE: 3.7149
+2025-09-17 16:28:15,658 - INFO - Train Epoch 25 - Loss: 1.5097, Seg Loss: 0.2035, Offset Loss: 2.8159, IoU: 0.5761, MAE: 7.9389
+2025-09-17 16:28:22,884 - INFO - Val Epoch 25 - Loss: 0.3333, Seg Loss: 0.1729, Offset Loss: 0.7076, IoU: 0.6309, MAE: 3.9428
+2025-09-17 16:28:23,162 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:28:23,422 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:28:23,422 - INFO - New best model! Score: 0.7760, IoU: 0.6309, MAE: 3.9428
+2025-09-17 16:29:10,891 - INFO - Train Epoch 26 - Loss: 1.3000, Seg Loss: 0.1933, Offset Loss: 2.4066, IoU: 0.5687, MAE: 8.0620
+2025-09-17 16:29:18,206 - INFO - Val Epoch 26 - Loss: 0.3178, Seg Loss: 0.1596, Offset Loss: 0.6870, IoU: 0.6623, MAE: 4.0957
+2025-09-17 16:29:18,484 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:29:18,745 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:29:18,746 - INFO - New best model! Score: 0.7902, IoU: 0.6623, MAE: 4.0957
+2025-09-17 16:30:06,118 - INFO - Train Epoch 27 - Loss: 1.3612, Seg Loss: 0.1837, Offset Loss: 2.5388, IoU: 0.6056, MAE: 7.9942
+2025-09-17 16:30:13,357 - INFO - Val Epoch 27 - Loss: 0.2954, Seg Loss: 0.1494, Offset Loss: 0.6360, IoU: 0.6855, MAE: 3.9366
+2025-09-17 16:30:13,635 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:30:13,897 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:30:13,898 - INFO - New best model! Score: 0.8034, IoU: 0.6855, MAE: 3.9366
+2025-09-17 16:31:01,112 - INFO - Train Epoch 28 - Loss: 1.3577, Seg Loss: 0.1768, Offset Loss: 2.5385, IoU: 0.5927, MAE: 8.2775
+2025-09-17 16:31:08,385 - INFO - Val Epoch 28 - Loss: 0.2929, Seg Loss: 0.1415, Offset Loss: 0.6463, IoU: 0.7026, MAE: 4.5972
+2025-09-17 16:31:08,661 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:31:08,924 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:31:08,924 - INFO - New best model! Score: 0.8053, IoU: 0.7026, MAE: 4.5972
+2025-09-17 16:31:56,207 - INFO - Train Epoch 29 - Loss: 1.2622, Seg Loss: 0.1629, Offset Loss: 2.3616, IoU: 0.6508, MAE: 8.4772
+2025-09-17 16:32:03,457 - INFO - Val Epoch 29 - Loss: 0.2771, Seg Loss: 0.1317, Offset Loss: 0.6163, IoU: 0.7290, MAE: 4.3583
+2025-09-17 16:32:03,735 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:32:03,996 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:32:03,996 - INFO - New best model! Score: 0.8209, IoU: 0.7290, MAE: 4.3583
+2025-09-17 16:32:51,219 - INFO - Train Epoch 30 - Loss: 1.4735, Seg Loss: 0.1679, Offset Loss: 2.7790, IoU: 0.6536, MAE: 8.7719
+2025-09-17 16:32:58,443 - INFO - Val Epoch 30 - Loss: 0.2638, Seg Loss: 0.1262, Offset Loss: 0.5848, IoU: 0.7403, MAE: 4.7937
+2025-09-17 16:32:58,719 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:32:58,982 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:32:58,982 - INFO - New best model! Score: 0.8222, IoU: 0.7403, MAE: 4.7937
+2025-09-17 16:33:46,204 - INFO - Train Epoch 31 - Loss: 1.2415, Seg Loss: 0.1550, Offset Loss: 2.3279, IoU: 0.6661, MAE: 8.6100
+2025-09-17 16:33:53,401 - INFO - Val Epoch 31 - Loss: 0.2623, Seg Loss: 0.1243, Offset Loss: 0.5844, IoU: 0.7476, MAE: 4.4054
+2025-09-17 16:33:53,672 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:33:53,926 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:33:53,926 - INFO - New best model! Score: 0.8297, IoU: 0.7476, MAE: 4.4054
+2025-09-17 16:34:41,175 - INFO - Train Epoch 32 - Loss: 1.1151, Seg Loss: 0.1443, Offset Loss: 2.0860, IoU: 0.7016, MAE: 8.2050
+2025-09-17 16:34:48,416 - INFO - Val Epoch 32 - Loss: 0.2596, Seg Loss: 0.1252, Offset Loss: 0.5732, IoU: 0.7501, MAE: 4.2337
+2025-09-17 16:34:48,688 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:34:48,946 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:34:48,946 - INFO - New best model! Score: 0.8327, IoU: 0.7501, MAE: 4.2337
+2025-09-17 16:35:36,057 - INFO - Train Epoch 33 - Loss: 1.1291, Seg Loss: 0.1408, Offset Loss: 2.1174, IoU: 0.6993, MAE: 8.1996
+2025-09-17 16:35:43,226 - INFO - Val Epoch 33 - Loss: 0.2522, Seg Loss: 0.1221, Offset Loss: 0.5558, IoU: 0.7577, MAE: 4.4891
+2025-09-17 16:35:43,496 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:35:43,746 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:35:43,746 - INFO - New best model! Score: 0.8339, IoU: 0.7577, MAE: 4.4891
+2025-09-17 16:36:30,880 - INFO - Train Epoch 34 - Loss: 1.1986, Seg Loss: 0.1404, Offset Loss: 2.2567, IoU: 0.7076, MAE: 8.1755
+2025-09-17 16:36:38,103 - INFO - Val Epoch 34 - Loss: 0.2374, Seg Loss: 0.1111, Offset Loss: 0.5322, IoU: 0.7764, MAE: 4.5736
+2025-09-17 16:36:38,375 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:36:38,636 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:36:38,636 - INFO - New best model! Score: 0.8425, IoU: 0.7764, MAE: 4.5736
+2025-09-17 16:37:25,931 - INFO - Train Epoch 35 - Loss: 1.0697, Seg Loss: 0.1323, Offset Loss: 2.0071, IoU: 0.7170, MAE: 8.7094
+2025-09-17 16:37:33,295 - INFO - Val Epoch 35 - Loss: 0.2380, Seg Loss: 0.1120, Offset Loss: 0.5323, IoU: 0.7784, MAE: 4.5434
+2025-09-17 16:37:33,577 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:37:33,840 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:37:33,840 - INFO - New best model! Score: 0.8438, IoU: 0.7784, MAE: 4.5434
+2025-09-17 16:38:21,222 - INFO - Train Epoch 36 - Loss: 1.0947, Seg Loss: 0.1253, Offset Loss: 2.0641, IoU: 0.7087, MAE: 8.8847
+2025-09-17 16:38:28,560 - INFO - Val Epoch 36 - Loss: 0.2303, Seg Loss: 0.1066, Offset Loss: 0.5189, IoU: 0.7882, MAE: 4.6848
+2025-09-17 16:38:28,840 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:38:29,104 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:38:29,104 - INFO - New best model! Score: 0.8473, IoU: 0.7882, MAE: 4.6848
+2025-09-17 16:39:16,597 - INFO - Train Epoch 37 - Loss: 1.0433, Seg Loss: 0.1206, Offset Loss: 1.9660, IoU: 0.7481, MAE: 9.1757
+2025-09-17 16:39:23,896 - INFO - Val Epoch 37 - Loss: 0.2332, Seg Loss: 0.1089, Offset Loss: 0.5233, IoU: 0.7865, MAE: 5.0396
+2025-09-17 16:39:24,176 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:40:11,441 - INFO - Train Epoch 38 - Loss: 1.0118, Seg Loss: 0.1189, Offset Loss: 1.9046, IoU: 0.7571, MAE: 8.7987
+2025-09-17 16:40:18,722 - INFO - Val Epoch 38 - Loss: 0.2346, Seg Loss: 0.1072, Offset Loss: 0.5317, IoU: 0.7881, MAE: 5.2157
+2025-09-17 16:40:19,000 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:41:06,308 - INFO - Train Epoch 39 - Loss: 1.0405, Seg Loss: 0.1178, Offset Loss: 1.9632, IoU: 0.7756, MAE: 8.9883
+2025-09-17 16:41:13,512 - INFO - Val Epoch 39 - Loss: 0.2180, Seg Loss: 0.0958, Offset Loss: 0.5030, IoU: 0.8065, MAE: 5.1324
+2025-09-17 16:41:13,789 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:41:14,050 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:41:14,050 - INFO - New best model! Score: 0.8519, IoU: 0.8065, MAE: 5.1324
+2025-09-17 16:42:01,545 - INFO - Train Epoch 40 - Loss: 1.0649, Seg Loss: 0.1112, Offset Loss: 2.0185, IoU: 0.7755, MAE: 9.3952
+2025-09-17 16:42:08,965 - INFO - Val Epoch 40 - Loss: 0.2155, Seg Loss: 0.0970, Offset Loss: 0.4920, IoU: 0.8027, MAE: 4.9532
+2025-09-17 16:42:09,241 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:42:56,548 - INFO - Train Epoch 41 - Loss: 1.0133, Seg Loss: 0.1102, Offset Loss: 1.9164, IoU: 0.7849, MAE: 9.3224
+2025-09-17 16:43:03,786 - INFO - Val Epoch 41 - Loss: 0.2127, Seg Loss: 0.0949, Offset Loss: 0.4874, IoU: 0.8086, MAE: 5.0687
+2025-09-17 16:43:04,057 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:43:04,316 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:43:04,316 - INFO - New best model! Score: 0.8536, IoU: 0.8086, MAE: 5.0687
+2025-09-17 16:43:51,581 - INFO - Train Epoch 42 - Loss: 0.9689, Seg Loss: 0.1071, Offset Loss: 1.8306, IoU: 0.7943, MAE: 9.4529
+2025-09-17 16:43:58,871 - INFO - Val Epoch 42 - Loss: 0.1961, Seg Loss: 0.0849, Offset Loss: 0.4554, IoU: 0.8270, MAE: 4.6401
+2025-09-17 16:43:59,141 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:43:59,401 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:43:59,402 - INFO - New best model! Score: 0.8671, IoU: 0.8270, MAE: 4.6401
+2025-09-17 16:44:46,609 - INFO - Train Epoch 43 - Loss: 0.8979, Seg Loss: 0.1024, Offset Loss: 1.6934, IoU: 0.7934, MAE: 9.8149
+2025-09-17 16:44:53,883 - INFO - Val Epoch 43 - Loss: 0.2040, Seg Loss: 0.0909, Offset Loss: 0.4679, IoU: 0.8202, MAE: 5.2075
+2025-09-17 16:44:54,171 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:45:41,441 - INFO - Train Epoch 44 - Loss: 0.8746, Seg Loss: 0.0958, Offset Loss: 1.6534, IoU: 0.8151, MAE: 9.7021
+2025-09-17 16:45:48,729 - INFO - Val Epoch 44 - Loss: 0.1924, Seg Loss: 0.0840, Offset Loss: 0.4454, IoU: 0.8252, MAE: 5.2907
+2025-09-17 16:45:48,981 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:46:36,423 - INFO - Train Epoch 45 - Loss: 0.8556, Seg Loss: 0.0956, Offset Loss: 1.6156, IoU: 0.7930, MAE: 9.5882
+2025-09-17 16:46:43,732 - INFO - Val Epoch 45 - Loss: 0.1888, Seg Loss: 0.0779, Offset Loss: 0.4477, IoU: 0.8353, MAE: 5.0591
+2025-09-17 16:46:44,002 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:47:31,267 - INFO - Train Epoch 46 - Loss: 0.8719, Seg Loss: 0.0937, Offset Loss: 1.6501, IoU: 0.8105, MAE: 9.9547
+2025-09-17 16:47:38,463 - INFO - Val Epoch 46 - Loss: 0.1798, Seg Loss: 0.0749, Offset Loss: 0.4245, IoU: 0.8471, MAE: 5.0680
+2025-09-17 16:47:38,735 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:47:38,995 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:47:38,995 - INFO - New best model! Score: 0.8729, IoU: 0.8471, MAE: 5.0680
+2025-09-17 16:48:26,359 - INFO - Train Epoch 47 - Loss: 0.8241, Seg Loss: 0.0924, Offset Loss: 1.5558, IoU: 0.7929, MAE: 9.8747
+2025-09-17 16:48:33,767 - INFO - Val Epoch 47 - Loss: 0.1768, Seg Loss: 0.0714, Offset Loss: 0.4227, IoU: 0.8493, MAE: 5.3780
+2025-09-17 16:48:34,045 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:49:21,395 - INFO - Train Epoch 48 - Loss: 0.8121, Seg Loss: 0.0885, Offset Loss: 1.5358, IoU: 0.8201, MAE: 10.3149
+2025-09-17 16:49:28,635 - INFO - Val Epoch 48 - Loss: 0.1727, Seg Loss: 0.0690, Offset Loss: 0.4147, IoU: 0.8540, MAE: 5.3564
+2025-09-17 16:49:28,906 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:49:29,166 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:49:29,166 - INFO - New best model! Score: 0.8734, IoU: 0.8540, MAE: 5.3564
+2025-09-17 16:50:16,340 - INFO - Train Epoch 49 - Loss: 0.7812, Seg Loss: 0.0851, Offset Loss: 1.4772, IoU: 0.8168, MAE: 10.6764
+2025-09-17 16:50:23,663 - INFO - Val Epoch 49 - Loss: 0.1629, Seg Loss: 0.0676, Offset Loss: 0.3854, IoU: 0.8573, MAE: 5.1716
+2025-09-17 16:50:23,936 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:50:24,196 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:50:24,197 - INFO - New best model! Score: 0.8769, IoU: 0.8573, MAE: 5.1716
+2025-09-17 16:51:11,488 - INFO - Train Epoch 50 - Loss: 0.7204, Seg Loss: 0.0813, Offset Loss: 1.3596, IoU: 0.8314, MAE: 9.3709
+2025-09-17 16:51:18,724 - INFO - Val Epoch 50 - Loss: 0.1651, Seg Loss: 0.0691, Offset Loss: 0.3890, IoU: 0.8576, MAE: 5.2847
+2025-09-17 16:51:18,995 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:52:06,160 - INFO - Train Epoch 51 - Loss: 0.7136, Seg Loss: 0.0819, Offset Loss: 1.3453, IoU: 0.8269, MAE: 10.0982
+2025-09-17 16:52:13,461 - INFO - Val Epoch 51 - Loss: 0.1611, Seg Loss: 0.0633, Offset Loss: 0.3894, IoU: 0.8649, MAE: 5.3349
+2025-09-17 16:52:13,737 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:52:13,991 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:52:13,992 - INFO - New best model! Score: 0.8791, IoU: 0.8649, MAE: 5.3349
+2025-09-17 16:53:01,292 - INFO - Train Epoch 52 - Loss: 0.7083, Seg Loss: 0.0790, Offset Loss: 1.3376, IoU: 0.8374, MAE: 10.6586
+2025-09-17 16:53:08,585 - INFO - Val Epoch 52 - Loss: 0.1594, Seg Loss: 0.0634, Offset Loss: 0.3833, IoU: 0.8630, MAE: 5.2705
+2025-09-17 16:53:08,858 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:53:56,148 - INFO - Train Epoch 53 - Loss: 0.7018, Seg Loss: 0.0762, Offset Loss: 1.3274, IoU: 0.8063, MAE: 10.1255
+2025-09-17 16:54:03,443 - INFO - Val Epoch 53 - Loss: 0.1533, Seg Loss: 0.0643, Offset Loss: 0.3610, IoU: 0.8694, MAE: 5.4954
+2025-09-17 16:54:03,716 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:54:03,980 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:54:03,981 - INFO - New best model! Score: 0.8798, IoU: 0.8694, MAE: 5.4954
+2025-09-17 16:54:51,089 - INFO - Train Epoch 54 - Loss: 0.6775, Seg Loss: 0.0744, Offset Loss: 1.2806, IoU: 0.8408, MAE: 9.8538
+2025-09-17 16:54:58,348 - INFO - Val Epoch 54 - Loss: 0.1501, Seg Loss: 0.0595, Offset Loss: 0.3616, IoU: 0.8763, MAE: 5.6767
+2025-09-17 16:54:58,621 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:54:58,881 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:54:58,881 - INFO - New best model! Score: 0.8814, IoU: 0.8763, MAE: 5.6767
+2025-09-17 16:55:46,118 - INFO - Train Epoch 55 - Loss: 0.6423, Seg Loss: 0.0748, Offset Loss: 1.2099, IoU: 0.8460, MAE: 10.9798
+2025-09-17 16:55:53,571 - INFO - Val Epoch 55 - Loss: 0.1462, Seg Loss: 0.0625, Offset Loss: 0.3417, IoU: 0.8699, MAE: 5.2400
+2025-09-17 16:55:53,856 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:55:54,128 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:55:54,128 - INFO - New best model! Score: 0.8826, IoU: 0.8699, MAE: 5.2400
+2025-09-17 16:56:41,754 - INFO - Train Epoch 56 - Loss: 0.6099, Seg Loss: 0.0695, Offset Loss: 1.1502, IoU: 0.8493, MAE: 9.9584
+2025-09-17 16:56:49,137 - INFO - Val Epoch 56 - Loss: 0.1395, Seg Loss: 0.0560, Offset Loss: 0.3343, IoU: 0.8789, MAE: 5.6737
+2025-09-17 16:56:49,425 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:56:49,696 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:56:49,697 - INFO - New best model! Score: 0.8827, IoU: 0.8789, MAE: 5.6737
+2025-09-17 16:57:37,330 - INFO - Train Epoch 57 - Loss: 0.6107, Seg Loss: 0.0690, Offset Loss: 1.1523, IoU: 0.8430, MAE: 9.6930
+2025-09-17 16:57:44,672 - INFO - Val Epoch 57 - Loss: 0.1366, Seg Loss: 0.0539, Offset Loss: 0.3295, IoU: 0.8831, MAE: 5.5169
+2025-09-17 16:57:44,956 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:57:45,225 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:57:45,226 - INFO - New best model! Score: 0.8864, IoU: 0.8831, MAE: 5.5169
+2025-09-17 16:58:32,654 - INFO - Train Epoch 58 - Loss: 0.5829, Seg Loss: 0.0652, Offset Loss: 1.1006, IoU: 0.8523, MAE: 10.2573
+2025-09-17 16:58:39,896 - INFO - Val Epoch 58 - Loss: 0.1353, Seg Loss: 0.0545, Offset Loss: 0.3239, IoU: 0.8856, MAE: 5.8074
+2025-09-17 16:58:40,169 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:59:27,338 - INFO - Train Epoch 59 - Loss: 0.5694, Seg Loss: 0.0665, Offset Loss: 1.0722, IoU: 0.8562, MAE: 10.0596
+2025-09-17 16:59:34,554 - INFO - Val Epoch 59 - Loss: 0.1315, Seg Loss: 0.0522, Offset Loss: 0.3165, IoU: 0.8858, MAE: 5.5829
+2025-09-17 16:59:34,829 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 16:59:35,091 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 16:59:35,092 - INFO - New best model! Score: 0.8871, IoU: 0.8858, MAE: 5.5829
+2025-09-17 17:00:22,360 - INFO - Train Epoch 60 - Loss: 0.5469, Seg Loss: 0.0655, Offset Loss: 1.0282, IoU: 0.8537, MAE: 9.9779
+2025-09-17 17:00:29,546 - INFO - Val Epoch 60 - Loss: 0.1298, Seg Loss: 0.0522, Offset Loss: 0.3108, IoU: 0.8898, MAE: 5.6281
+2025-09-17 17:00:29,821 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:00:30,087 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 17:00:30,088 - INFO - New best model! Score: 0.8886, IoU: 0.8898, MAE: 5.6281
+2025-09-17 17:01:17,320 - INFO - Train Epoch 61 - Loss: 0.5551, Seg Loss: 0.0629, Offset Loss: 1.0472, IoU: 0.8628, MAE: 10.5032
+2025-09-17 17:01:24,528 - INFO - Val Epoch 61 - Loss: 0.1318, Seg Loss: 0.0502, Offset Loss: 0.3221, IoU: 0.8925, MAE: 5.4730
+2025-09-17 17:01:24,803 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:01:25,068 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 17:01:25,068 - INFO - New best model! Score: 0.8915, IoU: 0.8925, MAE: 5.4730
+2025-09-17 17:02:12,257 - INFO - Train Epoch 62 - Loss: 0.5348, Seg Loss: 0.0639, Offset Loss: 1.0057, IoU: 0.8649, MAE: 9.7718
+2025-09-17 17:02:19,561 - INFO - Val Epoch 62 - Loss: 0.1201, Seg Loss: 0.0472, Offset Loss: 0.2904, IoU: 0.8978, MAE: 5.6317
+2025-09-17 17:02:19,832 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:02:20,093 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 17:02:20,093 - INFO - New best model! Score: 0.8926, IoU: 0.8978, MAE: 5.6317
+2025-09-17 17:03:07,476 - INFO - Train Epoch 63 - Loss: 0.5170, Seg Loss: 0.0596, Offset Loss: 0.9743, IoU: 0.8680, MAE: 10.6939
+2025-09-17 17:03:14,779 - INFO - Val Epoch 63 - Loss: 0.1297, Seg Loss: 0.0515, Offset Loss: 0.3123, IoU: 0.8898, MAE: 5.9383
+2025-09-17 17:03:15,054 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:04:02,612 - INFO - Train Epoch 64 - Loss: 0.4876, Seg Loss: 0.0600, Offset Loss: 0.9153, IoU: 0.8864, MAE: 9.9063
+2025-09-17 17:04:09,882 - INFO - Val Epoch 64 - Loss: 0.1207, Seg Loss: 0.0483, Offset Loss: 0.2895, IoU: 0.8978, MAE: 5.6566
+2025-09-17 17:04:10,157 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:04:57,339 - INFO - Train Epoch 65 - Loss: 0.4648, Seg Loss: 0.0594, Offset Loss: 0.8702, IoU: 0.8751, MAE: 9.6867
+2025-09-17 17:05:04,581 - INFO - Val Epoch 65 - Loss: 0.1155, Seg Loss: 0.0450, Offset Loss: 0.2799, IoU: 0.9031, MAE: 5.4745
+2025-09-17 17:05:04,853 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:05:05,117 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 17:05:05,117 - INFO - New best model! Score: 0.8968, IoU: 0.9031, MAE: 5.4745
+2025-09-17 17:05:52,263 - INFO - Train Epoch 66 - Loss: 0.4367, Seg Loss: 0.0583, Offset Loss: 0.8152, IoU: 0.8684, MAE: 9.3257
+2025-09-17 17:05:59,533 - INFO - Val Epoch 66 - Loss: 0.1222, Seg Loss: 0.0486, Offset Loss: 0.2938, IoU: 0.8969, MAE: 5.7836
+2025-09-17 17:05:59,806 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:06:46,880 - INFO - Train Epoch 67 - Loss: 0.4241, Seg Loss: 0.0577, Offset Loss: 0.7904, IoU: 0.8866, MAE: 9.3932
+2025-09-17 17:06:54,110 - INFO - Val Epoch 67 - Loss: 0.1186, Seg Loss: 0.0462, Offset Loss: 0.2875, IoU: 0.9031, MAE: 5.8963
+2025-09-17 17:06:54,435 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:07:41,647 - INFO - Train Epoch 68 - Loss: 0.3988, Seg Loss: 0.0585, Offset Loss: 0.7392, IoU: 0.8916, MAE: 8.9308
+2025-09-17 17:07:48,819 - INFO - Val Epoch 68 - Loss: 0.1166, Seg Loss: 0.0469, Offset Loss: 0.2791, IoU: 0.9014, MAE: 5.4565
+2025-09-17 17:07:49,108 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:08:36,238 - INFO - Train Epoch 69 - Loss: 0.3693, Seg Loss: 0.0572, Offset Loss: 0.6815, IoU: 0.8646, MAE: 7.8712
+2025-09-17 17:08:43,475 - INFO - Val Epoch 69 - Loss: 0.1138, Seg Loss: 0.0467, Offset Loss: 0.2702, IoU: 0.9053, MAE: 5.5086
+2025-09-17 17:08:43,747 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:08:44,011 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 17:08:44,011 - INFO - New best model! Score: 0.8976, IoU: 0.9053, MAE: 5.5086
+2025-09-17 17:09:31,165 - INFO - Train Epoch 70 - Loss: 0.3500, Seg Loss: 0.0598, Offset Loss: 0.6402, IoU: 0.9000, MAE: 7.8966
+2025-09-17 17:09:38,374 - INFO - Val Epoch 70 - Loss: 0.1157, Seg Loss: 0.0443, Offset Loss: 0.2824, IoU: 0.9073, MAE: 5.7226
+2025-09-17 17:09:38,646 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:10:25,733 - INFO - Train Epoch 71 - Loss: 0.3190, Seg Loss: 0.0553, Offset Loss: 0.5828, IoU: 0.8871, MAE: 7.8743
+2025-09-17 17:10:32,943 - INFO - Val Epoch 71 - Loss: 0.1160, Seg Loss: 0.0495, Offset Loss: 0.2713, IoU: 0.9002, MAE: 5.5467
+2025-09-17 17:10:33,216 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:11:20,446 - INFO - Train Epoch 72 - Loss: 0.3022, Seg Loss: 0.0563, Offset Loss: 0.5481, IoU: 0.8708, MAE: 7.6147
+2025-09-17 17:11:27,757 - INFO - Val Epoch 72 - Loss: 0.1125, Seg Loss: 0.0453, Offset Loss: 0.2693, IoU: 0.9066, MAE: 5.5718
+2025-09-17 17:11:28,032 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:11:28,296 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 17:11:28,297 - INFO - New best model! Score: 0.8976, IoU: 0.9066, MAE: 5.5718
+2025-09-17 17:12:15,432 - INFO - Train Epoch 73 - Loss: 0.2805, Seg Loss: 0.0529, Offset Loss: 0.5081, IoU: 0.8965, MAE: 7.5481
+2025-09-17 17:12:22,685 - INFO - Val Epoch 73 - Loss: 0.1059, Seg Loss: 0.0425, Offset Loss: 0.2540, IoU: 0.9115, MAE: 5.3631
+2025-09-17 17:12:22,957 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:12:23,221 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 17:12:23,221 - INFO - New best model! Score: 0.9021, IoU: 0.9115, MAE: 5.3631
+2025-09-17 17:13:10,416 - INFO - Train Epoch 74 - Loss: 0.2632, Seg Loss: 0.0532, Offset Loss: 0.4733, IoU: 0.9043, MAE: 7.1435
+2025-09-17 17:13:17,697 - INFO - Val Epoch 74 - Loss: 0.1080, Seg Loss: 0.0467, Offset Loss: 0.2513, IoU: 0.9044, MAE: 5.2247
+2025-09-17 17:13:17,971 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:14:05,360 - INFO - Train Epoch 75 - Loss: 0.2525, Seg Loss: 0.0529, Offset Loss: 0.4522, IoU: 0.8905, MAE: 6.6599
+2025-09-17 17:14:12,627 - INFO - Val Epoch 75 - Loss: 0.0994, Seg Loss: 0.0424, Offset Loss: 0.2324, IoU: 0.9118, MAE: 5.0690
+2025-09-17 17:14:12,900 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:14:13,164 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 17:14:13,164 - INFO - New best model! Score: 0.9052, IoU: 0.9118, MAE: 5.0690
+2025-09-17 17:15:00,303 - INFO - Train Epoch 76 - Loss: 0.2425, Seg Loss: 0.0496, Offset Loss: 0.4354, IoU: 0.8773, MAE: 6.4782
+2025-09-17 17:15:07,570 - INFO - Val Epoch 76 - Loss: 0.0969, Seg Loss: 0.0418, Offset Loss: 0.2257, IoU: 0.9167, MAE: 5.0395
+2025-09-17 17:15:07,843 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:15:08,107 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 17:15:08,107 - INFO - New best model! Score: 0.9080, IoU: 0.9167, MAE: 5.0395
+2025-09-17 17:15:55,440 - INFO - Train Epoch 77 - Loss: 0.2340, Seg Loss: 0.0489, Offset Loss: 0.4191, IoU: 0.9006, MAE: 6.2989
+2025-09-17 17:16:02,782 - INFO - Val Epoch 77 - Loss: 0.0964, Seg Loss: 0.0411, Offset Loss: 0.2254, IoU: 0.9135, MAE: 5.0142
+2025-09-17 17:16:03,056 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:16:50,425 - INFO - Train Epoch 78 - Loss: 0.2277, Seg Loss: 0.0483, Offset Loss: 0.4071, IoU: 0.8857, MAE: 6.5667
+2025-09-17 17:16:57,659 - INFO - Val Epoch 78 - Loss: 0.0956, Seg Loss: 0.0422, Offset Loss: 0.2201, IoU: 0.9131, MAE: 5.1751
+2025-09-17 17:16:57,928 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:17:45,209 - INFO - Train Epoch 79 - Loss: 0.2160, Seg Loss: 0.0467, Offset Loss: 0.3853, IoU: 0.8907, MAE: 6.2332
+2025-09-17 17:17:52,466 - INFO - Val Epoch 79 - Loss: 0.0943, Seg Loss: 0.0400, Offset Loss: 0.2210, IoU: 0.9146, MAE: 5.2506
+2025-09-17 17:17:52,739 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:18:39,958 - INFO - Train Epoch 80 - Loss: 0.2101, Seg Loss: 0.0455, Offset Loss: 0.3747, IoU: 0.8994, MAE: 6.6025
+2025-09-17 17:18:47,151 - INFO - Val Epoch 80 - Loss: 0.0922, Seg Loss: 0.0391, Offset Loss: 0.2162, IoU: 0.9157, MAE: 4.8910
+2025-09-17 17:18:47,423 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:18:47,687 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 17:18:47,687 - INFO - New best model! Score: 0.9089, IoU: 0.9157, MAE: 4.8910
+2025-09-17 17:19:34,936 - INFO - Train Epoch 81 - Loss: 0.2069, Seg Loss: 0.0453, Offset Loss: 0.3685, IoU: 0.8933, MAE: 6.1725
+2025-09-17 17:19:42,165 - INFO - Val Epoch 81 - Loss: 0.0882, Seg Loss: 0.0366, Offset Loss: 0.2088, IoU: 0.9234, MAE: 4.9016
+2025-09-17 17:19:42,439 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:19:42,701 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 17:19:42,702 - INFO - New best model! Score: 0.9127, IoU: 0.9234, MAE: 4.9016
+2025-09-17 17:20:29,949 - INFO - Train Epoch 82 - Loss: 0.2004, Seg Loss: 0.0453, Offset Loss: 0.3556, IoU: 0.9204, MAE: 6.1677
+2025-09-17 17:20:37,278 - INFO - Val Epoch 82 - Loss: 0.0848, Seg Loss: 0.0354, Offset Loss: 0.2000, IoU: 0.9254, MAE: 4.7475
+2025-09-17 17:20:37,554 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:20:37,817 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 17:20:37,817 - INFO - New best model! Score: 0.9152, IoU: 0.9254, MAE: 4.7475
+2025-09-17 17:21:24,956 - INFO - Train Epoch 83 - Loss: 0.1929, Seg Loss: 0.0407, Offset Loss: 0.3452, IoU: 0.9007, MAE: 5.9258
+2025-09-17 17:21:32,227 - INFO - Val Epoch 83 - Loss: 0.0861, Seg Loss: 0.0377, Offset Loss: 0.1992, IoU: 0.9200, MAE: 4.7485
+2025-09-17 17:21:32,502 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:22:19,640 - INFO - Train Epoch 84 - Loss: 0.1907, Seg Loss: 0.0438, Offset Loss: 0.3376, IoU: 0.9177, MAE: 5.7486
+2025-09-17 17:22:26,846 - INFO - Val Epoch 84 - Loss: 0.0854, Seg Loss: 0.0345, Offset Loss: 0.2043, IoU: 0.9258, MAE: 4.9209
+2025-09-17 17:22:27,122 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:23:14,505 - INFO - Train Epoch 85 - Loss: 0.1860, Seg Loss: 0.0411, Offset Loss: 0.3308, IoU: 0.9133, MAE: 5.7749
+2025-09-17 17:23:21,848 - INFO - Val Epoch 85 - Loss: 0.0815, Seg Loss: 0.0339, Offset Loss: 0.1927, IoU: 0.9266, MAE: 4.7437
+2025-09-17 17:23:22,127 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:23:22,387 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 17:23:22,387 - INFO - New best model! Score: 0.9159, IoU: 0.9266, MAE: 4.7437
+2025-09-17 17:24:09,892 - INFO - Train Epoch 86 - Loss: 0.1847, Seg Loss: 0.0403, Offset Loss: 0.3291, IoU: 0.9067, MAE: 5.5676
+2025-09-17 17:24:17,168 - INFO - Val Epoch 86 - Loss: 0.0805, Seg Loss: 0.0336, Offset Loss: 0.1901, IoU: 0.9287, MAE: 4.5225
+2025-09-17 17:24:17,447 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:24:17,714 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 17:24:17,714 - INFO - New best model! Score: 0.9191, IoU: 0.9287, MAE: 4.5225
+2025-09-17 17:25:05,003 - INFO - Train Epoch 87 - Loss: 0.1763, Seg Loss: 0.0396, Offset Loss: 0.3129, IoU: 0.9142, MAE: 5.3548
+2025-09-17 17:25:12,285 - INFO - Val Epoch 87 - Loss: 0.0815, Seg Loss: 0.0329, Offset Loss: 0.1949, IoU: 0.9272, MAE: 4.7354
+2025-09-17 17:25:12,568 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:25:59,853 - INFO - Train Epoch 88 - Loss: 0.1755, Seg Loss: 0.0393, Offset Loss: 0.3116, IoU: 0.9158, MAE: 5.6536
+2025-09-17 17:26:07,086 - INFO - Val Epoch 88 - Loss: 0.0794, Seg Loss: 0.0337, Offset Loss: 0.1859, IoU: 0.9249, MAE: 4.5841
+2025-09-17 17:26:07,363 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:26:54,797 - INFO - Train Epoch 89 - Loss: 0.1708, Seg Loss: 0.0372, Offset Loss: 0.3043, IoU: 0.9180, MAE: 5.4133
+2025-09-17 17:27:02,194 - INFO - Val Epoch 89 - Loss: 0.0820, Seg Loss: 0.0342, Offset Loss: 0.1934, IoU: 0.9259, MAE: 4.9088
+2025-09-17 17:27:02,454 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:27:49,698 - INFO - Train Epoch 90 - Loss: 0.1658, Seg Loss: 0.0364, Offset Loss: 0.2953, IoU: 0.9199, MAE: 5.7597
+2025-09-17 17:27:57,115 - INFO - Val Epoch 90 - Loss: 0.0781, Seg Loss: 0.0341, Offset Loss: 0.1808, IoU: 0.9260, MAE: 4.6736
+2025-09-17 17:27:57,394 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:28:44,681 - INFO - Train Epoch 91 - Loss: 0.1627, Seg Loss: 0.0366, Offset Loss: 0.2888, IoU: 0.9272, MAE: 5.5969
+2025-09-17 17:28:51,973 - INFO - Val Epoch 91 - Loss: 0.0801, Seg Loss: 0.0338, Offset Loss: 0.1880, IoU: 0.9246, MAE: 4.9611
+2025-09-17 17:28:52,251 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:29:39,551 - INFO - Train Epoch 92 - Loss: 0.1618, Seg Loss: 0.0354, Offset Loss: 0.2882, IoU: 0.9231, MAE: 5.4468
+2025-09-17 17:29:46,907 - INFO - Val Epoch 92 - Loss: 0.0754, Seg Loss: 0.0326, Offset Loss: 0.1751, IoU: 0.9271, MAE: 4.6025
+2025-09-17 17:29:47,185 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:30:34,666 - INFO - Train Epoch 93 - Loss: 0.1587, Seg Loss: 0.0360, Offset Loss: 0.2814, IoU: 0.9232, MAE: 5.0844
+2025-09-17 17:30:42,013 - INFO - Val Epoch 93 - Loss: 0.0775, Seg Loss: 0.0345, Offset Loss: 0.1777, IoU: 0.9261, MAE: 4.7195
+2025-09-17 17:30:42,292 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:31:29,530 - INFO - Train Epoch 94 - Loss: 0.1527, Seg Loss: 0.0342, Offset Loss: 0.2711, IoU: 0.9255, MAE: 5.6480
+2025-09-17 17:31:36,816 - INFO - Val Epoch 94 - Loss: 0.0733, Seg Loss: 0.0310, Offset Loss: 0.1720, IoU: 0.9303, MAE: 4.6479
+2025-09-17 17:31:37,106 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:32:24,548 - INFO - Train Epoch 95 - Loss: 0.1681, Seg Loss: 0.0360, Offset Loss: 0.3001, IoU: 0.9252, MAE: 5.4037
+2025-09-17 17:32:31,934 - INFO - Val Epoch 95 - Loss: 0.0753, Seg Loss: 0.0312, Offset Loss: 0.1783, IoU: 0.9300, MAE: 4.7917
+2025-09-17 17:32:32,218 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:33:19,543 - INFO - Train Epoch 96 - Loss: 0.1552, Seg Loss: 0.0343, Offset Loss: 0.2760, IoU: 0.9327, MAE: 5.6050
+2025-09-17 17:33:26,783 - INFO - Val Epoch 96 - Loss: 0.0731, Seg Loss: 0.0303, Offset Loss: 0.1729, IoU: 0.9314, MAE: 4.7680
+2025-09-17 17:33:27,061 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:34:14,538 - INFO - Train Epoch 97 - Loss: 0.1499, Seg Loss: 0.0331, Offset Loss: 0.2667, IoU: 0.9152, MAE: 5.1433
+2025-09-17 17:34:21,779 - INFO - Val Epoch 97 - Loss: 0.0723, Seg Loss: 0.0310, Offset Loss: 0.1688, IoU: 0.9316, MAE: 4.5488
+2025-09-17 17:34:22,053 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:34:22,317 - INFO - Checkpoint saved to ./checkpoints/unet_01/best.pth
+2025-09-17 17:34:22,317 - INFO - New best model! Score: 0.9203, IoU: 0.9316, MAE: 4.5488
+2025-09-17 17:35:09,608 - INFO - Train Epoch 98 - Loss: 0.1432, Seg Loss: 0.0321, Offset Loss: 0.2543, IoU: 0.9299, MAE: 5.0842
+2025-09-17 17:35:16,849 - INFO - Val Epoch 98 - Loss: 0.0730, Seg Loss: 0.0307, Offset Loss: 0.1717, IoU: 0.9299, MAE: 4.7240
+2025-09-17 17:35:17,134 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:36:04,585 - INFO - Train Epoch 99 - Loss: 0.1448, Seg Loss: 0.0320, Offset Loss: 0.2576, IoU: 0.9340, MAE: 5.3891
+2025-09-17 17:36:11,952 - INFO - Val Epoch 99 - Loss: 0.0748, Seg Loss: 0.0311, Offset Loss: 0.1768, IoU: 0.9281, MAE: 4.8716
+2025-09-17 17:36:12,231 - INFO - Checkpoint saved to ./checkpoints/unet_01/latest.pth
+2025-09-17 17:36:12,232 - INFO - Training completed. Best Score: 0.9203, IoU: 0.9316, MAE: 4.5488
