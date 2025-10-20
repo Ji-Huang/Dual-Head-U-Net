@@ -65,48 +65,6 @@ class DualHeadUNetDataset(Dataset):
             assert os.path.exists(os.path.join(self.semantic_dir, semantic_fn)), f"语义标签缺失：{semantic_fn}"
             assert os.path.exists(os.path.join(self.offset_dir, offset_fn)), f"偏移标签缺失：{offset_fn}"
 
-    # def _numpy_resize(self, img, target_size, interpolation="bicubic"):
-    #     """Resize numpy array using PIL"""
-    #     print(img.shape)
-    #     single_channel_flag = False
-    #     try:
-    #         # Convert numpy array to PIL Image
-    #         if len(img.shape) == 3 and img.shape[0] == 1:  # Single channel with channel dimension
-    #             img = img[0]  # Remove channel dimension for PIL
-    #             mode = 'L'
-    #             single_channel_flag = True
-    #         elif len(img.shape) == 3:  # Multi-channel (RGB, etc.)
-    #             mode = 'RGB'
-    #         else:  # Grayscale
-    #             mode = 'L'
-    #         print(img.shape)
-    #         pil_img = Image.fromarray(img, mode)
-            
-    #         # Map interpolation string to PIL method
-    #         interpolation_map = {
-    #             "nearest": Image.NEAREST,
-    #             "bilinear": Image.BILINEAR,
-    #             "bicubic": Image.BICUBIC,
-    #             "lanczos": Image.LANCZOS
-    #         }
-            
-    #         pil_interpolation = interpolation_map.get(interpolation.lower(), Image.BICUBIC)
-            
-    #         # Resize
-    #         resized_pil = pil_img.resize((target_size[1], target_size[0]), pil_interpolation)
-            
-    #         # Convert back to numpy array
-    #         resized = np.array(resized_pil)
-    #         print(resized.shape)
-    #         # Add channel dimension back if it was single channel with channel dimension
-    #         if single_channel_flag:
-    #             resized = resized[np.newaxis, :, :]
-    #         print(resized.shape)
-    #         return resized
-            
-    #     except Exception as e:
-    #         raise RuntimeError(f"Failed to resize image (shape={img.shape}, target={target_size}): {str(e)}")
-
     def _numpy_resize(self, img, target_size, interpolation="bicubic"):
         """Resize numpy array using PIL with proper channel handling"""
         interpolation_map = {
@@ -257,7 +215,8 @@ class DualHeadUNetDataset(Dataset):
             "depth": depth_tensor,      # (1, H, W)
             "semantic_gt": semantic_tensor,  # (H, W)，long类型
             "offset_gt_raw": offset_tensor_raw,   # (2, H, W)，float类型
-            "offset_gt_norm": offset_tensor_norm   # (2, H, W)，float类型
+            "offset_gt_norm": offset_tensor_norm,   # (2, H, W)，float类型
+            "filename": rgb_fn
         }
     
     def denormalize_offset(self, pred_offset):

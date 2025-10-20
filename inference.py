@@ -300,6 +300,7 @@ def inference(config, checkpoint_path, input_dir, output_dir,
                 continue
 
             # 5.2 输入预处理（返回模型输入Tensor + 原始缩放RGB图）
+            print("输入预处理")
             rgb_tensor, depth_tensor, rgb_raw_scaled = preprocess_input(
                 rgb_path=rgb_path,
                 depth_path=depth_path,
@@ -308,6 +309,7 @@ def inference(config, checkpoint_path, input_dir, output_dir,
             )
 
             # 5.3 模型推理（关闭梯度计算，加速并减少内存占用）
+            print("模型推理")
             with torch.no_grad():
                 sem_pred_norm, offset_pred_norm = model(rgb_tensor, depth_tensor)  # 模型输出（归一化后）
 
@@ -322,6 +324,7 @@ def inference(config, checkpoint_path, input_dir, output_dir,
             offset_pred_raw = offset_pred_raw.transpose(1, 2, 0)  # 转换为(H,W,2)（通道0=dx，通道1=dy）
 
             # 5.5 后处理（可选：噪声过滤+偏移值掩膜+聚类）
+            print("后处理")
             post_processed = None  # 存储后处理结果（掩膜+偏移值）
             clusters = None        # 存储聚类中心（列表，每个元素为(x,y)）
             if enable_postprocess:
@@ -331,13 +334,13 @@ def inference(config, checkpoint_path, input_dir, output_dir,
                     min_area=config.get('postprocess_min_area', 500),  # 最小保留区域面积（默认500像素）
                     kernel_size=config.get('postprocess_kernel_size', 3)  # 形态学核大小（默认3×3）
                 )
-                
+                print("步骤1")
                 # 步骤2：掩膜外偏移值置0（仅保留前景区域的偏移值）
                 masked_offset = mask_offset_values(
                     offset_map=offset_pred_raw,
                     mask=processed_mask
                 )
-                
+                print("步骤2")
                 # 步骤3：提取候选中心点并DBSCAN聚类
                 candidates, clusters = extract_and_cluster_centroids(
                     processed_mask=processed_mask,
@@ -345,7 +348,7 @@ def inference(config, checkpoint_path, input_dir, output_dir,
                     eps=config.get('dbscan_eps', 50),  # 聚类半径（默认50像素）
                     min_samples=config.get('dbscan_min_samples', 10)  # 形成聚类的最小样本数（默认10）
                 )
-                
+                print("步骤3")
                 # 存储后处理结果
                 post_processed = {
                     "processed_mask": processed_mask,
@@ -353,6 +356,7 @@ def inference(config, checkpoint_path, input_dir, output_dir,
                 }
 
             # 5.6 保存结果（原始结果+后处理结果+可视化结果）
+            print("保存结果")
             save_inference_results(
                 sem_pred=sem_pred_mask,
                 offset_pred=offset_pred_raw,

@@ -243,6 +243,13 @@ def test_model(config, checkpoint_path):
     # 设置日志和结果保存目录
     result_dir = os.path.join(config['test_result_dir'], os.path.basename(os.path.dirname(checkpoint_path)))
     os.makedirs(result_dir, exist_ok=True)
+
+    # 创建原始预测结果保存目录，保持与测试数据相同的结构
+    pred_sem_raw_dir = os.path.join(result_dir, 'predictions', 'semantic_raw')
+    pred_offset_raw_dir = os.path.join(result_dir, 'predictions', 'offset_raw')
+    os.makedirs(pred_sem_raw_dir, exist_ok=True)
+    os.makedirs(pred_offset_raw_dir, exist_ok=True)
+
     logger = setup_logging(result_dir)
     
     # 加载模型
@@ -284,6 +291,7 @@ def test_model(config, checkpoint_path):
             depth = batch['depth'].to(device)
             sem_gt = batch['semantic_gt'].to(device)
             offset_gt_raw = batch['offset_gt_raw'].to(device)
+            filenames = batch['filename']  # 获取文件名
             
             # 模型推理
             sem_pred, offset_pred_norm = model(rgb, depth)
@@ -315,6 +323,22 @@ def test_model(config, checkpoint_path):
                     result_dir,
                     idx=batch_idx * config['batch_size'] + i
                 )
+            # 保存原始预测结果（与测试数据存储形式相同）
+            for i in range(rgb.size(0)):
+                # 获取当前样本的文件名（去除扩展名）
+                base_filename = os.path.splitext(filenames[i])[0]
+                
+                # 1. 保存原始语义分割结果
+                # 转换为numpy数组（保持原始数据类型和范围）
+                sem_pred_np = sem_pred_mask[i].cpu().numpy()
+                # 根据原始数据格式选择保存方式
+                sem_save_path = os.path.join(pred_sem_raw_dir, f"{base_filename}.npy")
+                np.save(sem_save_path, sem_pred_np)
+                
+                # 2. 保存原始偏移量结果
+                offset_pred_np = offset_pred_raw[i].cpu().numpy()
+                offset_save_path = os.path.join(pred_offset_raw_dir, f"{base_filename}.npy")
+                np.save(offset_save_path, offset_pred_np)
     
     # 计算平均指标
     avg_iou = np.mean(total_iou)
