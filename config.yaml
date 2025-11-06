@@ -4,12 +4,12 @@ resize: [480, 640]   # 图像 resize 尺寸 (H, W)，此数据集已resize到[48
 num_workers: 0       # DataLoader 工作进程数（根据共享内存调整）
 
 # 数据统计量（若为None则使用Dataset默认值）
-rgb_mean: [0.180, 0.246, 0.285]
-rgb_std: [0.207, 0.202, 0.230]
-depth_mean: 2997.516
-depth_std: 1324.941
-offset_mean: [-0.068, -0.075]
-offset_std: [17.084, 10.471]
+rgb_mean: [0.2805, 0.3223, 0.3425]  # [0.180, 0.246, 0.285]
+rgb_std:  [0.2531, 0.2348, 0.2313]  # [0.207, 0.202, 0.230]
+depth_mean: 5158.015  # 2997.516
+depth_std: 2179.5643  # 1324.941
+offset_mean: [-0.0228, -0.023 ]  # [-0.068, -0.075]
+offset_std: [5.2326, 2.1399]  # [17.084, 10.471]
 
 # 模型配置
 n_classes: 1         # 语义分割类别数（1表示二分类）
@@ -17,15 +17,15 @@ bilinear: True       # 是否使用双线性插值上采样
 dropout: 0.1         # Dropout概率
 
 # 训练超参数
-epochs: 120          # 训练总轮数
-batch_size: 8        # 批次大小
-lr: 4e-5             # 初始学习率
-weight_decay: 1e-5   # 权重衰减（L2正则化）
-grad_clip: 2.0       # 梯度裁剪
+epochs: 200          # 训练总轮数  # 120 140
+batch_size: 12        # 批次大小  # 8
+lr: 6e-5             # 初始学习率  4e-5  
+weight_decay: 2e-5   # 权重衰减（L2正则化）
+grad_clip: 1.0       # 梯度裁剪 2.0 0.2
 
 # 学习率调度器
-scheduler_factor: 0.7    # 学习率衰减因子
-scheduler_patience: 4    # 多少轮无改善则衰减
+scheduler_factor: 0.7    # 学习率衰减因子 0.7
+scheduler_patience: 5    # 多少轮无改善则衰减 4
 
 # 设备配置
 device: "cuda:0"     # 训练设备（"cpu" 或 "cuda:0"）

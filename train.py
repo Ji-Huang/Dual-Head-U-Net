@@ -11,6 +11,7 @@ import torch.nn.functional as F
 import numpy as np
 from tqdm import tqdm
 from datetime import datetime
+import cv2
 # from sklearn.model_selection import ParameterGrid  # 用于超参数搜索
 
 from utils.data_loading import DualHeadUNetDataset
@@ -129,7 +130,170 @@ def false_positive_penalty_loss(sem_pred, depth_grad, sem_gt, pos_grad_threshold
     return fp_loss * 5
 
 
-def train_one_epoch(model, train_loader, seg_criterion, offset_criterion, 
+class InstanceAwareOffsetLoss(nn.Module):
+    def __init__(self, boundary_margin=3.0):
+        super().__init__()
+        self.boundary_margin = boundary_margin
+
+    def get_instance_boundary_mask(self, semantic_mask, erosion_radius=1):
+        """
+        获取实例边界区域（批量处理，支持二值语义掩码）
+        Args:
+            semantic_mask: (B, 1, H, W) 或 (B, H, W) 的语义掩码，前景为1，背景为0
+            erosion_radius: 形态学操作的半径，控制边界粗细
+        Returns:
+            boundary_mask: (B, H, W) 边界掩码，边界区域为True
+        """
+        # 统一形状为 (B, 1, H, W)
+        if semantic_mask.dim() == 3:
+            semantic_mask = semantic_mask.unsqueeze(1)  # (B, 1, H, W)
+        B, _, H, W = semantic_mask.shape
+
+        # 二值化掩码（前景为1，背景为0）
+        binary_mask = (semantic_mask > 0.5).float()
+
+        # 定义圆形结构元素（用于形态学操作）
+        kernel_size = 2 * erosion_radius + 1
+        kernel = torch.ones(kernel_size, kernel_size, device=semantic_mask.device)
+        kernel = kernel.unsqueeze(0).unsqueeze(0)  # (1, 1, kernel_size, kernel_size)
+
+        # 膨胀操作（扩大前景区域）
+        dilated = F.max_pool2d(
+            binary_mask,
+            kernel_size=kernel_size,
+            stride=1,
+            padding=erosion_radius
+        )
+
+        # 腐蚀操作（缩小前景区域）
+        eroded = -F.max_pool2d(
+            -binary_mask,
+            kernel_size=kernel_size,
+            stride=1,
+            padding=erosion_radius
+        )
+
+        # 边界 = 膨胀区域 - 腐蚀区域（非重叠部分为边界）
+        boundary_mask = (dilated - eroded) > 1e-5  # (B, 1, H, W)
+
+        return boundary_mask.squeeze(1)  # (B, H, W)
+
+    def boundary_aware_offset_loss(self, offset_pred, semantic_mask):
+        """
+        边界感知偏移损失：在边界处强制更大的偏移幅度
+        """
+        B, _, H, W = offset_pred.shape
+        semantic_mask = semantic_mask.squeeze(1) if semantic_mask.dim() == 4 else semantic_mask
+        
+        # 获取边界和内部掩码
+        boundary_mask = self.get_instance_boundary_mask(semantic_mask)  # (B, H, W)
+        
+        # 计算偏移向量的模长
+        offset_magnitude = torch.norm(offset_pred, dim=1)  # (B, H, W)
+
+        # 惩罚边界处偏移太小的情况
+        boundary_offset_penalty = F.relu(1.0 - offset_magnitude)  # 边界处偏移应大于1
+        
+        boundary_pixels = torch.clamp(boundary_mask.sum() + 1e-8, min=1e-4)       
+        loss = (boundary_offset_penalty * boundary_mask).sum() / boundary_pixels
+        
+        return loss
+
+    def directional_divergence_loss(self, offset_pred, semantic_mask):
+        """
+        方向散度损失：促进偏移场从边缘向中心收敛（内部区域散度为负）
+        """
+        B, _, H, W = offset_pred.shape
+        semantic_mask = semantic_mask.squeeze(1) if semantic_mask.dim() == 4 else semantic_mask  # (B, H, W)
+        
+        # 获取边界掩码和内部掩码
+        boundary_mask = self.get_instance_boundary_mask(semantic_mask)  # (B, H, W)
+        foreground_mask = (semantic_mask > 0.5).float()  # (B, H, W)
+        interior_mask = foreground_mask * (~boundary_mask).float()  # (B, H, W)
+
+        # 计算指向中心的向量（-offset_pred）
+        to_center_vectors = -offset_pred  # (B, 2, H, W)
+        dy = to_center_vectors[:, 0]  # y方向分量 (B, H, W)
+        dx = to_center_vectors[:, 1]  # x方向分量 (B, H, W)
+
+        # 计算散度
+        dy_dy = torch.gradient(dy, dim=1)[0]  # ∂dy/∂y（沿H维度）
+        dx_dx = torch.gradient(dx, dim=2)[0]  # ∂dx/∂x（沿W维度）
+        divergence = dy_dy + dx_dx  # (B, H, W)
+
+        # 惩罚正散度（内部区域应收敛，散度为负）
+        positive_divergence = F.relu(divergence)  # (B, H, W)
+        positive_divergence = torch.clamp(positive_divergence, max=5.0)  # 限制散度惩罚上限
+        total_interior_pixels = torch.clamp(interior_mask.sum() + 1e-8, min=1e-4)  # 强制最小为0.0001
+        divergence_loss = (positive_divergence * interior_mask).sum() / total_interior_pixels
+
+        return divergence_loss
+
+    def center_compactness_loss(self, offset_pred, semantic_mask):
+        """
+        中心紧凑性损失：约束同一实例的预测中心在局部邻域内聚集
+        """
+        B, _, H, W = offset_pred.shape
+        semantic_mask = semantic_mask.squeeze(1) if semantic_mask.dim() == 4 else semantic_mask  # (B, H, W)
+        
+        # 前景掩码（批量处理）
+        foreground_mask = (semantic_mask > 0.5).float().unsqueeze(1)  # (B, 1, H, W)
+        
+        # 创建坐标网格（y, x）
+        y_coords = torch.arange(H, device=offset_pred.device, dtype=torch.float32)
+        x_coords = torch.arange(W, device=offset_pred.device, dtype=torch.float32)
+        y_grid, x_grid = torch.meshgrid(y_coords, x_coords, indexing='ij')  # (H, W)
+        coords = torch.stack([y_grid, x_grid], dim=0).unsqueeze(0).repeat(B, 1, 1, 1)  # (B, 2, H, W)
+        
+        # 预测中心 = 像素坐标 + 偏移量
+        pred_centers = coords + offset_pred  # (B, 2, H, W)
+
+        # 局部平均中心（3x3邻域卷积）
+        kernel = torch.ones(1, 1, 3, 3, device=offset_pred.device) / 25.0  # 3x3平均滤波
+        # 计算y/x方向的局部平均中心
+        local_mean_y = F.conv2d(pred_centers[:, 0:1] * foreground_mask, kernel, padding=1)  # (B, 1, H, W)
+        local_mean_x = F.conv2d(pred_centers[:, 1:2] * foreground_mask, kernel, padding=1)  # (B, 1, H, W)
+        # 局部有效像素数（用于归一化）
+        local_count = F.conv2d(foreground_mask, kernel, padding=1) + 1e-8  # (B, 1, H, W)
+        local_mean_y = local_mean_y / local_count
+        local_mean_x = local_mean_x / local_count
+
+        # 拼接局部平均中心（B, 2, H, W）
+        local_mean_centers = torch.cat([local_mean_y, local_mean_x], dim=1)
+
+        # 计算每个像素的预测中心与局部平均中心的距离
+        distances = torch.norm(pred_centers - local_mean_centers, dim=1)  # (B, H, W)
+
+        # 仅计算内部区域的距离损失
+        boundary_mask = self.get_instance_boundary_mask(semantic_mask)  # (B, H, W)
+        interior_mask = foreground_mask.squeeze(1) * (~boundary_mask).float()  # (B, H, W)
+        total_interior_pixels = torch.clamp(interior_mask.sum() + 1e-8, min=1e-4)  # 强制最小为0.0001
+        compactness_loss = (distances * interior_mask).sum() / total_interior_pixels
+
+        return compactness_loss
+
+    def forward(self, offset_pred, semantic_mask):
+        """
+        前向传播：组合三个辅助损失
+        Args:
+            offset_pred: (B, 2, H, W) 预测的偏移场（y, x方向）
+            semantic_mask: (B, 1, H, W) 或 (B, H, W) 语义掩码（前景为1，背景为0）
+        Returns:
+            total_loss: 组合损失值
+        """
+        boundary_aware_loss = self.boundary_aware_offset_loss(offset_pred, semantic_mask)
+        divergence_loss = self.directional_divergence_loss(offset_pred, semantic_mask)
+        compactness_loss = self.center_compactness_loss(offset_pred, semantic_mask)
+
+        # 保持原权重组合（未归一化，按原设计）
+        total_loss = (1.0 * boundary_aware_loss +
+                     1.0 * divergence_loss +
+                     1.5 * compactness_loss)
+
+        return total_loss
+
+
+def train_one_epoch(model, train_loader, seg_criterion, offset_criterion, aux_offset_loss_func,
                    optimizer, device, epoch, writer, grad_clip=None):
     """训练单个epoch"""
     model.train()
@@ -141,6 +305,7 @@ def train_one_epoch(model, train_loader, seg_criterion, offset_criterion,
     total_mse_loss = 0.0 
     total_bg_zero_loss = 0.0
     total_fp_penalty_loss = 0.0
+    total_aux_offset_loss = 0.0
     all_iou = []
     all_mse = []
     all_bg_mse = []
@@ -158,25 +323,31 @@ def train_one_epoch(model, train_loader, seg_criterion, offset_criterion,
         # 前向传播
         sem_pred, offset_pred_norm = model(rgb, depth)
 
-        # print(f"sem_pred shape: {sem_pred.shape}, dtype: {sem_pred.dtype}")  # 应输出 (B,1,H,W), float32
-        # print(f"sem_gt shape: {sem_gt.shape}, dtype: {sem_gt.dtype}")      # 应输出 (B,1,H,W), float32
-        # print(f"sem_gt values: {sem_gt.unique()}")                          # 应输出 tensor([0., 1.], device='cuda:0')
-
         # 计算损失
+        aux_offset_loss = aux_offset_loss_func(offset_pred_norm, sem_gt)  # 增加辅助分割的偏移损失
         seg_loss = seg_criterion(sem_pred, sem_gt.unsqueeze(1).float())  # 语义标签增加通道维
-        offset_loss = offset_criterion(offset_pred_norm, offset_gt_norm)
+        # offset_loss = offset_criterion(offset_pred_norm, offset_gt_norm)
+        foreground_mask = (sem_gt == 1).float().unsqueeze(1)
+        offset_loss = offset_criterion(offset_pred_norm * foreground_mask, offset_gt_norm * foreground_mask) * 1.5 + \
+        offset_criterion(offset_pred_norm * (1-foreground_mask), offset_gt_norm * (1-foreground_mask)) * 0.5
+        
         bg_zero_loss = background_zero_loss(offset_pred_norm, sem_gt)
         seg_dice_loss = dice_loss(sem_pred, sem_gt.unsqueeze(1).float())
         depth_grad = compute_depth_gradient(depth)
         fp_penalty_loss = false_positive_penalty_loss(sem_pred, depth_grad, sem_gt)
 
-        loss = seg_loss * 0.6 + seg_dice_loss * 5 * 0.6 + offset_loss * 0.3 + bg_zero_loss * 0.2 + fp_penalty_loss * 0.2
+        aux_weight = min(0.02 + epoch / 100, 0.2)  # 前18 epoch从0.02增至0.2，之后保持
+        seg_weight = max(1 - epoch / 100, 0.6)  # 前40 epoch从1降至0.6，之后保持
+
+        loss = seg_loss * seg_weight + seg_dice_loss * 5 * seg_weight + fp_penalty_loss * 0.2 \
+            + offset_loss * 0.3 + bg_zero_loss * 0.2 + aux_offset_loss* aux_weight
 
         # 反向传播和优化
         optimizer.zero_grad()
         loss.backward()
         if grad_clip is not None:
             torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=grad_clip)
+            # torch.nn.utils.clip_grad_value_(model.parameters(), clip_value=grad_clip) 
         optimizer.step()
 
         # 计算指标
@@ -210,19 +381,20 @@ def train_one_epoch(model, train_loader, seg_criterion, offset_criterion,
 
         # 累计损失
         total_loss += loss.item() * rgb.size(0)
-        total_seg_loss += (seg_loss.item() * 0.6 + seg_dice_loss.item() * 5 * 0.6 + fp_penalty_loss * 0.2) * rgb.size(0)
-        total_offset_loss += (offset_loss.item() * 0.3 + bg_zero_loss.item() * 0.2) * rgb.size(0)
-        total_bce_loss += seg_loss.item() * 0.6 * rgb.size(0)
-        total_seg_dice_loss += seg_dice_loss.item() * 5 * 0.6 * rgb.size(0)
+        total_seg_loss += (seg_loss.item() * seg_weight + seg_dice_loss.item() * 5 * seg_weight + fp_penalty_loss * 0.2) * rgb.size(0)
+        total_offset_loss += (offset_loss.item() * 0.3 + bg_zero_loss.item() * 0.2 + aux_offset_loss * aux_weight) * rgb.size(0)
+        total_bce_loss += seg_loss.item() * seg_weight * rgb.size(0)
+        total_seg_dice_loss += seg_dice_loss.item() * 5 * seg_weight * rgb.size(0)
         total_mse_loss += offset_loss.item() * 0.3 * rgb.size(0)
         total_bg_zero_loss += bg_zero_loss.item() * 0.2 * rgb.size(0)
         total_fp_penalty_loss += fp_penalty_loss.item() * 0.2 * rgb.size(0)
+        total_aux_offset_loss += aux_offset_loss.item() * aux_weight * rgb.size(0)  # 增加辅助分割的偏移损失
 
         # 更新进度条
         pbar.set_postfix({
             'loss': f"{loss.item():.4f}",
-            'seg_loss': f"{(seg_loss.item() * 0.6) + (seg_dice_loss.item() * 5 * 0.6) + (fp_penalty_loss.item() * 0.2):.4f}",
-            'offset_loss': f"{(offset_loss.item() * 0.3 + bg_zero_loss.item() * 0.2):.4f}"
+            'seg_loss': f"{(seg_loss.item() * seg_weight) + (seg_dice_loss.item() * 5 * seg_weight) + (fp_penalty_loss.item() * 0.2):.4f}",
+            'offset_loss': f"{(offset_loss.item() * 0.3 + bg_zero_loss.item() * 0.2 + aux_offset_loss.item() * aux_weight):.4f}"
             # '细分-seg_bce': f"{(seg_loss.item() * 0.3):.4f}",
             # '细分-seg_dice': f"{(seg_dice_loss.item() * 5 * 0.3):.4f}",
             # '细分-fp_penalty': f"{(fp_penalty_loss.item() * 0.1):.4f}",
@@ -244,6 +416,7 @@ def train_one_epoch(model, train_loader, seg_criterion, offset_criterion,
     avg_mse_loss = total_mse_loss / len(train_loader.dataset)
     avg_bg_zero_loss = total_bg_zero_loss / len(train_loader.dataset)
     avg_fp_penalty_loss = total_fp_penalty_loss / len(train_loader.dataset)
+    avg_aux_offset_loss = total_aux_offset_loss / len(train_loader.dataset)  # 增加辅助分割的偏移损失
 
     # 记录到TensorBoard
     # writer.add_scalar('train/loss', avg_loss, epoch)
@@ -283,7 +456,8 @@ def train_one_epoch(model, train_loader, seg_criterion, offset_criterion,
     tag_scalar_dict={
         'Total Offset Loss': avg_offset_loss,
         'MSE Loss': avg_mse_loss,
-        'BG Zero Loss': avg_bg_zero_loss
+        'BG Zero Loss': avg_bg_zero_loss,
+        'AUX Loss': avg_aux_offset_loss  # 增加辅助分割的偏移损失
     },
     global_step=epoch)
 
@@ -292,7 +466,7 @@ def train_one_epoch(model, train_loader, seg_criterion, offset_criterion,
         f"Seg Loss: {avg_seg_loss:.4f}, Offset Loss: {avg_offset_loss:.4f}, "
         f"IoU: {avg_iou:.4f}, MSE: {avg_mse:.4f}, bg_MSE: {avg_bg_mse:.4f}, fg_MSE: {avg_fg_mse:.4f}, "
         f"BCE Loss: {avg_bce_loss:.4f}, Dice Loss: {avg_seg_dice_loss:.4f}, FP Penalty Loss: {avg_fp_penalty_loss:.4f}, "
-        f"MSE Loss: {avg_mse_loss:.4f}, BG Zero Loss: {avg_bg_zero_loss:.4f}"
+        f"MSE Loss: {avg_mse_loss:.4f}, BG Zero Loss: {avg_bg_zero_loss:.4f}, AUX Loss: {avg_aux_offset_loss:.4f}"
     )
 
     return {
@@ -304,7 +478,7 @@ def train_one_epoch(model, train_loader, seg_criterion, offset_criterion,
     }
 
 
-def validate(model, val_loader, seg_criterion, offset_criterion, device, epoch, writer, dataset):
+def validate(model, val_loader, seg_criterion, offset_criterion, aux_offset_loss_func, device, epoch, writer, dataset):
     """验证模型性能"""
     model.eval()
     total_loss = 0.0
@@ -315,6 +489,7 @@ def validate(model, val_loader, seg_criterion, offset_criterion, device, epoch, 
     total_mse_loss = 0.0 
     total_bg_zero_loss = 0.0
     total_fp_penalty_loss = 0.0
+    total_aux_offset_loss = 0.0
     all_iou = []
     all_mse = []
     all_bg_mse = []
@@ -334,6 +509,7 @@ def validate(model, val_loader, seg_criterion, offset_criterion, device, epoch, 
             sem_pred, offset_pred_norm = model(rgb, depth)
             
             # 计算损失
+            aux_offset_loss = aux_offset_loss_func(offset_pred_norm, sem_gt)  # 增加辅助分割的偏移损失
             seg_loss = seg_criterion(sem_pred, sem_gt.unsqueeze(1).float())
             offset_loss = offset_criterion(offset_pred_norm, offset_gt_norm)
             bg_zero_loss = background_zero_loss(offset_pred_norm, sem_gt)
@@ -341,8 +517,12 @@ def validate(model, val_loader, seg_criterion, offset_criterion, device, epoch, 
             depth_grad = compute_depth_gradient(depth)
             fp_penalty_loss = false_positive_penalty_loss(sem_pred, depth_grad, sem_gt)
 
-            loss = seg_loss * 0.6 + seg_dice_loss * 5 * 0.6 + offset_loss * 0.3 + bg_zero_loss * 0.2 + fp_penalty_loss * 0.2  # 损失加权
+            aux_weight = min(0.02 + epoch / 100, 0.2)  # 前18 epoch从0.02增至0.2，之后保持
+            seg_weight = max(1 - epoch / 100, 0.6)  # 前40 epoch从1降至0.6，之后保持
 
+            loss = seg_loss * seg_weight + seg_dice_loss * 5 * seg_weight + fp_penalty_loss * 0.2 \
+                + offset_loss * 0.3 + bg_zero_loss * 0.2 + aux_offset_loss* aux_weight
+            
             # 计算指标
             sem_pred_argmax = torch.sigmoid(sem_pred) > 0.5
             iou = compute_iou(sem_pred_argmax.squeeze(1).cpu().numpy(), 
@@ -368,19 +548,20 @@ def validate(model, val_loader, seg_criterion, offset_criterion, device, epoch, 
             
             # 累计损失
             total_loss += loss.item() * rgb.size(0)
-            total_seg_loss += (seg_loss.item() * 0.6 + seg_dice_loss.item() * 5 * 0.6 + fp_penalty_loss * 0.2) * rgb.size(0)
-            total_offset_loss += (offset_loss.item() * 0.3 + bg_zero_loss.item() * 0.2) * rgb.size(0)
-            total_bce_loss += seg_loss.item() * 0.6 * rgb.size(0)
-            total_seg_dice_loss += seg_dice_loss.item() * 5 * 0.6 * rgb.size(0)
+            total_seg_loss += (seg_loss.item() * seg_weight + seg_dice_loss.item() * 5 * seg_weight + fp_penalty_loss * 0.2) * rgb.size(0)
+            total_offset_loss += (offset_loss.item() * 0.3 + bg_zero_loss.item() * 0.2 + aux_offset_loss.item() * aux_weight) * rgb.size(0)
+            total_bce_loss += seg_loss.item() * seg_weight * rgb.size(0)
+            total_seg_dice_loss += seg_dice_loss.item() * 5 * seg_weight * rgb.size(0)
             total_mse_loss += offset_loss.item() * 0.3 * rgb.size(0)
             total_bg_zero_loss += bg_zero_loss.item() * 0.2 * rgb.size(0)
             total_fp_penalty_loss += fp_penalty_loss.item() * 0.2 * rgb.size(0)
+            total_aux_offset_loss += aux_offset_loss.item() * aux_weight * rgb.size(0)  # 增加辅助分割的偏移损失
 
             # 更新进度条
             pbar.set_postfix({
             'val_loss': f"{loss.item():.4f}",
-            'val_seg_loss': f"{(seg_loss.item() * 0.6) + (seg_dice_loss.item() * 5 * 0.6) + (fp_penalty_loss.item() * 0.2):.4f}",
-            'val_offset_loss': f"{(offset_loss.item() * 0.3 + bg_zero_loss.item() * 0.2):.4f}"
+            'val_seg_loss': f"{(seg_loss.item() * seg_weight) + (seg_dice_loss.item() * 5 * seg_weight) + (fp_penalty_loss.item() * 0.2):.4f}",
+            'val_offset_loss': f"{(offset_loss.item() * 0.3 + bg_zero_loss.item() * 0.2 + aux_offset_loss.item() * aux_weight):.4f}"
             })
 
     # 计算平均指标
@@ -397,6 +578,7 @@ def validate(model, val_loader, seg_criterion, offset_criterion, device, epoch, 
     avg_mse_loss = total_mse_loss / len(val_loader.dataset)
     avg_bg_zero_loss = total_bg_zero_loss / len(val_loader.dataset)
     avg_fp_penalty_loss = total_fp_penalty_loss / len(val_loader.dataset)
+    avg_aux_offset_loss = total_aux_offset_loss / len(val_loader.dataset)  # 增加辅助分割的偏移损失
 
     # 记录到TensorBoard
     # writer.add_scalar('val/loss', avg_loss, epoch)
@@ -434,7 +616,8 @@ def validate(model, val_loader, seg_criterion, offset_criterion, device, epoch, 
     tag_scalar_dict={
         'Total Offset Loss': avg_offset_loss,
         'MSE Loss': avg_mse_loss,
-        'BG Zero Loss': avg_bg_zero_loss
+        'BG Zero Loss': avg_bg_zero_loss,
+        'AUX Loss': avg_aux_offset_loss
     },
     global_step=epoch)
 
@@ -443,7 +626,7 @@ def validate(model, val_loader, seg_criterion, offset_criterion, device, epoch, 
         f"Seg Loss: {avg_seg_loss:.4f}, Offset Loss: {avg_offset_loss:.4f}, "
         f"IoU: {avg_iou:.4f}, MSE: {avg_mse:.4f}, bg_MSE: {avg_bg_mse:.4f}, fg_MSE: {avg_fg_mse:.4f}, "
         f"BCE Loss: {avg_bce_loss:.4f}, Dice Loss: {avg_seg_dice_loss:.4f}, FP Penalty Loss: {avg_fp_penalty_loss:.4f}, "
-        f"MSE Loss: {avg_mse_loss:.4f}, BG Zero Loss: {avg_bg_zero_loss:.4f}"
+        f"MSE Loss: {avg_mse_loss:.4f}, BG Zero Loss: {avg_bg_zero_loss:.4f}, AUX Loss: {avg_aux_offset_loss:.4f}"
     )
 
     return {
@@ -454,7 +637,8 @@ def validate(model, val_loader, seg_criterion, offset_criterion, device, epoch, 
         'mse': avg_mse,
         'bg_mse': avg_bg_mse,
         'fg_mse': avg_fg_mse,
-        'fp_penalty_loss': avg_fp_penalty_loss
+        'fp_penalty_loss': avg_fp_penalty_loss,
+        'aux_offset_loss': avg_aux_offset_loss
     }
 
 
@@ -515,7 +699,9 @@ def run_training(config, experiment_name):
     # 损失函数和优化器
     seg_criterion = nn.BCEWithLogitsLoss() # if config['n_classes'] == 1 else nn.CrossEntropyLoss()
     offset_criterion = nn.MSELoss()
+
     # offset_criterion = nn.L1Loss()
+    aux_offset_loss_func = InstanceAwareOffsetLoss().to(device)
     
     optimizer = optim.Adam(
         model.parameters(),
@@ -555,13 +741,13 @@ def run_training(config, experiment_name):
     for epoch in range(start_epoch, config['epochs']):
         # 训练
         train_metrics = train_one_epoch(
-            model, train_loader, seg_criterion, offset_criterion,
+            model, train_loader, seg_criterion, offset_criterion, aux_offset_loss_func,
             optimizer, device, epoch, writer, grad_clip
         )
 
         # 验证
         val_metrics = validate(
-            model, val_loader, seg_criterion, offset_criterion,
+            model, val_loader, seg_criterion, offset_criterion, aux_offset_loss_func,
             device, epoch, writer, val_dataset
         )
 
@@ -607,21 +793,6 @@ def run_training(config, experiment_name):
     # 训练结束
     writer.close()
     logging.info(f"Training completed. Best Score: {best_score:.4f}, IoU: {best_iou:.4f}, MSE: {best_mse:.4f}")
-
-
-def parameter_grid(param_dict):
-    """
-    替代 sklearn 的 ParameterGrid，生成参数组合列表
-    Args:
-        param_dict: 参数字典，如 {'lr': [1e-4, 1e-3], 'batch_size': [2,4]}
-    Returns:
-        所有参数组合的列表，每个元素是一个参数字典
-    """
-    keys = param_dict.keys()
-    values = param_dict.values()
-    from itertools import product
-    param_combinations = product(*values)
-    return [dict(zip(keys, combo)) for combo in param_combinations]
 
 
 def main():

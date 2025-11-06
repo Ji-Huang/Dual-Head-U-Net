@@ -106,192 +106,192 @@ def calculate_offset_stats(data_root, split="train"):
 # Offset Std: [17.0844 10.4708]
 
 
-import os
-import numpy as np
-import cv2
-import torch
-import torch.nn.functional as F
-from tqdm import tqdm
-from torch.utils.data import Dataset, DataLoader
+# import os
+# import numpy as np
+# import cv2
+# import torch
+# import torch.nn.functional as F
+# from tqdm import tqdm
+# from torch.utils.data import Dataset, DataLoader
 
 
-# --------------------------- 1. 深度梯度计算函数（不变） ---------------------------
-def compute_local_depth_gradient(depth_map, kernel_size=3):
-    depth_tensor = torch.tensor(depth_map, dtype=torch.float32).unsqueeze(0).unsqueeze(0)
-    sobel_y = torch.tensor([[-1, -2, -1], [0, 0, 0], [1, 2, 1]], dtype=torch.float32).unsqueeze(0).unsqueeze(0)
-    grad_y = F.conv2d(depth_tensor, sobel_y, padding=kernel_size//2)
-    grad_map = torch.abs(grad_y).squeeze(0).squeeze(0).numpy()
-    return grad_map
+# # --------------------------- 1. 深度梯度计算函数（不变） ---------------------------
+# def compute_local_depth_gradient(depth_map, kernel_size=3):
+#     depth_tensor = torch.tensor(depth_map, dtype=torch.float32).unsqueeze(0).unsqueeze(0)
+#     sobel_y = torch.tensor([[-1, -2, -1], [0, 0, 0], [1, 2, 1]], dtype=torch.float32).unsqueeze(0).unsqueeze(0)
+#     grad_y = F.conv2d(depth_tensor, sobel_y, padding=kernel_size//2)
+#     grad_map = torch.abs(grad_y).squeeze(0).squeeze(0).numpy()
+#     return grad_map
 
-# --------------------------- 2. 梯度分布统计函数（不变） ---------------------------
-def stats_foreground_gradient(dataset, sample_num=200):
-    foreground_grads = []
-    total_foreground_pixels = 0
-    sample_indices = np.random.choice(len(dataset), size=min(sample_num, len(dataset)), replace=False)
-    for idx in tqdm(sample_indices, desc="统计真实前景梯度分布"):
-        data = dataset[idx]
-        depth_map = data["depth"]
-        sem_gt = data["sem_gt"]
-        grad_map = compute_local_depth_gradient(depth_map, kernel_size=3)
-        foreground_mask = (sem_gt == 1)
-        foreground_grad = grad_map[foreground_mask]
-        valid_foreground_grad = foreground_grad[foreground_grad > 0]
-        if len(valid_foreground_grad) > 0:
-            foreground_grads.extend(valid_foreground_grad.tolist())
-            total_foreground_pixels += len(valid_foreground_grad)
-    foreground_grads = np.array(foreground_grads)
-    grad_stats = {
-        "mean": np.mean(foreground_grads),
-        "median": np.median(foreground_grads),
-        "q95": np.percentile(foreground_grads, 95),
-        "q98": np.percentile(foreground_grads, 98),
-        "max": np.max(foreground_grads),
-        "total_pixels": total_foreground_pixels
-    }
-    return grad_stats, foreground_grads
+# # --------------------------- 2. 梯度分布统计函数（不变） ---------------------------
+# def stats_foreground_gradient(dataset, sample_num=200):
+#     foreground_grads = []
+#     total_foreground_pixels = 0
+#     sample_indices = np.random.choice(len(dataset), size=min(sample_num, len(dataset)), replace=False)
+#     for idx in tqdm(sample_indices, desc="统计真实前景梯度分布"):
+#         data = dataset[idx]
+#         depth_map = data["depth"]
+#         sem_gt = data["sem_gt"]
+#         grad_map = compute_local_depth_gradient(depth_map, kernel_size=3)
+#         foreground_mask = (sem_gt == 1)
+#         foreground_grad = grad_map[foreground_mask]
+#         valid_foreground_grad = foreground_grad[foreground_grad > 0]
+#         if len(valid_foreground_grad) > 0:
+#             foreground_grads.extend(valid_foreground_grad.tolist())
+#             total_foreground_pixels += len(valid_foreground_grad)
+#     foreground_grads = np.array(foreground_grads)
+#     grad_stats = {
+#         "mean": np.mean(foreground_grads),
+#         "median": np.median(foreground_grads),
+#         "q95": np.percentile(foreground_grads, 95),
+#         "q98": np.percentile(foreground_grads, 98),
+#         "max": np.max(foreground_grads),
+#         "total_pixels": total_foreground_pixels
+#     }
+#     return grad_stats, foreground_grads
 
-# --------------------------- 3. 阈值生成与可视化函数（不变） ---------------------------
-def generate_pos_grad_threshold(grad_stats, safety_factor=1.1):
-    pos_grad_threshold = grad_stats["q95"] * safety_factor
-    if pos_grad_threshold > grad_stats["max"] * 0.8:
-        pos_grad_threshold = grad_stats["q98"] * safety_factor
-    return round(pos_grad_threshold, 2)
+# # --------------------------- 3. 阈值生成与可视化函数（不变） ---------------------------
+# def generate_pos_grad_threshold(grad_stats, safety_factor=1.1):
+#     pos_grad_threshold = grad_stats["q95"] * safety_factor
+#     if pos_grad_threshold > grad_stats["max"] * 0.8:
+#         pos_grad_threshold = grad_stats["q98"] * safety_factor
+#     return round(pos_grad_threshold, 2)
 
 
-# --------------------------- 4. 数据集类（核心修改：适配_augID命名） ---------------------------
-class StackedBoxDataset(Dataset):
-    def __init__(self, data_root, split="train"):
-        """
-        适配含_augID的文件名：
-        - 深度图：1757314912916_640x480_depth_augID.png
-        - 语义图：1757314912916_640x480_color_augID.png
-        - 提取核心前缀：1757314912916_640x480（剔除_depth_augID/_color_augID）
-        """
-        self.split = split
-        self.base_dir = os.path.join(data_root, split) if split in ["train", "val", "test"] else data_root
-        self.depth_dir = os.path.join(self.base_dir, "depth")
-        self.sem_gt_dir = os.path.join(self.base_dir, "gt_semantic")
+# # --------------------------- 4. 数据集类（核心修改：适配_augID命名） ---------------------------
+# class StackedBoxDataset(Dataset):
+#     def __init__(self, data_root, split="train"):
+#         """
+#         适配含_augID的文件名：
+#         - 深度图：1757314912916_640x480_depth_augID.png
+#         - 语义图：1757314912916_640x480_color_augID.png
+#         - 提取核心前缀：1757314912916_640x480（剔除_depth_augID/_color_augID）
+#         """
+#         self.split = split
+#         self.base_dir = os.path.join(data_root, split) if split in ["train", "val", "test"] else data_root
+#         self.depth_dir = os.path.join(self.base_dir, "depth")
+#         self.sem_gt_dir = os.path.join(self.base_dir, "gt_semantic")
         
-        # 核心修改：提取含_augID文件名的核心前缀
-        self.sample_info = self._get_sample_info()  # 存储 (核心前缀, 深度图路径, 语义图路径)
-        if len(self.sample_info) == 0:
-            raise ValueError(f"在{self.depth_dir}中未找到符合格式的深度图文件（需包含_depth_augID）")
+#         # 核心修改：提取含_augID文件名的核心前缀
+#         self.sample_info = self._get_sample_info()  # 存储 (核心前缀, 深度图路径, 语义图路径)
+#         if len(self.sample_info) == 0:
+#             raise ValueError(f"在{self.depth_dir}中未找到符合格式的深度图文件（需包含_depth_augID）")
 
-    def _get_sample_info(self):
-        """提取所有样本的核心前缀和对应文件路径"""
-        sample_info = []
-        # 遍历深度图目录，匹配含_depth_augID的文件名
-        for depth_filename in os.listdir(self.depth_dir):
-            # 条件1：深度图文件名包含_depth_（如_depth_aug1, _depth_aug10）
-            if "_depth_" not in depth_filename:
-                continue
-            # 条件2：深度图后缀为.png
-            if not depth_filename.endswith(".png"):
-                continue
+#     def _get_sample_info(self):
+#         """提取所有样本的核心前缀和对应文件路径"""
+#         sample_info = []
+#         # 遍历深度图目录，匹配含_depth_augID的文件名
+#         for depth_filename in os.listdir(self.depth_dir):
+#             # 条件1：深度图文件名包含_depth_（如_depth_aug1, _depth_aug10）
+#             if "_depth_" not in depth_filename:
+#                 continue
+#             # 条件2：深度图后缀为.png
+#             if not depth_filename.endswith(".png"):
+#                 continue
             
-            # 步骤1：提取深度图的核心前缀（剔除_depth_augID.png）
-            # 示例：1757314912916_640x480_depth_aug1.png → 分割为["1757314912916_640x480", "depth", "aug1.png"]
-            core_prefix = depth_filename.split("_depth_")[0]
-            depth_path = os.path.join(self.depth_dir, depth_filename)
+#             # 步骤1：提取深度图的核心前缀（剔除_depth_augID.png）
+#             # 示例：1757314912916_640x480_depth_aug1.png → 分割为["1757314912916_640x480", "depth", "aug1.png"]
+#             core_prefix = depth_filename.split("_depth_")[0]
+#             depth_path = os.path.join(self.depth_dir, depth_filename)
             
-            # 步骤2：匹配对应的语义图（含_color_augID.png）
-            # 语义图命名规则：核心前缀 + _color_augID.png（augID与深度图一致）
-            # 示例：核心前缀=1757314912916_640x480 → 语义图=1757314912916_640x480_color_aug1.png
-            sem_aug_suffix = depth_filename.split("_depth_")[1]  # 提取augID.png（如aug1.png）
-            sem_filename = f"{core_prefix}_color_{sem_aug_suffix}"
-            sem_path = os.path.join(self.sem_gt_dir, sem_filename)
+#             # 步骤2：匹配对应的语义图（含_color_augID.png）
+#             # 语义图命名规则：核心前缀 + _color_augID.png（augID与深度图一致）
+#             # 示例：核心前缀=1757314912916_640x480 → 语义图=1757314912916_640x480_color_aug1.png
+#             sem_aug_suffix = depth_filename.split("_depth_")[1]  # 提取augID.png（如aug1.png）
+#             sem_filename = f"{core_prefix}_color_{sem_aug_suffix}"
+#             sem_path = os.path.join(self.sem_gt_dir, sem_filename)
             
-            # 容错：若语义图后缀是.jpg（如_color_augID.jpg），补充匹配
-            if not os.path.exists(sem_path):
-                sem_filename_jpg = f"{core_prefix}_color_{sem_aug_suffix.replace('.png', '.jpg')}"
-                sem_path = os.path.join(self.sem_gt_dir, sem_filename_jpg)
+#             # 容错：若语义图后缀是.jpg（如_color_augID.jpg），补充匹配
+#             if not os.path.exists(sem_path):
+#                 sem_filename_jpg = f"{core_prefix}_color_{sem_aug_suffix.replace('.png', '.jpg')}"
+#                 sem_path = os.path.join(self.sem_gt_dir, sem_filename_jpg)
             
-            # 验证语义图是否存在
-            if not os.path.exists(sem_path):
-                print(f"警告：语义图{sem_filename}不存在，跳过该样本")
-                continue
+#             # 验证语义图是否存在
+#             if not os.path.exists(sem_path):
+#                 print(f"警告：语义图{sem_filename}不存在，跳过该样本")
+#                 continue
             
-            # 保存样本信息
-            sample_info.append({
-                "core_prefix": core_prefix,
-                "depth_path": depth_path,
-                "sem_path": sem_path,
-                "full_name": depth_filename  # 保留完整文件名，便于调试
-            })
+#             # 保存样本信息
+#             sample_info.append({
+#                 "core_prefix": core_prefix,
+#                 "depth_path": depth_path,
+#                 "sem_path": sem_path,
+#                 "full_name": depth_filename  # 保留完整文件名，便于调试
+#             })
         
-        return sample_info
+#         return sample_info
 
-    def __len__(self):
-        return len(self.sample_info)
+#     def __len__(self):
+#         return len(self.sample_info)
     
-    def __getitem__(self, idx):
-        sample = self.sample_info[idx]
-        core_prefix = sample["core_prefix"]
-        depth_path = sample["depth_path"]
-        sem_path = sample["sem_path"]
+#     def __getitem__(self, idx):
+#         sample = self.sample_info[idx]
+#         core_prefix = sample["core_prefix"]
+#         depth_path = sample["depth_path"]
+#         sem_path = sample["sem_path"]
         
-        # 1. 加载深度图（16位，单位mm）
-        depth_map = cv2.imread(depth_path, cv2.IMREAD_ANYDEPTH)
-        if depth_map is None:
-            raise ValueError(f"无法读取深度图: {depth_path}")
-        depth_map = depth_map.astype(np.float32)
+#         # 1. 加载深度图（16位，单位mm）
+#         depth_map = cv2.imread(depth_path, cv2.IMREAD_ANYDEPTH)
+#         if depth_map is None:
+#             raise ValueError(f"无法读取深度图: {depth_path}")
+#         depth_map = depth_map.astype(np.float32)
         
-        # 2. 加载语义图（灰度图，前景255→1，背景0）
-        # 处理语义图可能的通道问题（若为RGB图，转灰度）
-        sem_gt = cv2.imread(sem_path)
-        if sem_gt is None:
-            raise ValueError(f"无法读取语义图: {sem_path}")
-        # 若为RGB图，转灰度（适配_color_augID.jpg可能是彩色标注的情况）
-        if len(sem_gt.shape) == 3:
-            sem_gt = cv2.cvtColor(sem_gt, cv2.COLOR_BGR2GRAY)
-        # 二值化：前景（顶面）255→1，背景（侧面）0
-        sem_gt = (sem_gt == 255).astype(np.uint8)
+#         # 2. 加载语义图（灰度图，前景255→1，背景0）
+#         # 处理语义图可能的通道问题（若为RGB图，转灰度）
+#         sem_gt = cv2.imread(sem_path)
+#         if sem_gt is None:
+#             raise ValueError(f"无法读取语义图: {sem_path}")
+#         # 若为RGB图，转灰度（适配_color_augID.jpg可能是彩色标注的情况）
+#         if len(sem_gt.shape) == 3:
+#             sem_gt = cv2.cvtColor(sem_gt, cv2.COLOR_BGR2GRAY)
+#         # 二值化：前景（顶面）255→1，背景（侧面）0
+#         sem_gt = (sem_gt == 255).astype(np.uint8)
         
-        # 3. 深度图预处理（过滤无效值）
-        depth_map[depth_map <= 0] = 0  # 过滤0值无效深度
-        depth_map[depth_map > 5000] = 0  # 过滤过远深度（根据实际场景调整，单位mm）
+#         # 3. 深度图预处理（过滤无效值）
+#         depth_map[depth_map <= 0] = 0  # 过滤0值无效深度
+#         depth_map[depth_map > 5000] = 0  # 过滤过远深度（根据实际场景调整，单位mm）
         
-        return {
-            "depth": depth_map,
-            "sem_gt": sem_gt,
-            "core_prefix": core_prefix,
-            "full_name": sample["full_name"]  # 用于调试时定位样本
-        }
+#         return {
+#             "depth": depth_map,
+#             "sem_gt": sem_gt,
+#             "core_prefix": core_prefix,
+#             "full_name": sample["full_name"]  # 用于调试时定位样本
+#         }
 
-# --------------------------- 5. 主函数（执行统计与阈值生成） ---------------------------
-def main():
-    # 配置参数（适配你的目录结构）
-    DATA_ROOT = "./data"        # 数据集根目录
-    SPLIT = "train"             # 用训练集统计（数据量多，分布全）
-    SAMPLE_NUM = 600            # 抽样数量（建议100-200，平衡效率与准确性）
-    SAFETY_FACTOR = 1.15        # 安全系数（1.1~1.2，避免误判真实前景）
+# # --------------------------- 5. 主函数（执行统计与阈值生成） ---------------------------
+# def main():
+#     # 配置参数（适配你的目录结构）
+#     DATA_ROOT = "./data"        # 数据集根目录
+#     SPLIT = "train"             # 用训练集统计（数据量多，分布全）
+#     SAMPLE_NUM = 600            # 抽样数量（建议100-200，平衡效率与准确性）
+#     SAFETY_FACTOR = 1.15        # 安全系数（1.1~1.2，避免误判真实前景）
     
-    # 加载数据集（自动适配_augID命名）
-    print(f"正在加载{SPLIT}集数据，适配含_augID的文件名...")
-    dataset = StackedBoxDataset(data_root=DATA_ROOT, split=SPLIT)
-    print(f"数据集加载完成，共找到{len(dataset)}个有效样本（深度图+语义图匹配）")
+#     # 加载数据集（自动适配_augID命名）
+#     print(f"正在加载{SPLIT}集数据，适配含_augID的文件名...")
+#     dataset = StackedBoxDataset(data_root=DATA_ROOT, split=SPLIT)
+#     print(f"数据集加载完成，共找到{len(dataset)}个有效样本（深度图+语义图匹配）")
     
-    # 统计真实前景的梯度分布
-    print("\n开始统计真实前景（料箱顶面）的梯度分布...")
-    grad_stats, foreground_grads = stats_foreground_gradient(dataset, sample_num=SAMPLE_NUM)
+#     # 统计真实前景的梯度分布
+#     print("\n开始统计真实前景（料箱顶面）的梯度分布...")
+#     grad_stats, foreground_grads = stats_foreground_gradient(dataset, sample_num=SAMPLE_NUM)
     
-    # 生成pos_grad_threshold
-    pos_grad_threshold = generate_pos_grad_threshold(grad_stats, safety_factor=SAFETY_FACTOR)
+#     # 生成pos_grad_threshold
+#     pos_grad_threshold = generate_pos_grad_threshold(grad_stats, safety_factor=SAFETY_FACTOR)
 
     
-    # 输出结果并保存阈值
-    print("\n" + "="*60)
-    print("真实前景（料箱顶面）梯度统计结果（含数据增强样本）：")
-    print(f"参与统计的样本数: {min(SAMPLE_NUM, len(dataset))}")
-    print(f"参与统计的前景像素数: {grad_stats['total_pixels']:,}")
-    print(f"梯度均值: {grad_stats['mean']:.2f}")
-    print(f"梯度中位数: {grad_stats['median']:.2f}")
-    print(f"梯度95%分位数: {grad_stats['q95']:.2f}")
-    print(f"梯度98%分位数: {grad_stats['q98']:.2f}")
-    print(f"梯度最大值: {grad_stats['max']:.2f}")
-    print("="*60)
-    print(f"最终生成的pos_grad_threshold: {pos_grad_threshold:.2f}")
-    print("="*60)
+#     # 输出结果并保存阈值
+#     print("\n" + "="*60)
+#     print("真实前景（料箱顶面）梯度统计结果（含数据增强样本）：")
+#     print(f"参与统计的样本数: {min(SAMPLE_NUM, len(dataset))}")
+#     print(f"参与统计的前景像素数: {grad_stats['total_pixels']:,}")
+#     print(f"梯度均值: {grad_stats['mean']:.2f}")
+#     print(f"梯度中位数: {grad_stats['median']:.2f}")
+#     print(f"梯度95%分位数: {grad_stats['q95']:.2f}")
+#     print(f"梯度98%分位数: {grad_stats['q98']:.2f}")
+#     print(f"梯度最大值: {grad_stats['max']:.2f}")
+#     print("="*60)
+#     print(f"最终生成的pos_grad_threshold: {pos_grad_threshold:.2f}")
+#     print("="*60)
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

@@ -13,3 +13,41 @@ unet_16
     batch_size: 4 -> 8
     lr: 2e-5 -> 4e-5    
     grad_clip: 1.0 -> 2.0    
+
+AED-Unet_13: Average IoU: 0.9326, Average MAE: 0.1650
+    grad_clip: 2.0 -> 1.0
+    scheduler_patience: 4 -> 5  
+    divergence_loss
+    compactness_loss
+
+AED-Unet_14
+    scheduler_patience: 5 -> 4  
+    aux_weight: 0.2 -> 0.4
+
+AED-Unet_15: Average IoU: 0.9312, Average MAE: 0.2331
+
+AED-Unet_16: Average IoU: 0.9182, Average MAE: 0.4623
+    aux_weight: 0.2 -> 0.8
+
+AED-Unet_17: Average IoU: 0.9298, Average MAE: 0.2260
+    aux_weight: 0.8 -> 0.2
+    epochs: 140
+
+AED-Unet_18: Average IoU: 0.9318, Average MAE: 0.2342
+    0.8 * divergence_loss + 1.2 * compactness_loss
+    ->
+    1.0 * divergence_loss + 1.5 * compactness_loss + 1.0 * boundary_aware_loss
+
+AED-Unet_19: Average IoU: 0.9367, Average MAE: 0.1944
+    batch_size: 8 -> 12 
+
+AED-Unet_20
+    epochs: 140 -> 180
+
+AED-Unet_21: Average IoU: 0.9374, Average MAE: 0.2069
+    scheduler_patience: 4 -> 5
+    lr: 4e-5 -> 6e-5
+    weight_decay: 1e-5 -> 2e-5
+
+AED-Unet_22：Average IoU: 0.9331, Average MAE: 0.2230
+    epochs: 180 -> 200
