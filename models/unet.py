@@ -324,6 +324,308 @@
 
 
 
+# #U-Net04
+# import torch
+# import torch.nn as nn
+# import torch.nn.functional as F
+
+
+# class DoubleConv(nn.Module):
+#     """(convolution => [BN] => ReLU) * 2"""
+
+#     def __init__(self, in_channels, out_channels, mid_channels=None, dropout=0.1):
+#         super().__init__()
+#         if not mid_channels:
+#             mid_channels = out_channels
+        
+#         layers = [
+#             nn.Conv2d(in_channels, mid_channels, kernel_size=3, padding=1, bias=False),
+#             nn.BatchNorm2d(mid_channels),
+#             nn.ReLU(inplace=True),
+#             nn.Dropout2d(dropout) if dropout > 0 else nn.Identity(),
+#             nn.Conv2d(mid_channels, out_channels, kernel_size=3, padding=1, bias=False),
+#             nn.BatchNorm2d(out_channels),
+#             nn.ReLU(inplace=True)
+#         ]
+        
+#         self.double_conv = nn.Sequential(*layers)
+
+#     def forward(self, x):
+#         return self.double_conv(x)
+
+
+# class Down(nn.Module):
+#     """Downscaling with maxpool then double conv"""
+
+#     def __init__(self, in_channels, out_channels, dropout=0.1):
+#         super().__init__()
+#         self.maxpool_conv = nn.Sequential(
+#             nn.MaxPool2d(2),
+#             DoubleConv(in_channels, out_channels, dropout=dropout)
+#         )
+
+#     def forward(self, x):
+#         return self.maxpool_conv(x)
+
+
+# class Up(nn.Module):
+#     """Upscaling then double conv"""
+
+#     def __init__(self, in_channels, out_channels, bilinear=True, dropout=0.1):
+#         super().__init__()
+
+#         if bilinear:
+#             self.up = nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
+#             self.conv = DoubleConv(in_channels, out_channels, in_channels // 2, dropout=dropout)
+#         else:
+#             self.up = nn.ConvTranspose2d(in_channels, in_channels // 2, kernel_size=2, stride=2)
+#             self.conv = DoubleConv(in_channels, out_channels, dropout=dropout)
+
+#     def forward(self, x1, x2):
+#         x1 = self.up(x1)
+        
+#         # 处理尺寸不匹配问题
+#         diffY = x2.size()[2] - x1.size()[2]
+#         diffX = x2.size()[3] - x1.size()[3]
+
+#         # 对称填充以确保尺寸匹配
+#         x1 = F.pad(x1, [diffX // 2, diffX - diffX // 2,
+#                         diffY // 2, diffY - diffY // 2])
+        
+#         x = torch.cat([x2, x1], dim=1)
+#         return self.conv(x)
+
+
+# class OutConv(nn.Module):
+#     def __init__(self, in_channels, out_channels):
+#         super(OutConv, self).__init__()
+#         self.conv = nn.Conv2d(in_channels, out_channels, kernel_size=1)
+
+#     def forward(self, x):
+#         return self.conv(x)
+
+
+# class OffsetHead(nn.Module):
+#     """专门用于回归偏移值的头部"""
+#     def __init__(self, in_channels, hidden_channels=256, dropout=0.3):
+#         super(OffsetHead, self).__init__()
+#         self.conv1 = nn.Conv2d(in_channels, hidden_channels, kernel_size=3, padding=1, bias=False)
+#         self.bn1 = nn.BatchNorm2d(hidden_channels)
+#         self.relu1 = nn.ReLU(inplace=True)
+#         self.dropout1 = nn.Dropout2d(dropout) if dropout > 0 else nn.Identity()
+        
+#         self.conv2 = nn.Conv2d(hidden_channels, hidden_channels // 2, kernel_size=3, padding=1, bias=False)
+#         self.bn2 = nn.BatchNorm2d(hidden_channels // 2)
+#         self.relu2 = nn.ReLU(inplace=True)
+#         self.dropout2 = nn.Dropout2d(dropout) if dropout > 0 else nn.Identity()
+        
+#         self.conv3 = nn.Conv2d(hidden_channels // 2, 2, kernel_size=1)  # 输出2个通道：δx, δy
+
+#     def forward(self, x):
+#         x = self.conv1(x)
+#         x = self.bn1(x)
+#         x = self.relu1(x)
+#         x = self.dropout1(x)
+        
+#         x = self.conv2(x)
+#         x = self.bn2(x)
+#         x = self.relu2(x)
+#         x = self.dropout2(x)
+        
+#         x = self.conv3(x)  # 无激活函数，直接回归偏移值
+#         return x
+
+
+# class BoundaryAttention(nn.Module):
+#     def __init__(self, channels):
+#         super().__init__()
+#         # 边界检测卷积核（使用Laplacian边缘检测核）
+#         self.boundary_conv = nn.Conv2d(
+#             channels, 1, kernel_size=3, padding=1, bias=False
+#         )
+#         # 初始化卷积核为边缘检测核（中心8，周围-1）
+#         nn.init.constant_(self.boundary_conv.weight, -1.0)
+#         self.boundary_conv.weight.data[:, :, 1, 1] = 8.0  # 中心像素权重
+        
+#         # 注意力门控（增强边界区域权重）
+#         self.attention = nn.Sequential(
+#             nn.Sigmoid(),  # 将边界响应归一化到[0,1]
+#             nn.Conv2d(1, 1, kernel_size=1)  # 压缩为单通道注意力图
+#         )
+    
+#     def forward(self, x):
+#         # 1. 提取边界特征（x为DoubleConv输出的特征图）
+#         boundary_features = self.boundary_conv(x)  # (B,1,H,W)
+        
+#         # 2. 生成边界注意力图（边界区域权重高）
+#         boundary_attention = self.attention(boundary_features)  # (B,1,H,W)，值在[0,1]
+        
+#         # 3. 特征加权：边界区域特征 = 原始特征 * (1 + 注意力权重)
+#         #    非边界区域特征基本不变，边界区域特征被放大
+#         attended_features = x * (1 + boundary_attention)
+        
+#         return attended_features
+
+
+# class SemanticHead(nn.Module):
+#     def __init__(self, in_channels, n_classes, dropout=0.0):
+#         super().__init__()
+#         self.double_conv = DoubleConv(in_channels, 32, dropout=dropout)
+#         self.boundary_attn = BoundaryAttention(channels=32)  # 新增边界注意力
+#         self.out_conv = OutConv(32, n_classes)
+    
+#     def forward(self, x):
+#         # 原有DoubleConv特征提取
+#         x = self.double_conv(x)
+#         # 边界注意力增强
+#         x = self.boundary_attn(x)
+#         # 输出分割结果
+#         x = self.out_conv(x)
+#         return x
+
+
+# class EarlyFusionUNet(nn.Module):
+#     """
+#     早期融合U-Net：将RGB和深度图在输入层融合
+#     """
+#     def __init__(self, n_classes, bilinear=False, dropout=0.1):
+#         super(EarlyFusionUNet, self).__init__()
+#         self.bilinear = bilinear
+#         self.dropout_rate = dropout
+#         self.n_classes = n_classes
+
+#         # 输入通道：3 (RGB) + 1 (Depth) = 4
+#         self.inc = DoubleConv(4, 64, dropout=dropout)
+#         self.down1 = Down(64, 128, dropout=dropout)
+#         self.down2 = Down(128, 256, dropout=dropout)
+#         self.down3 = Down(256, 512, dropout=dropout)
+        
+#         factor = 2 if bilinear else 1
+#         self.down4 = Down(512, 1024 // factor, dropout=dropout)
+        
+#         # 上采样模块
+#         self.up1 = Up(1024, 512 // factor, bilinear, dropout=dropout)
+#         self.up2 = Up(512, 256 // factor, bilinear, dropout=dropout)
+#         self.up3 = Up(256, 128 // factor, bilinear, dropout=dropout)
+#         self.up4 = Up(128, 64, bilinear, dropout=dropout)
+        
+#         # 双输出头
+#         self.semantic_head = SemanticHead(in_channels=64, n_classes=self.n_classes, dropout=0.2)
+        
+#         self.offset_head = OffsetHead(64, hidden_channels=128, dropout=0.3)
+        
+#         # 初始化权重
+#         self._initialize_weights()
+
+#     def _initialize_weights(self):
+#         for m in self.modules():
+#             if isinstance(m, nn.Conv2d):
+#                 nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+#                 if m.bias is not None:
+#                     nn.init.constant_(m.bias, 0)
+#             elif isinstance(m, nn.BatchNorm2d):
+#                 nn.init.constant_(m.weight, 1)
+#                 nn.init.constant_(m.bias, 0)
+
+#     def forward(self, rgb, depth):
+#         # 早期融合：在输入层连接RGB和深度图
+#         x = torch.cat([rgb, depth], dim=1)  # 沿着通道维度连接
+        
+#         # 编码器
+#         x1 = self.inc(x)
+#         x2 = self.down1(x1)
+#         x3 = self.down2(x2)
+#         x4 = self.down3(x3)
+#         x5 = self.down4(x4)
+        
+#         # 解码器
+#         x = self.up1(x5, x4)
+#         x = self.up2(x, x3)
+#         x = self.up3(x, x2)
+#         x = self.up4(x, x1)
+        
+#         # 双头输出
+#         semantic_output = self.semantic_head(x)
+#         offset_output = self.offset_head(x)
+        
+#         return semantic_output, offset_output
+
+
+# class LateFusionUNet(nn.Module):
+#     """
+#     晚期融合U-Net：分别处理RGB和深度图，在解码器阶段融合
+#     """
+#     def __init__(self, n_classes, bilinear=False, dropout=0.1):
+#         super(LateFusionUNet, self).__init__()
+#         self.bilinear = bilinear
+#         self.dropout_rate = dropout
+
+#         # RGB分支编码器
+#         self.rgb_inc = DoubleConv(3, 32, dropout=dropout)
+#         self.rgb_down1 = Down(32, 64, dropout=dropout)
+#         self.rgb_down2 = Down(64, 128, dropout=dropout)
+#         self.rgb_down3 = Down(128, 256, dropout=dropout)
+        
+#         # 深度分支编码器
+#         self.depth_inc = DoubleConv(1, 32, dropout=dropout)
+#         self.depth_down1 = Down(32, 64, dropout=dropout)
+#         self.depth_down2 = Down(64, 128, dropout=dropout)
+#         self.depth_down3 = Down(128, 256, dropout=dropout)
+        
+#         factor = 2 if bilinear else 1
+#         # 融合后的编码器
+#         self.fusion_down4 = Down(512, 512 // factor, dropout=dropout)
+        
+#         # 上采样模块
+#         self.up1 = Up(512, 256 // factor, bilinear, dropout=dropout)
+#         self.up2 = Up(256, 128 // factor, bilinear, dropout=dropout)
+#         self.up3 = Up(128, 64 // factor, bilinear, dropout=dropout)
+#         self.up4 = Up(64, 32, bilinear, dropout=dropout)
+        
+#         # 双输出头
+#         self.semantic_head = nn.Sequential(
+#             DoubleConv(32, 16, dropout=dropout),
+#             OutConv(16, n_classes)
+#         )
+        
+#         self.offset_head = OffsetHead(32, hidden_channels=64, dropout=dropout)
+        
+#         self._initialize_weights()
+
+#     def _initialize_weights(self):
+#         for m in self.modules():
+#             if isinstance(m, nn.Conv2d):
+#                 nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+
+#     def forward(self, rgb, depth):
+#         # 分别处理RGB和深度图
+#         rgb1 = self.rgb_inc(rgb)
+#         rgb2 = self.rgb_down1(rgb1)
+#         rgb3 = self.rgb_down2(rgb2)
+#         rgb4 = self.rgb_down3(rgb3)
+        
+#         depth1 = self.depth_inc(depth)
+#         depth2 = self.depth_down1(depth1)
+#         depth3 = self.depth_down2(depth2)
+#         depth4 = self.depth_down3(depth3)
+        
+#         # 在瓶颈层融合
+#         x5 = torch.cat([rgb4, depth4], dim=1)
+#         x5 = self.fusion_down4(x5)
+        
+#         # 解码器
+#         x = self.up1(x5, rgb4)  # 主要使用RGB特征进行上采样
+#         x = self.up2(x, rgb3)
+#         x = self.up3(x, rgb2)
+#         x = self.up4(x, rgb1)
+        
+#         semantic_output = self.semantic_head(x)
+#         offset_output = self.offset_head(x)
+        
+#         return semantic_output, offset_output
+
+
+
 
 import torch
 import torch.nn as nn
@@ -368,6 +670,61 @@ class Down(nn.Module):
         return self.maxpool_conv(x)
 
 
+class SpatialAttention(nn.Module):
+    """空间注意力：关注重要空间位置"""
+    def __init__(self, in_channels):
+        super().__init__()
+        self.conv = nn.Conv2d(2, 1, kernel_size=7, padding=3, bias=False)
+        self.sigmoid = nn.Sigmoid()
+    
+    def forward(self, x):
+        # 通道维度的平均和最大池化
+        avg_out = torch.mean(x, dim=1, keepdim=True)  # [B,1,H,W]
+        max_out, _ = torch.max(x, dim=1, keepdim=True)  # [B,1,H,W]
+        
+        # 拼接并卷积
+        attention = torch.cat([avg_out, max_out], dim=1)  # [B,2,H,W]
+        attention = self.conv(attention)  # [B,1,H,W]
+        
+        return x * self.sigmoid(attention)
+
+
+class ChannelAttention(nn.Module):
+    """通道注意力：关注重要特征通道"""
+    def __init__(self, in_channels, reduction=16):
+        super().__init__()
+        self.avg_pool = nn.AdaptiveAvgPool2d(1)
+        self.max_pool = nn.AdaptiveMaxPool2d(1)
+        
+        self.fc = nn.Sequential(
+            nn.Conv2d(in_channels, in_channels // reduction, 1, bias=False),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(in_channels // reduction, in_channels, 1, bias=False)
+        )
+        self.sigmoid = nn.Sigmoid()
+    
+    def forward(self, x):
+        avg_out = self.fc(self.avg_pool(x))
+        max_out = self.fc(self.max_pool(x))
+        attention = self.sigmoid(avg_out + max_out)
+        
+        return x * attention
+
+
+class DualAttention(nn.Module):
+    """空间+通道双注意力"""
+    def __init__(self, in_channels):
+        super().__init__()
+        self.channel_attention = ChannelAttention(in_channels)
+        self.spatial_attention = SpatialAttention(in_channels)
+    
+    def forward(self, x):
+        # 顺序执行通道注意力和空间注意力
+        x = self.channel_attention(x)
+        x = self.spatial_attention(x)
+        return x
+
+
 class Up(nn.Module):
     """Upscaling then double conv"""
 
@@ -405,6 +762,46 @@ class OutConv(nn.Module):
         return self.conv(x)
 
 
+class BoundaryAttention(nn.Module):
+    """边界注意力机制：增强边界区域特征"""
+    def __init__(self, channels):
+        super().__init__()
+        # 边界检测卷积核（使用Laplacian边缘检测核）
+        self.boundary_conv = nn.Conv2d(
+            channels, 1, kernel_size=3, padding=1, bias=False
+        )
+        # 初始化卷积核为边缘检测核（中心8，周围-1）
+        self._initialize_weights()
+        
+        # 注意力门控（增强边界区域权重）
+        self.attention = nn.Sequential(
+            nn.Sigmoid(),  # 将边界响应归一化到[0,1]
+            nn.Conv2d(1, 1, kernel_size=1)  # 压缩为单通道注意力图
+        )
+    
+    def _initialize_weights(self):
+        """初始化边界检测卷积核"""
+        nn.init.constant_(self.boundary_conv.weight, -1.0)
+        # 中心像素权重设为8
+        if self.boundary_conv.weight.shape[0] == 1:
+            self.boundary_conv.weight.data[:, :, 1, 1] = 8.0
+        else:
+            for i in range(self.boundary_conv.weight.shape[0]):
+                self.boundary_conv.weight.data[i, :, 1, 1] = 8.0
+    
+    def forward(self, x):
+        # 1. 提取边界特征
+        boundary_features = self.boundary_conv(x)  # (B,1,H,W)
+        
+        # 2. 生成边界注意力图（边界区域权重高）
+        boundary_attention = self.attention(boundary_features)  # (B,1,H,W)，值在[0,1]
+        
+        # 3. 特征加权：边界区域特征 = 原始特征 * (1 + 注意力权重)
+        attended_features = x * (1 + boundary_attention)
+        
+        return attended_features
+
+
 class OffsetHead(nn.Module):
     """专门用于回归偏移值的头部"""
     def __init__(self, in_channels, hidden_channels=256, dropout=0.3):
@@ -436,42 +833,13 @@ class OffsetHead(nn.Module):
         return x
 
 
-class BoundaryAttention(nn.Module):
-    def __init__(self, channels):
-        super().__init__()
-        # 边界检测卷积核（使用Laplacian边缘检测核）
-        self.boundary_conv = nn.Conv2d(
-            channels, 1, kernel_size=3, padding=1, bias=False
-        )
-        # 初始化卷积核为边缘检测核（中心8，周围-1）
-        nn.init.constant_(self.boundary_conv.weight, -1.0)
-        self.boundary_conv.weight.data[:, :, 1, 1] = 8.0  # 中心像素权重
-        
-        # 注意力门控（增强边界区域权重）
-        self.attention = nn.Sequential(
-            nn.Sigmoid(),  # 将边界响应归一化到[0,1]
-            nn.Conv2d(1, 1, kernel_size=1)  # 压缩为单通道注意力图
-        )
-    
-    def forward(self, x):
-        # 1. 提取边界特征（x为DoubleConv输出的特征图）
-        boundary_features = self.boundary_conv(x)  # (B,1,H,W)
-        
-        # 2. 生成边界注意力图（边界区域权重高）
-        boundary_attention = self.attention(boundary_features)  # (B,1,H,W)，值在[0,1]
-        
-        # 3. 特征加权：边界区域特征 = 原始特征 * (1 + 注意力权重)
-        #    非边界区域特征基本不变，边界区域特征被放大
-        attended_features = x * (1 + boundary_attention)
-        
-        return attended_features
-
-
-class SemanticHead(nn.Module):
+class EnhancedSemanticHead(nn.Module):
+    """增强的语义分割头：包含边界注意力和最终注意力"""
     def __init__(self, in_channels, n_classes, dropout=0.0):
         super().__init__()
         self.double_conv = DoubleConv(in_channels, 32, dropout=dropout)
-        self.boundary_attn = BoundaryAttention(channels=32)  # 新增边界注意力
+        self.boundary_attn = BoundaryAttention(channels=32)  # 边界注意力
+        self.final_attention = DualAttention(32)  # 最终双注意力
         self.out_conv = OutConv(32, n_classes)
     
     def forward(self, x):
@@ -479,6 +847,8 @@ class SemanticHead(nn.Module):
         x = self.double_conv(x)
         # 边界注意力增强
         x = self.boundary_attn(x)
+        # 最终注意力精炼特征
+        x = self.final_attention(x)
         # 输出分割结果
         x = self.out_conv(x)
         return x
@@ -486,7 +856,7 @@ class SemanticHead(nn.Module):
 
 class EarlyFusionUNet(nn.Module):
     """
-    早期融合U-Net：将RGB和深度图在输入层融合
+    注意力增强的U-Net：在skip connection和分割头都使用注意力机制
     """
     def __init__(self, n_classes, bilinear=False, dropout=0.1):
         super(EarlyFusionUNet, self).__init__()
@@ -503,6 +873,12 @@ class EarlyFusionUNet(nn.Module):
         factor = 2 if bilinear else 1
         self.down4 = Down(512, 1024 // factor, dropout=dropout)
         
+        # 在skip connection路径添加注意力模块
+        self.skip_attention1 = DualAttention(64)
+        self.skip_attention2 = DualAttention(128)
+        self.skip_attention3 = DualAttention(256)
+        self.skip_attention4 = DualAttention(512)
+        
         # 上采样模块
         self.up1 = Up(1024, 512 // factor, bilinear, dropout=dropout)
         self.up2 = Up(512, 256 // factor, bilinear, dropout=dropout)
@@ -510,14 +886,14 @@ class EarlyFusionUNet(nn.Module):
         self.up4 = Up(128, 64, bilinear, dropout=dropout)
         
         # 双输出头
-        self.semantic_head = SemanticHead(in_channels=64, n_classes=self.n_classes, dropout=0.2)
-        
+        self.semantic_head = EnhancedSemanticHead(in_channels=64, n_classes=self.n_classes, dropout=0.2)
         self.offset_head = OffsetHead(64, hidden_channels=128, dropout=0.3)
         
         # 初始化权重
         self._initialize_weights()
 
     def _initialize_weights(self):
+        """初始化网络权重"""
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
                 nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
@@ -531,98 +907,53 @@ class EarlyFusionUNet(nn.Module):
         # 早期融合：在输入层连接RGB和深度图
         x = torch.cat([rgb, depth], dim=1)  # 沿着通道维度连接
         
-        # 编码器
-        x1 = self.inc(x)
-        x2 = self.down1(x1)
-        x3 = self.down2(x2)
-        x4 = self.down3(x3)
-        x5 = self.down4(x4)
+        # 编码器路径
+        x1 = self.inc(x)                    # [B, 64, H, W]
+        x2 = self.down1(x1)                 # [B, 128, H/2, W/2]
+        x3 = self.down2(x2)                 # [B, 256, H/4, W/4]
+        x4 = self.down3(x3)                 # [B, 512, H/8, W/8]
+        x5 = self.down4(x4)                 # [B, 1024, H/16, W/16]
         
-        # 解码器
-        x = self.up1(x5, x4)
-        x = self.up2(x, x3)
-        x = self.up3(x, x2)
-        x = self.up4(x, x1)
+        # 对skip connection特征应用注意力
+        attended_x1 = self.skip_attention1(x1)  # 增强低级特征
+        attended_x2 = self.skip_attention2(x2)  # 增强中级特征  
+        attended_x3 = self.skip_attention3(x3)  # 增强中高级特征
+        attended_x4 = self.skip_attention4(x4)  # 增强高级特征
+        
+        # 解码器路径 - 使用经过注意力加权的skip connection
+        x = self.up1(x5, attended_x4)       # 上采样并拼接注意力加权的x4
+        x = self.up2(x, attended_x3)        # 上采样并拼接注意力加权的x3
+        x = self.up3(x, attended_x2)        # 上采样并拼接注意力加权的x2
+        x = self.up4(x, attended_x1)        # 上采样并拼接注意力加权的x1
         
         # 双头输出
-        semantic_output = self.semantic_head(x)
-        offset_output = self.offset_head(x)
+        semantic_output = self.semantic_head(x)  # 语义分割输出
+        offset_output = self.offset_head(x)      # 偏移回归输出
         
         return semantic_output, offset_output
 
 
-class LateFusionUNet(nn.Module):
-    """
-    晚期融合U-Net：分别处理RGB和深度图，在解码器阶段融合
-    """
-    def __init__(self, n_classes, bilinear=False, dropout=0.1):
-        super(LateFusionUNet, self).__init__()
-        self.bilinear = bilinear
-        self.dropout_rate = dropout
+# # 测试代码
+# if __name__ == "__main__":
+#     # 创建模型实例
+#     model = AttentionEnhancedUNet(n_classes=20, bilinear=True, dropout=0.1)
+    
+#     # 模拟输入数据
+#     batch_size = 2
+#     rgb_input = torch.randn(batch_size, 3, 256, 256)    # RGB图像
+#     depth_input = torch.randn(batch_size, 1, 256, 256)  # 深度图
+    
+#     # 前向传播
+#     semantic_out, offset_out = model(rgb_input, depth_input)
+    
+#     print(f"输入尺寸: RGB {rgb_input.shape}, Depth {depth_input.shape}")
+#     print(f"语义分割输出: {semantic_out.shape}")  # [2, 20, 256, 256]
+#     print(f"偏移回归输出: {offset_out.shape}")    # [2, 2, 256, 256]
+#     print(f"模型参数量: {sum(p.numel() for p in model.parameters()) / 1e6:.2f}M")
 
-        # RGB分支编码器
-        self.rgb_inc = DoubleConv(3, 32, dropout=dropout)
-        self.rgb_down1 = Down(32, 64, dropout=dropout)
-        self.rgb_down2 = Down(64, 128, dropout=dropout)
-        self.rgb_down3 = Down(128, 256, dropout=dropout)
-        
-        # 深度分支编码器
-        self.depth_inc = DoubleConv(1, 32, dropout=dropout)
-        self.depth_down1 = Down(32, 64, dropout=dropout)
-        self.depth_down2 = Down(64, 128, dropout=dropout)
-        self.depth_down3 = Down(128, 256, dropout=dropout)
-        
-        factor = 2 if bilinear else 1
-        # 融合后的编码器
-        self.fusion_down4 = Down(512, 512 // factor, dropout=dropout)
-        
-        # 上采样模块
-        self.up1 = Up(512, 256 // factor, bilinear, dropout=dropout)
-        self.up2 = Up(256, 128 // factor, bilinear, dropout=dropout)
-        self.up3 = Up(128, 64 // factor, bilinear, dropout=dropout)
-        self.up4 = Up(64, 32, bilinear, dropout=dropout)
-        
-        # 双输出头
-        self.semantic_head = nn.Sequential(
-            DoubleConv(32, 16, dropout=dropout),
-            OutConv(16, n_classes)
-        )
-        
-        self.offset_head = OffsetHead(32, hidden_channels=64, dropout=dropout)
-        
-        self._initialize_weights()
 
-    def _initialize_weights(self):
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
 
-    def forward(self, rgb, depth):
-        # 分别处理RGB和深度图
-        rgb1 = self.rgb_inc(rgb)
-        rgb2 = self.rgb_down1(rgb1)
-        rgb3 = self.rgb_down2(rgb2)
-        rgb4 = self.rgb_down3(rgb3)
-        
-        depth1 = self.depth_inc(depth)
-        depth2 = self.depth_down1(depth1)
-        depth3 = self.depth_down2(depth2)
-        depth4 = self.depth_down3(depth3)
-        
-        # 在瓶颈层融合
-        x5 = torch.cat([rgb4, depth4], dim=1)
-        x5 = self.fusion_down4(x5)
-        
-        # 解码器
-        x = self.up1(x5, rgb4)  # 主要使用RGB特征进行上采样
-        x = self.up2(x, rgb3)
-        x = self.up3(x, rgb2)
-        x = self.up4(x, rgb1)
-        
-        semantic_output = self.semantic_head(x)
-        offset_output = self.offset_head(x)
-        
-        return semantic_output, offset_output
+
 
 
 # import torch

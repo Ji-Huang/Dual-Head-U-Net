@@ -125,8 +125,6 @@ class DualHeadUNetDataset(Dataset):
                 
         except Exception as e:
             raise RuntimeError(f"Failed to resize image: {str(e)}")
-        
-
 
     def __len__(self):
         """返回数据集样本总数"""
